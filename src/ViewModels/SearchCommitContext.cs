@@ -27,7 +27,6 @@ namespace SourceGit.ViewModels
             get => _filter;
             set
             {
-                _isLiteralFilter = false;
                 if (SetProperty(ref _filter, value))
                     UpdateSuggestions();
             }
@@ -83,14 +82,6 @@ namespace SourceGit.ViewModels
             Results = null;
         }
 
-        public void SetLiteralFilter(string filter)
-        {
-            _isLiteralFilter = true;
-            _filter = filter;
-            OnPropertyChanged(nameof(Filter));
-            UpdateSuggestions();
-        }
-
         public void ClearSuggestions()
         {
             Suggestions = null;
@@ -118,9 +109,6 @@ namespace SourceGit.ViewModels
                 var result = new List<Models.Commit>();
                 var method = (Models.CommitSearchMethod)_method;
                 var repoPath = _repo.FullPath;
-                var filter = (_isLiteralFilter && method == Models.CommitSearchMethod.ByAuthor)
-                    ? _filter.EscapeForBRE()
-                    : _filter;
 
                 if (method == Models.CommitSearchMethod.BySHA)
                 {
@@ -143,7 +131,7 @@ namespace SourceGit.ViewModels
                 }
                 else if (_onlySearchCurrentBranch)
                 {
-                    result = await new Commands.QueryCommits(repoPath, filter, method, true)
+                    result = await new Commands.QueryCommits(repoPath, _filter, method, true)
                         .GetResultAsync()
                         .ConfigureAwait(false);
 
@@ -152,7 +140,7 @@ namespace SourceGit.ViewModels
                 }
                 else
                 {
-                    result = await new Commands.QueryCommits(repoPath, filter, method, false)
+                    result = await new Commands.QueryCommits(repoPath, _filter, method, false)
                         .GetResultAsync()
                         .ConfigureAwait(false);
 
@@ -302,7 +290,6 @@ namespace SourceGit.ViewModels
         private int _method = (int)Models.CommitSearchMethod.ByMessage;
         private string _filter = string.Empty;
         private bool _onlySearchCurrentBranch = false;
-        private bool _isLiteralFilter = false;
         private bool _isQuerying = false;
         private List<Models.Commit> _results = null;
         private Models.Commit _selected = null;
