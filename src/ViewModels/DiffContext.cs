@@ -118,8 +118,12 @@ namespace SourceGit.ViewModels
         {
             if (_option.Path.EndsWith('/'))
             {
-                Content = null;
+                OldMode = 0;
+                NewMode = 160000;
                 IsTextDiff = false;
+                IsIgnoreWhitespaceVisible = false;
+                Content = null;
+                _info = null;
                 return;
             }
 
