@@ -167,7 +167,7 @@ namespace SourceGit.ViewModels
                 }
                 else if (latest.IsSubmoduleChange)
                 {
-                    rs = await CreateSubmoduleDiffAsync(latest).ConfigureAwait(false);
+                    rs = await CreateSubmoduleDiffAsync(latest.OldHash, latest.NewHash).ConfigureAwait(false);
                 }
                 else if (IsEmptyFileHash(latest.OldHash) || IsEmptyFileHash(latest.NewHash))
                 {
@@ -276,19 +276,19 @@ namespace SourceGit.ViewModels
             return binaryDiff;
         }
 
-        private async Task<Models.SubmoduleDiff> CreateSubmoduleDiffAsync(Models.DiffResult result)
+        private async Task<Models.SubmoduleDiff> CreateSubmoduleDiffAsync(string oldRevision, string newRevision)
         {
             var submoduleDiff = new Models.SubmoduleDiff();
             var submoduleRoot = $"{_repo}/{_option.Path}".Replace('\\', '/').TrimEnd('/');
             submoduleDiff.FullPath = submoduleRoot;
 
-            if (IsValidSubmoduleHash(result.OldHash))
-                submoduleDiff.Old = await new Commands.QuerySubmoduleRevision(submoduleRoot, result.OldHash)
+            if (IsValidSubmoduleHash(oldRevision))
+                submoduleDiff.Old = await new Commands.QuerySubmoduleRevision(submoduleRoot, oldRevision)
                     .GetResultAsync()
                     .ConfigureAwait(false);
 
-            if (IsValidSubmoduleHash(result.NewHash))
-                submoduleDiff.New = await new Commands.QuerySubmoduleRevision(submoduleRoot, result.NewHash)
+            if (IsValidSubmoduleHash(newRevision))
+                submoduleDiff.New = await new Commands.QuerySubmoduleRevision(submoduleRoot, newRevision)
                     .GetResultAsync()
                     .ConfigureAwait(false);
 

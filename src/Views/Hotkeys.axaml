@@ -134,10 +134,10 @@
 
           <TextBlock Grid.Row="14" Grid.Column="0" Classes="bold" Text="{OnPlatform Ctrl+J, macOS=⌘+J}"/>
           <TextBlock Grid.Row="14" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.ToggleHistoriesDetailPanel}" />
-          
+
           <TextBlock Grid.Row="15" Grid.Column="0" Classes="bold" Text="{OnPlatform Alt+Down, macOS=⌥+Down}"/>
           <TextBlock Grid.Row="15" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.GoToParent}" />
-          
+
           <TextBlock Grid.Row="16" Grid.Column="0" Classes="bold" Text="{OnPlatform Alt+Up, macOS=⌥+Up}"/>
           <TextBlock Grid.Row="16" Grid.Column="1" Margin="16,0,0,0" Text="{DynamicResource Text.Hotkeys.Repo.GoToChild}" />
 
