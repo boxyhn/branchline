@@ -17,7 +17,7 @@ namespace SourceGit.Commands
                 .Append(max)
                 .Append(" --format=%ct$%aN±%aE ");
 
-            if (specBranch == null)
+            if (specBranch == null || string.IsNullOrEmpty(specBranch.FullName))
                 builder.Append("--branches --remotes");
             else
                 builder.Append(specBranch.FullName);
