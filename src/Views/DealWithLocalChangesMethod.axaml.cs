@@ -60,7 +60,6 @@ namespace SourceGit.Views
             if (sender is RadioButton { Tag: Models.DealWithLocalChanges way })
             {
                 Method = way;
-                UpdateRadioButtons();
                 e.Handled = true;
             }
         }
