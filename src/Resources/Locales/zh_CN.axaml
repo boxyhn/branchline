@@ -804,9 +804,10 @@
   <x:String x:Key="Text.Repository.Explore" xml:space="preserve">在文件浏览器中打开</x:String>
   <x:String x:Key="Text.Repository.Filter" xml:space="preserve">快速查找分支/标签/子模块</x:String>
   <x:String x:Key="Text.Repository.FilterCommits" xml:space="preserve">设置在列表中的可见性</x:String>
-  <x:String x:Key="Text.Repository.FilterCommits.Collapse" xml:space="preserve">仅显示过滤项的数量</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Collapse" xml:space="preserve">折叠过滤项列表</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Default" xml:space="preserve">不指定</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Exclude" xml:space="preserve">在提交列表中隐藏</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Expand" xml:space="preserve">展开过滤项列表</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Include" xml:space="preserve">使用其对提交列表过滤</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Summary" xml:space="preserve">个过滤项已被启用</x:String>
   <x:String x:Key="Text.Repository.HistoriesLayout" xml:space="preserve">布局方式</x:String>

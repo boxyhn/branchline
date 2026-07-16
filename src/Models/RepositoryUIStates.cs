@@ -231,7 +231,7 @@ namespace SourceGit.Models
             set;
         } = [];
 
-        public bool OnlyShowHistoryFiltersSummary
+        public bool IsHistoryFiltersCollapsed
         {
             get;
             set;

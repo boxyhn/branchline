@@ -51,6 +51,19 @@ namespace SourceGit.ViewModels
             private set => SetProperty(ref _historyFilterMode, value);
         }
 
+        public bool IsHistoryFiltersCollapsed
+        {
+            get => _uiStates.IsHistoryFiltersCollapsed;
+            set
+            {
+                if (value != _uiStates.IsHistoryFiltersCollapsed)
+                {
+                    _uiStates.IsHistoryFiltersCollapsed = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool HasAllowedSignersFile
         {
             get => _hasAllowedSignersFile;
@@ -410,19 +423,6 @@ namespace SourceGit.ViewModels
         {
             get => _isBisectCommandRunning;
             private set => SetProperty(ref _isBisectCommandRunning, value);
-        }
-
-        public bool OnlyShowHistoryFiltersSummary
-        {
-            get => _uiStates.OnlyShowHistoryFiltersSummary;
-            set
-            {
-                if (value != _uiStates.OnlyShowHistoryFiltersSummary)
-                {
-                    _uiStates.OnlyShowHistoryFiltersSummary = value;
-                    OnPropertyChanged();
-                }
-            }
         }
 
         public bool IsAutoFetching

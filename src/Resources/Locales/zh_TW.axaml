@@ -804,9 +804,10 @@
   <x:String x:Key="Text.Repository.Explore" xml:space="preserve">在檔案瀏覽器中開啟</x:String>
   <x:String x:Key="Text.Repository.Filter" xml:space="preserve">快速搜尋分支/標籤/子模組</x:String>
   <x:String x:Key="Text.Repository.FilterCommits" xml:space="preserve">篩選以顯示或隱藏</x:String>
-  <x:String x:Key="Text.Repository.FilterCommits.Collapse" xml:space="preserve">僅顯示篩選項的數量</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Collapse" xml:space="preserve">折疊篩選項列表</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Default" xml:space="preserve">取消指定</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Exclude" xml:space="preserve">在提交列表中隱藏</x:String>
+  <x:String x:Key="Text.Repository.FilterCommits.Expand" xml:space="preserve">展開篩選項列表</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Include" xml:space="preserve">以其篩選提交列表</x:String>
   <x:String x:Key="Text.Repository.FilterCommits.Summary" xml:space="preserve">個篩選項已被啟用</x:String>
   <x:String x:Key="Text.Repository.HistoriesLayout" xml:space="preserve">版面配置</x:String>
