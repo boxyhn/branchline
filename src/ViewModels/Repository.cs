@@ -412,6 +412,19 @@ namespace SourceGit.ViewModels
             private set => SetProperty(ref _isBisectCommandRunning, value);
         }
 
+        public bool OnlyShowHistoryFiltersSummary
+        {
+            get => _uiStates.OnlyShowHistoryFiltersSummary;
+            set
+            {
+                if (value != _uiStates.OnlyShowHistoryFiltersSummary)
+                {
+                    _uiStates.OnlyShowHistoryFiltersSummary = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public bool IsAutoFetching
         {
             get => _isAutoFetching;

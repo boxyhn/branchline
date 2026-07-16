@@ -231,6 +231,12 @@ namespace SourceGit.Models
             set;
         } = [];
 
+        public bool OnlyShowHistoryFiltersSummary
+        {
+            get;
+            set;
+        } = false;
+
         public List<string> RecentCommitMessages
         {
             get;
