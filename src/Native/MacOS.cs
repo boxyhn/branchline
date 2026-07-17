@@ -53,6 +53,10 @@ namespace SourceGit.Native
                 WindowTransparencyLevel.Blur,
                 WindowTransparencyLevel.Transparent,
             ];
+
+            // Avalonia's transparent window is only a canvas. Add the native material
+            // after the NSWindow exists so translucent chrome has a real macOS backdrop.
+            window.Opened += (_, _) => MacOSUtilities.AttachMaterialBackground(window);
         }
 
         public string GetDataDir()
@@ -214,6 +218,12 @@ namespace SourceGit.Native
         public static extern IntPtr objc_msgSend_IntPtr_Int(IntPtr receiver, IntPtr selector, int arg);
 
         [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+        public static extern IntPtr objc_msgSend_IntPtr_Rect(IntPtr receiver, IntPtr selector, CGRect arg);
+
+        [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+        public static extern void objc_msgSend_Void_Int(IntPtr receiver, IntPtr selector, int arg);
+
+        [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
         public static extern void objc_msgSend_Void_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg);
 
         [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -228,6 +238,68 @@ namespace SourceGit.Native
         private static readonly IntPtr s_selStandardWindowButton = sel_registerName("standardWindowButton:");
         private static readonly IntPtr s_selFrame = sel_registerName("frame");
         private static readonly IntPtr s_selSetFrameOrigin = sel_registerName("setFrameOrigin:");
+        private static readonly IntPtr s_selContentView = sel_registerName("contentView");
+        private static readonly IntPtr s_selBounds = sel_registerName("bounds");
+        private static readonly IntPtr s_selAlloc = sel_registerName("alloc");
+        private static readonly IntPtr s_selInitWithFrame = sel_registerName("initWithFrame:");
+        private static readonly IntPtr s_selSetMaterial = sel_registerName("setMaterial:");
+        private static readonly IntPtr s_selSetBlendingMode = sel_registerName("setBlendingMode:");
+        private static readonly IntPtr s_selSetState = sel_registerName("setState:");
+        private static readonly IntPtr s_selSetAutoresizingMask = sel_registerName("setAutoresizingMask:");
+        private static readonly IntPtr s_selAddSubview = sel_registerName("addSubview:");
+        private static readonly IntPtr s_selSendSubviewToBack = sel_registerName("sendSubviewToBack:");
+        private static readonly HashSet<IntPtr> s_materialWindows = [];
+
+        public static void AttachMaterialBackground(Window window)
+        {
+            if (!OperatingSystem.IsMacOS())
+                return;
+
+            var platformHandle = window.TryGetPlatformHandle();
+            if (platformHandle == null || platformHandle.Handle == IntPtr.Zero)
+                return;
+
+            var nsWindow = platformHandle.Handle;
+            if (!s_materialWindows.Add(nsWindow))
+                return;
+
+            try
+            {
+                var contentView = objc_msgSend_IntPtr(nsWindow, s_selContentView);
+                var effectClass = objc_getClass("NSVisualEffectView");
+                if (contentView == IntPtr.Zero || effectClass == IntPtr.Zero)
+                {
+                    s_materialWindows.Remove(nsWindow);
+                    return;
+                }
+
+                var bounds = objc_msgSend_Rect(contentView, s_selBounds);
+                var effectView = objc_msgSend_IntPtr_Rect(
+                    objc_msgSend_IntPtr(effectClass, s_selAlloc),
+                    s_selInitWithFrame,
+                    bounds);
+                if (effectView == IntPtr.Zero)
+                {
+                    s_materialWindows.Remove(nsWindow);
+                    return;
+                }
+
+                // Sidebar is the least aggressive semantic material and works on
+                // supported macOS versions. Avalonia's opaque content remains crisp.
+                objc_msgSend_Void_Int(effectView, s_selSetMaterial, 7);
+                objc_msgSend_Void_Int(effectView, s_selSetBlendingMode, 1);
+                objc_msgSend_Void_Int(effectView, s_selSetState, 0);
+                objc_msgSend_Void_Int(effectView, s_selSetAutoresizingMask, 18);
+                objc_msgSend_Void_IntPtr(contentView, s_selAddSubview, effectView);
+                objc_msgSend_Void_IntPtr(contentView, s_selSendSubviewToBack, effectView);
+            }
+            catch (Exception ex)
+            {
+                // Native decoration is an enhancement. Never let it take down the app.
+                Debug.WriteLine($"Failed to attach macOS material background: {ex}");
+                s_materialWindows.Remove(nsWindow);
+            }
+        }
 
         public static void AdjustTrafficLightsForThickTitleBar(Window window)
         {
