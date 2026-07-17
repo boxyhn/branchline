@@ -10,20 +10,7 @@
              x:Class="SourceGit.Views.CommitDetail"
              x:DataType="vm:CommitDetail"
              x:Name="ThisControl">
-  <Grid>
-  <Border Height="30"
-                             Margin="6,4,6,0"
-                             VerticalAlignment="Top"
-                             Background="{DynamicResource Brush.Glass.Control}"
-                             CornerRadius="8"
-                             IsHitTestVisible="False"/>
-  <Border Height="30"
-          Margin="6,4,6,0"
-          VerticalAlignment="Top"
-          BorderBrush="{DynamicResource Brush.GlassBorder}"
-          BorderThickness="1"
-          CornerRadius="8"
-          IsHitTestVisible="False"/>
+  <Grid Background="{DynamicResource Brush.Panel}">
   <TabControl Classes="inspector_tabs" SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}">
     <!-- Information Page -->
     <TabItem Classes="inspector_tab">
@@ -61,7 +48,7 @@
           </StackPanel>
         </Border>
       </TabItem.Header>
-      <v:CommitChanges Margin="0,4,0,0"
+      <v:CommitChanges Margin="0"
                        UseExternalDiffHost="{Binding #ThisControl.UseExternalDiffHost}"
                        IsVisible="{Binding #ThisControl.IsDetailsPanelExpanded, Mode=OneWay}"/>
     </TabItem>
@@ -75,7 +62,7 @@
           </StackPanel>
         </Border>
       </TabItem.Header>
-      <v:RevisionFiles Margin="0,4,0,0"
+      <v:RevisionFiles Margin="0"
                        UseExternalFileHost="{Binding #ThisControl.UseExternalDiffHost}"
                        IsVisible="{Binding #ThisControl.IsDetailsPanelExpanded, Mode=OneWay}"/>
     </TabItem>

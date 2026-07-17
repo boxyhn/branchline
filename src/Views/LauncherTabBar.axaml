@@ -41,7 +41,7 @@
             </Style>
             <Style Selector="ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
-              <Setter Property="Opacity" Value=".5"/>
+              <Setter Property="Opacity" Value=".65"/>
             </Style>
             <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
@@ -53,26 +53,26 @@
             </Style>
             <Style Selector="ListBoxItem:pointerover v|LauncherTabSizeBox">
               <Setter Property="Background" Value="{DynamicResource Brush.Selection}"/>
-              <Setter Property="CornerRadius" Value="6,6,0,0"/>
+              <Setter Property="CornerRadius" Value="6"/>
             </Style>
             <Style Selector="ListBoxItem:selected v|LauncherTabSizeBox">
               <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
-              <Setter Property="BorderBrush" Value="{DynamicResource Brush.GlassHighlight}"/>
-              <Setter Property="BorderThickness" Value="0,0,0,1"/>
-              <Setter Property="CornerRadius" Value="6,6,0,0"/>
+              <Setter Property="BorderBrush" Value="{DynamicResource Brush.GlassBorder}"/>
+              <Setter Property="BorderThickness" Value="1"/>
+              <Setter Property="CornerRadius" Value="6"/>
             </Style>
           </ListBox.Styles>
 
           <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-              <StackPanel Orientation="Horizontal" Height="30"/>
+              <StackPanel Orientation="Horizontal" Height="32"/>
             </ItemsPanelTemplate>
           </ListBox.ItemsPanel>
 
           <ListBox.ItemTemplate>
             <DataTemplate DataType="vm:LauncherPage">
-              <v:LauncherTabSizeBox UseFixedWidth="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFixedTabWidth}" Height="30"
-                                    Padding="0,2,0,0"
+              <v:LauncherTabSizeBox UseFixedWidth="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFixedTabWidth}" Height="28"
+                                    Margin="2,2,0,2"
                                     Background="Transparent"
                                     PointerPressed="OnPointerPressedTab"
                                     PointerMoved="OnPointerMovedOverTab"
@@ -134,7 +134,7 @@
 
                   <Button Grid.Column="2"
                           Classes="icon_button"
-                          Width="14" Height="12" Margin="12,0"
+                          Width="20" Height="20" Margin="8,0"
                           Click="OnCloseTab">
                     <ToolTip.Tip>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -155,8 +155,8 @@
         </ListBox>
 
         <Button Classes="icon_button"
-                Width="16" Height="16"
-                Margin="8,2,8,0"
+                Width="28" Height="28"
+                Margin="6,2,8,2"
                 Command="{Binding AddNewTab}"
                 IsVisible="{Binding !#ThisControl.IsScrollButtonVisible}">
           <ToolTip.Tip>
@@ -180,7 +180,7 @@
         <Path Width="8" Height="14" Stretch="Fill" Data="{StaticResource Icons.TriangleRight}"/>
       </RepeatButton>
 
-      <Button Classes="icon_button" Width="16" Height="28" Margin="4,2,0,0" Command="{Binding AddNewTab}">
+      <Button Classes="icon_button" Width="28" Height="28" Margin="4,2,0,0" Command="{Binding AddNewTab}">
         <ToolTip.Tip>
           <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
             <TextBlock Text="{DynamicResource Text.PageTabBar.New}" VerticalAlignment="Center"/>

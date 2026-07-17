@@ -2,28 +2,34 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <ResourceDictionary.ThemeDictionaries>
     <ResourceDictionary x:Key="Light">
-      <Color x:Key="Color.Window">#FFF0F5F9</Color>
-      <Color x:Key="Color.WindowBorder">#FF999999</Color>
-      <Color x:Key="Color.TitleBar">#FFCFDEEA</Color>
-      <Color x:Key="Color.ToolBar">#FFF0F5F9</Color>
-      <Color x:Key="Color.Popup">#FFF4F8FB</Color>
-      <Color x:Key="Color.PopupBorder">White</Color>
-      <Color x:Key="Color.Contents">#FFFAFAFA</Color>
-      <Color x:Key="Color.Badge">#FFB0CEE8</Color>
-      <Color x:Key="Color.BadgeFG">#FF1F1F1F</Color>
+      <Color x:Key="Color.Window">#FFF1F2F4</Color>
+      <Color x:Key="Color.WindowBorder">#FFBFC2C7</Color>
+      <Color x:Key="Color.TitleBar">#E8E6E8EB</Color>
+      <Color x:Key="Color.ToolBar">#EBEAEBED</Color>
+      <Color x:Key="Color.Popup">#FAFFFFFF</Color>
+      <Color x:Key="Color.PopupBorder">#FFD1D4D9</Color>
+      <Color x:Key="Color.Contents">#FFFFFFFF</Color>
+      <Color x:Key="Color.Panel">#FFF7F7F8</Color>
+      <Color x:Key="Color.PanelRaised">#FFFFFFFF</Color>
+      <Color x:Key="Color.Input">#FFFFFFFF</Color>
+      <Color x:Key="Color.Hover">#0A000000</Color>
+      <Color x:Key="Color.Pressed">#14000000</Color>
+      <Color x:Key="Color.Separator">#FFE2E4E8</Color>
+      <Color x:Key="Color.Badge">#FFE4E6EA</Color>
+      <Color x:Key="Color.BadgeFG">#FF202226</Color>
       <Color x:Key="Color.Conflict">#FF836C2E</Color>
       <Color x:Key="Color.Conflict.Foreground">#FFFFFFFF</Color>
       <Color x:Key="Color.Conflict.MineBG">#400078D7</Color>
       <Color x:Key="Color.Conflict.TheirsBG">#40FF8C00</Color>
-      <Color x:Key="Color.Border0">#FFCFCFCF</Color>
-      <Color x:Key="Color.Border1">#FF898989</Color>
-      <Color x:Key="Color.Border2">#FFCFCFCF</Color>
-      <Color x:Key="Color.FlatButton.Background">#FFF7F9FB</Color>
-      <Color x:Key="Color.FlatButton.BackgroundHovered">#FFFFFFFF</Color>
-      <Color x:Key="Color.FlatButton.BackgroundPressed">#FFE3EBF2</Color>
-      <Color x:Key="Color.FlatButton.FloatingBorder">#FFD3D9DF</Color>
-      <Color x:Key="Color.FG1">#FF1F1F1F</Color>
-      <Color x:Key="Color.FG2">#FF6F6F6F</Color>
+      <Color x:Key="Color.Border0">#FFE2E4E8</Color>
+      <Color x:Key="Color.Border1">#FFAEB2B9</Color>
+      <Color x:Key="Color.Border2">#FFD4D7DC</Color>
+      <Color x:Key="Color.FlatButton.Background">#FFF7F7F8</Color>
+      <Color x:Key="Color.FlatButton.BackgroundHovered">#FFEDEFF2</Color>
+      <Color x:Key="Color.FlatButton.BackgroundPressed">#FFE1E4E8</Color>
+      <Color x:Key="Color.FlatButton.FloatingBorder">#FFC6CAD1</Color>
+      <Color x:Key="Color.FG1">#FF202226</Color>
+      <Color x:Key="Color.FG2">#FF666B73</Color>
       <Color x:Key="Color.Diff.EmptyBG">#10000000</Color>
       <Color x:Key="Color.Diff.AddedBG">#80BFE6C1</Color>
       <Color x:Key="Color.Diff.DeletedBG">#80FF9797</Color>
@@ -33,48 +39,54 @@
       <Color x:Key="Color.Link">#0000EE</Color>
       <Color x:Key="Color.InlineCode">#FFE4E4E4</Color>
       <Color x:Key="Color.InlineCodeFG">Black</Color>
-      <Color x:Key="Color.HistoryBG">#FFF0F5F9</Color>
-      <Color x:Key="Color.GlassTint">#FFF6FAFD</Color>
-      <Color x:Key="Color.GlassFallback">#D9EEF3F7</Color>
-      <Color x:Key="Color.GlassTop">#F2FFFFFF</Color>
-      <Color x:Key="Color.GlassMid">#DDF1F7FC</Color>
-      <Color x:Key="Color.GlassBottom">#C9DCE8F1</Color>
-      <Color x:Key="Color.GlassControlTop">#DFFFFFFF</Color>
-      <Color x:Key="Color.GlassControlBottom">#B8E9F1F8</Color>
-      <Color x:Key="Color.GlassSidebarTop">#EAF6FBFF</Color>
-      <Color x:Key="Color.GlassSidebarBottom">#C5DDEAF4</Color>
+      <Color x:Key="Color.HistoryBG">#FFF7F7F8</Color>
+      <Color x:Key="Color.GlassTint">#FFF2F3F5</Color>
+      <Color x:Key="Color.GlassFallback">#F4EAEBED</Color>
+      <Color x:Key="Color.GlassTop">#E8FFFFFF</Color>
+      <Color x:Key="Color.GlassMid">#E8FFFFFF</Color>
+      <Color x:Key="Color.GlassBottom">#E8FFFFFF</Color>
+      <Color x:Key="Color.GlassControlTop">#B8FFFFFF</Color>
+      <Color x:Key="Color.GlassControlBottom">#B8FFFFFF</Color>
+      <Color x:Key="Color.GlassSidebarTop">#E6F4F5F7</Color>
+      <Color x:Key="Color.GlassSidebarBottom">#E6F4F5F7</Color>
       <Color x:Key="Color.GlassOverlayTop">#F7FFFFFF</Color>
-      <Color x:Key="Color.GlassOverlayBottom">#E7EEF4FA</Color>
-      <Color x:Key="Color.GlassBorder">#80FFFFFF</Color>
-      <Color x:Key="Color.GlassHighlight">#CCFFFFFF</Color>
-      <Color x:Key="Color.GlassSelection">#99FFFFFF</Color>
-      <Color x:Key="Color.Selection">#12000000</Color>
-      <Color x:Key="Color.SelectionStrong">#20000000</Color>
+      <Color x:Key="Color.GlassOverlayBottom">#F7FFFFFF</Color>
+      <Color x:Key="Color.GlassBorder">#30000000</Color>
+      <Color x:Key="Color.GlassHighlight">#A6FFFFFF</Color>
+      <Color x:Key="Color.GlassSelection">#0F000000</Color>
+      <Color x:Key="Color.Selection">#0A000000</Color>
+      <Color x:Key="Color.SelectionStrong">#14000000</Color>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Dark">
-      <Color x:Key="Color.Window">#FF1B1D22</Color>
-      <Color x:Key="Color.WindowBorder">#FF3A3E47</Color>
-      <Color x:Key="Color.TitleBar">#B31F2228</Color>
-      <Color x:Key="Color.ToolBar">#A6262930</Color>
-      <Color x:Key="Color.Popup">#F22A2D34</Color>
-      <Color x:Key="Color.PopupBorder">#FF454A54</Color>
-      <Color x:Key="Color.Contents">#FF111318</Color>
-      <Color x:Key="Color.Badge">#FF4B515C</Color>
-      <Color x:Key="Color.BadgeFG">#FFF3F5F8</Color>
+      <Color x:Key="Color.Window">#FF15171B</Color>
+      <Color x:Key="Color.WindowBorder">#FF353941</Color>
+      <Color x:Key="Color.TitleBar">#E61B1D22</Color>
+      <Color x:Key="Color.ToolBar">#F01A1C21</Color>
+      <Color x:Key="Color.Popup">#FC24272D</Color>
+      <Color x:Key="Color.PopupBorder">#FF424750</Color>
+      <Color x:Key="Color.Contents">#FF0F1115</Color>
+      <Color x:Key="Color.Panel">#FF16191E</Color>
+      <Color x:Key="Color.PanelRaised">#FF1C1F25</Color>
+      <Color x:Key="Color.Input">#FF181B20</Color>
+      <Color x:Key="Color.Hover">#14FFFFFF</Color>
+      <Color x:Key="Color.Pressed">#24FFFFFF</Color>
+      <Color x:Key="Color.Separator">#FF2A2E35</Color>
+      <Color x:Key="Color.Badge">#FF30343C</Color>
+      <Color x:Key="Color.BadgeFG">#FFF4F5F7</Color>
       <Color x:Key="Color.Conflict">#FFFAFAD2</Color>
       <Color x:Key="Color.Conflict.Foreground">#FF252525</Color>
       <Color x:Key="Color.Conflict.MineBG">#400078D7</Color>
       <Color x:Key="Color.Conflict.TheirsBG">#40FF8C00</Color>
-      <Color x:Key="Color.Border0">#FF252830</Color>
-      <Color x:Key="Color.Border1">#FF656B76</Color>
-      <Color x:Key="Color.Border2">#FF353941</Color>
-      <Color x:Key="Color.FlatButton.Background">#FF2D3037</Color>
-      <Color x:Key="Color.FlatButton.BackgroundHovered">#FF3A3E47</Color>
-      <Color x:Key="Color.FlatButton.BackgroundPressed">#FF23262C</Color>
-      <Color x:Key="Color.FlatButton.FloatingBorder">#FF4A4F59</Color>
+      <Color x:Key="Color.Border0">#FF272B32</Color>
+      <Color x:Key="Color.Border1">#FF5B616C</Color>
+      <Color x:Key="Color.Border2">#FF343941</Color>
+      <Color x:Key="Color.FlatButton.Background">#FF24272D</Color>
+      <Color x:Key="Color.FlatButton.BackgroundHovered">#FF31353D</Color>
+      <Color x:Key="Color.FlatButton.BackgroundPressed">#FF1D2025</Color>
+      <Color x:Key="Color.FlatButton.FloatingBorder">#FF4A505A</Color>
       <Color x:Key="Color.FG1">#FFF2F3F5</Color>
-      <Color x:Key="Color.FG2">#FFA7ABB3</Color>
+      <Color x:Key="Color.FG2">#FFA6ABB3</Color>
       <Color x:Key="Color.Diff.EmptyBG">#3C000000</Color>
       <Color x:Key="Color.Diff.AddedBG">#C03A5C3F</Color>
       <Color x:Key="Color.Diff.DeletedBG">#C0633F3E</Color>
@@ -84,23 +96,23 @@
       <Color x:Key="Color.Link">#36B9E6</Color>
       <Color x:Key="Color.InlineCode">#FF2B2E35</Color>
       <Color x:Key="Color.InlineCodeFG">#FFF0F0F0</Color>
-      <Color x:Key="Color.HistoryBG">#FF15181D</Color>
-      <Color x:Key="Color.GlassTint">#FF090B0F</Color>
-      <Color x:Key="Color.GlassFallback">#F20D0F14</Color>
-      <Color x:Key="Color.GlassTop">#B02B3038</Color>
-      <Color x:Key="Color.GlassMid">#8420252D</Color>
-      <Color x:Key="Color.GlassBottom">#6613171D</Color>
-      <Color x:Key="Color.GlassControlTop">#7A343A45</Color>
-      <Color x:Key="Color.GlassControlBottom">#4D171B22</Color>
-      <Color x:Key="Color.GlassSidebarTop">#A3232831</Color>
-      <Color x:Key="Color.GlassSidebarBottom">#7310141B</Color>
-      <Color x:Key="Color.GlassOverlayTop">#F2383D47</Color>
-      <Color x:Key="Color.GlassOverlayBottom">#E821252D</Color>
-      <Color x:Key="Color.GlassBorder">#4DFFFFFF</Color>
-      <Color x:Key="Color.GlassHighlight">#52FFFFFF</Color>
-      <Color x:Key="Color.GlassSelection">#1AFFFFFF</Color>
-      <Color x:Key="Color.Selection">#18FFFFFF</Color>
-      <Color x:Key="Color.SelectionStrong">#2BFFFFFF</Color>
+      <Color x:Key="Color.HistoryBG">#FF121419</Color>
+      <Color x:Key="Color.GlassTint">#FF111318</Color>
+      <Color x:Key="Color.GlassFallback">#F215171B</Color>
+      <Color x:Key="Color.GlassTop">#D923262C</Color>
+      <Color x:Key="Color.GlassMid">#D923262C</Color>
+      <Color x:Key="Color.GlassBottom">#D923262C</Color>
+      <Color x:Key="Color.GlassControlTop">#B82B2F37</Color>
+      <Color x:Key="Color.GlassControlBottom">#B82B2F37</Color>
+      <Color x:Key="Color.GlassSidebarTop">#E61A1D22</Color>
+      <Color x:Key="Color.GlassSidebarBottom">#E61A1D22</Color>
+      <Color x:Key="Color.GlassOverlayTop">#F42A2E35</Color>
+      <Color x:Key="Color.GlassOverlayBottom">#F42A2E35</Color>
+      <Color x:Key="Color.GlassBorder">#26FFFFFF</Color>
+      <Color x:Key="Color.GlassHighlight">#34FFFFFF</Color>
+      <Color x:Key="Color.GlassSelection">#16FFFFFF</Color>
+      <Color x:Key="Color.Selection">#12FFFFFF</Color>
+      <Color x:Key="Color.SelectionStrong">#24FFFFFF</Color>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 
@@ -111,6 +123,12 @@
   <SolidColorBrush x:Key="Brush.Popup" Color="{DynamicResource Color.Popup}"/>
   <SolidColorBrush x:Key="Brush.PopupBorder" Color="{DynamicResource Color.PopupBorder}"/>
   <SolidColorBrush x:Key="Brush.Contents" Color="{DynamicResource Color.Contents}"/>
+  <SolidColorBrush x:Key="Brush.Panel" Color="{DynamicResource Color.Panel}"/>
+  <SolidColorBrush x:Key="Brush.PanelRaised" Color="{DynamicResource Color.PanelRaised}"/>
+  <SolidColorBrush x:Key="Brush.Input" Color="{DynamicResource Color.Input}"/>
+  <SolidColorBrush x:Key="Brush.Hover" Color="{DynamicResource Color.Hover}"/>
+  <SolidColorBrush x:Key="Brush.Pressed" Color="{DynamicResource Color.Pressed}"/>
+  <SolidColorBrush x:Key="Brush.Separator" Color="{DynamicResource Color.Separator}"/>
   <SolidColorBrush x:Key="Brush.Badge" Color="{DynamicResource Color.Badge}"/>
   <SolidColorBrush x:Key="Brush.BadgeFG" Color="{DynamicResource Color.BadgeFG}"/>
   <SolidColorBrush x:Key="Brush.Conflict" Color="{DynamicResource Color.Conflict}"/>
@@ -143,23 +161,10 @@
   <SolidColorBrush x:Key="Brush.GlassSelection" Color="{DynamicResource Color.GlassSelection}"/>
   <SolidColorBrush x:Key="Brush.Selection" Color="{DynamicResource Color.Selection}"/>
   <SolidColorBrush x:Key="Brush.SelectionStrong" Color="{DynamicResource Color.SelectionStrong}"/>
-  <LinearGradientBrush x:Key="Brush.Glass.Chrome" StartPoint="0%,0%" EndPoint="0%,100%">
-    <GradientStop Color="{DynamicResource Color.GlassTop}" Offset="0"/>
-    <GradientStop Color="{DynamicResource Color.GlassMid}" Offset="0.48"/>
-    <GradientStop Color="{DynamicResource Color.GlassBottom}" Offset="1"/>
-  </LinearGradientBrush>
-  <LinearGradientBrush x:Key="Brush.Glass.Control" StartPoint="0%,0%" EndPoint="0%,100%">
-    <GradientStop Color="{DynamicResource Color.GlassControlTop}" Offset="0"/>
-    <GradientStop Color="{DynamicResource Color.GlassControlBottom}" Offset="1"/>
-  </LinearGradientBrush>
-  <LinearGradientBrush x:Key="Brush.Glass.Sidebar" StartPoint="0%,0%" EndPoint="100%,100%">
-    <GradientStop Color="{DynamicResource Color.GlassSidebarTop}" Offset="0"/>
-    <GradientStop Color="{DynamicResource Color.GlassSidebarBottom}" Offset="1"/>
-  </LinearGradientBrush>
-  <LinearGradientBrush x:Key="Brush.Glass.Overlay" StartPoint="0%,0%" EndPoint="0%,100%">
-    <GradientStop Color="{DynamicResource Color.GlassOverlayTop}" Offset="0"/>
-    <GradientStop Color="{DynamicResource Color.GlassOverlayBottom}" Offset="1"/>
-  </LinearGradientBrush>
+  <SolidColorBrush x:Key="Brush.Glass.Chrome" Color="{DynamicResource Color.GlassTop}"/>
+  <SolidColorBrush x:Key="Brush.Glass.Control" Color="{DynamicResource Color.GlassControlTop}"/>
+  <SolidColorBrush x:Key="Brush.Glass.Sidebar" Color="{DynamicResource Color.GlassSidebarTop}"/>
+  <SolidColorBrush x:Key="Brush.Glass.Overlay" Color="{DynamicResource Color.GlassOverlayTop}"/>
 
   <FontFamily x:Key="Fonts.Default">fonts:Inter#Inter</FontFamily>
   <FontFamily x:Key="Fonts.Monospace">fonts:SourceGit#JetBrains Mono NL</FontFamily>

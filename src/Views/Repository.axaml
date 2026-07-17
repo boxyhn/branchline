@@ -11,29 +11,30 @@
              x:DataType="vm:Repository">
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=Layout.RepositorySidebarWidth, Mode=TwoWay}" MinWidth="200" MaxWidth="500"/>
+      <ColumnDefinition Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=Layout.RepositorySidebarWidth, Mode=TwoWay}" MinWidth="280" MaxWidth="500"/>
       <ColumnDefinition Width="3"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
     <Border Grid.Column="0"
-                               Margin="6,6,3,6"
-                               CornerRadius="12"
-                               Background="{DynamicResource Brush.Glass.Sidebar}"
-                               Effect="drop-shadow(0 2 10 #26000000)"
-                               IsHitTestVisible="False"/>
-    <Border Grid.Column="0"
-            Background="#2E000000"
+            Background="{DynamicResource Brush.Glass.Sidebar}"
             BorderBrush="{DynamicResource Brush.GlassBorder}"
-            BorderThickness="1"
-            Margin="6,6,3,6"
-            CornerRadius="12"
+            BorderThickness="0,0,1,0"
             IsHitTestVisible="False"/>
 
     <!-- Left Panel -->
-    <Grid Grid.Column="0" Margin="6,6,3,6" RowDefinitions="Auto,*" Background="Transparent" ClipToBounds="True">
+    <Grid Grid.Column="0" RowDefinitions="Auto,*" Background="Transparent" ClipToBounds="True">
       <!-- Page Switcher for Left Contents (Dashboard or CommitSearch) -->
-      <StackPanel Grid.Row="0" Margin="0,6" Height="24" HorizontalAlignment="Center" Orientation="Horizontal">
+      <Border Grid.Row="0"
+              Height="30"
+              Margin="8,6,8,4"
+              Padding="2"
+              HorizontalAlignment="Center"
+              Background="{DynamicResource Brush.Glass.Control}"
+              BorderBrush="{DynamicResource Brush.GlassBorder}"
+              BorderThickness="1"
+              CornerRadius="6">
+      <StackPanel Height="24" HorizontalAlignment="Center" Orientation="Horizontal">
         <RadioButton Classes="switch_button"
                      Width="48"
                      GroupName="SearchGroup"
@@ -62,11 +63,12 @@
           <Path Width="12" Height="12" Stretch="Fill" HorizontalAlignment="Center" Data="{StaticResource Icons.Search}"/>
         </RadioButton>
       </StackPanel>
+      </Border>
 
       <!-- Dashboard -->
       <Grid Grid.Row="1" Margin="0,0,0,8" RowDefinitions="Auto,Auto,*" IsVisible="{Binding !IsSearchingCommits}">
         <!-- Page Switcher for Right Panel -->
-        <Border Grid.Row="0" Margin="8,0,4,0" BorderThickness="1" BorderBrush="{DynamicResource Brush.GlassBorder}" Background="#14FFFFFF" CornerRadius="6">
+        <Border Grid.Row="0" Margin="6,0" Background="Transparent">
           <ListBox Background="Transparent" Padding="4" SelectedIndex="{Binding SelectedViewIndex, Mode=TwoWay}" SelectionMode="AlwaysSelected">
             <ListBox.Styles>
               <Style Selector="Path.icon">
@@ -135,7 +137,7 @@
                 <TextBlock Grid.Column="2" Classes="header" Text="{DynamicResource Text.WorkingCopy}"/>
                 <Border Grid.Column="3"
                         Height="18"
-                        Margin="6,0" Padding="9,0"
+                        Margin="6,0" Padding="6,0"
                         CornerRadius="9"
                         VerticalAlignment="Center"
                         Background="{DynamicResource Brush.Badge}"
@@ -168,7 +170,7 @@
                 <TextBlock Grid.Column="2" Classes="header" Text="{DynamicResource Text.Stashes}"/>
                 <Border Grid.Column="3"
                         Height="18"
-                        Margin="6,0" Padding="9,0"
+                        Margin="6,0" Padding="6,0"
                         CornerRadius="9"
                         VerticalAlignment="Center"
                         Background="{DynamicResource Brush.Badge}"
@@ -193,8 +195,8 @@
         <!-- Filter Branches/Tags/Submodules -->
         <TextBox Grid.Row="1"
                  x:Name="FilterBox"
-                 Height="26"
-                 Margin="8,6,4,0"
+                 Height="28"
+                 Margin="8,6,8,2"
                  BorderThickness="1"
                  CornerRadius="4"
                  BorderBrush="{DynamicResource Brush.Border2}"
@@ -733,7 +735,7 @@
                   Focusable="False"/>
 
     <!-- Right -->
-    <Grid Grid.Column="2" RowDefinitions="Auto,Auto,Auto,*" Background="{DynamicResource Brush.Window}">
+    <Grid Grid.Column="2" RowDefinitions="Auto,Auto,Auto,*" Background="{DynamicResource Brush.Contents}">
       <Grid Grid.Row="0" Height="28" ColumnDefinitions="*,Auto,Auto" Background="{DynamicResource Brush.Conflict}" IsVisible="{Binding InProgressContext, Converter={x:Static ObjectConverters.IsNotNull}}">
         <ContentControl Grid.Column="0" Margin="8,0" Content="{Binding InProgressContext}">
           <ContentControl.DataTemplates>
@@ -965,7 +967,7 @@
               <DataTemplate DataType="m:HistoryFilter">
                 <Border Height="20"
                         Margin="0,0,6,0"
-                        CornerRadius="12"
+                        CornerRadius="6"
                         BorderThickness="1"
                         BorderBrush="{Binding Mode, Converter={x:Static c:FilterModeConverters.ToBorderBrush}}"
                         VerticalAlignment="Center">

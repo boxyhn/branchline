@@ -27,9 +27,9 @@
       </ContentControl>
     </Border>
     <Border Grid.Row="0"
-            Background="#28000000"
+            Background="Transparent"
             BorderThickness="0,0,0,1"
-            BorderBrush="{DynamicResource Brush.GlassBorder}"
+            BorderBrush="{DynamicResource Brush.Separator}"
             IsHitTestVisible="False"/>
 
     <!-- Body -->
@@ -129,7 +129,7 @@
                 Margin="0,8,0,0"
                 Padding="16,0"
                 Height="24"
-                CornerRadius="12"
+                CornerRadius="6"
                 HorizontalAlignment="Center"
                 Command="{Binding ClearNotifications}"
                 IsVisible="{Binding Notifications.Count, Converter={x:Static c:IntConverters.IsGreaterThanZero}}">
