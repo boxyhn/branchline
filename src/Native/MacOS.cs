@@ -224,6 +224,9 @@ namespace SourceGit.Native
         public static extern void objc_msgSend_Void_Int(IntPtr receiver, IntPtr selector, int arg);
 
         [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+        public static extern void objc_msgSend_Void_IntPtr_Int_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, int arg2, IntPtr arg3);
+
+        [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
         public static extern void objc_msgSend_Void_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg);
 
         [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -246,8 +249,7 @@ namespace SourceGit.Native
         private static readonly IntPtr s_selSetBlendingMode = sel_registerName("setBlendingMode:");
         private static readonly IntPtr s_selSetState = sel_registerName("setState:");
         private static readonly IntPtr s_selSetAutoresizingMask = sel_registerName("setAutoresizingMask:");
-        private static readonly IntPtr s_selAddSubview = sel_registerName("addSubview:");
-        private static readonly IntPtr s_selSendSubviewToBack = sel_registerName("sendSubviewToBack:");
+        private static readonly IntPtr s_selAddSubviewPositionedRelativeTo = sel_registerName("addSubview:positioned:relativeTo:");
         private static readonly HashSet<IntPtr> s_materialWindows = [];
 
         public static void AttachMaterialBackground(Window window)
@@ -290,8 +292,8 @@ namespace SourceGit.Native
                 objc_msgSend_Void_Int(effectView, s_selSetBlendingMode, 1);
                 objc_msgSend_Void_Int(effectView, s_selSetState, 0);
                 objc_msgSend_Void_Int(effectView, s_selSetAutoresizingMask, 18);
-                objc_msgSend_Void_IntPtr(contentView, s_selAddSubview, effectView);
-                objc_msgSend_Void_IntPtr(contentView, s_selSendSubviewToBack, effectView);
+                // NSWindowBelow keeps the native material behind Avalonia's visual tree.
+                objc_msgSend_Void_IntPtr_Int_IntPtr(contentView, s_selAddSubviewPositionedRelativeTo, effectView, -1, IntPtr.Zero);
             }
             catch (Exception ex)
             {
