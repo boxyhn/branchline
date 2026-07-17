@@ -797,7 +797,7 @@ namespace SourceGit.ViewModels
         private bool _isLoading = true;
         private bool _isReadonly = true;
         private string _locale = "en_US";
-        private string _theme = "Default";
+        private string _theme = "Dark";
         private string _themeOverrides = string.Empty;
         private string _defaultFontFamily = string.Empty;
         private string _monospaceFontFamily = string.Empty;
@@ -813,15 +813,15 @@ namespace SourceGit.ViewModels
         private bool _useAutoHideScrollBars = true;
         private bool _useGitHubStyleAvatar = true;
         private bool _showChildren = false;
-        private bool _useCompactBranchNamesInGraph = true;
+        private bool _useCompactBranchNamesInGraph = false;
 
         private bool _check4UpdatesOnStartup = true;
         private double _lastCheckUpdateTime = 0;
         private string _ignoreUpdateTag = string.Empty;
 
         private bool _showTagsInGraph = true;
-        private bool _useTwoColumnsLayoutInHistories = false;
-        private bool _displayTimeAsPeriodInHistories = false;
+        private bool _useTwoColumnsLayoutInHistories = true;
+        private bool _displayTimeAsPeriodInHistories = true;
         private bool _useSideBySideDiff = false;
         private bool _ignoreWhitespaceChangesInDiff = false;
         private bool _ignoreCRAtEOLInDiff = true;

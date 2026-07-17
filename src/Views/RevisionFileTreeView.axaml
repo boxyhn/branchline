@@ -8,7 +8,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SourceGit.Views.RevisionFileTreeView"
              x:Name="ThisControl">
-  <v:RevisionFileRowsListBox ItemsSource="{Binding #ThisControl.Rows}"
+  <v:RevisionFileRowsListBox Classes="repo_left_content_list"
+                             ItemsSource="{Binding #ThisControl.Rows}"
                              Background="Transparent"
                              SelectionMode="Single"
                              SelectionChanged="OnRowsSelectionChanged"
@@ -22,9 +23,10 @@
 
     <ListBox.Styles>
       <Style Selector="ListBoxItem">
-        <Setter Property="Height" Value="24"/>
-        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Margin" Value="4,1"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="CornerRadius" Value="6"/>
       </Style>
     </ListBox.Styles>
 

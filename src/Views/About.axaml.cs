@@ -47,19 +47,19 @@ namespace SourceGit.Views
             if (endOfTagIdx > 0)
                 ver = ver.Substring(0, endOfTagIdx);
 
-            Native.OS.OpenBrowser($"https://github.com/sourcegit-scm/sourcegit/releases/tag/{ver}");
+            Native.OS.OpenBrowser($"https://github.com/boxyhn/branchline/releases/tag/{ver}");
             e.Handled = true;
         }
 
         private void OnVisitWebsite(object _, RoutedEventArgs e)
         {
-            Native.OS.OpenBrowser("https://sourcegit-scm.github.io/");
+            Native.OS.OpenBrowser("https://github.com/boxyhn/branchline");
             e.Handled = true;
         }
 
         private void OnVisitSourceCode(object _, RoutedEventArgs e)
         {
-            Native.OS.OpenBrowser("https://github.com/sourcegit-scm/sourcegit");
+            Native.OS.OpenBrowser("https://github.com/boxyhn/branchline");
             e.Handled = true;
         }
 

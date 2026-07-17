@@ -21,12 +21,15 @@
     <!-- Custom TitleBar -->
     <Grid Grid.Row="0" ColumnDefinitions="Auto,32,32,*,Auto">
       <!-- Bottom border -->
+      <ExperimentalAcrylicBorder Grid.Column="0" Grid.ColumnSpan="5"
+                                 Material="{DynamicResource Material.Glass.Chrome}"
+                                 DoubleTapped="MaximizeOrRestoreWindow"
+                                 PointerPressed="BeginMoveWindow"/>
       <Border Grid.Column="0" Grid.ColumnSpan="5"
-              BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush.Border0}"
-              Background="{DynamicResource Brush.TitleBar}"
-              DoubleTapped="MaximizeOrRestoreWindow"
-              PointerPressed="BeginMoveWindow"/>
-
+              Background="#30000000"
+              BorderThickness="0,0,0,1"
+              BorderBrush="{DynamicResource Brush.GlassBorder}"
+              IsHitTestVisible="False"/>
       <!-- Caption Buttons (macOS) -->
       <v:MacOSTrafficLightsSpacer Grid.Column="0"
                                   Zoom="{Binding Source={x:Static vm:Preferences.Instance}, Path=Zoom, Mode=OneWay}"
@@ -118,7 +121,7 @@
     </Grid>
 
     <!-- Page -->
-    <ContentControl Grid.Row="1" Content="{Binding ActivePage}" Background="{DynamicResource Brush.Window}">
+    <ContentControl Grid.Row="1" Content="{Binding ActivePage}" Background="Transparent">
       <ContentControl.DataTemplates>
         <DataTemplate DataType="vm:LauncherPage">
           <v:LauncherPage/>

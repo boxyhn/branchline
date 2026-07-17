@@ -1,6 +1,8 @@
 .vs/
 .vscode/
 .idea/
+.tools/
+.omx/
 
 *.sln.docstates
 *.user
@@ -36,6 +38,9 @@ package-lock.json
 build/resources/
 build/SourceGit/
 build/SourceGit.app/
+build/Branchline/
+build/Branchline.app/
+build/BranchlinePreview.app/
 build/*.zip
 build/*.tar.gz
 build/*.deb

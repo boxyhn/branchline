@@ -25,25 +25,67 @@ namespace SourceGit.Models
         {
             get;
             set;
-        } = true;
+        } = false;
 
         public bool IsAuthorTimeColumnVisibleInHistory
         {
             get;
             set;
-        } = false;
+        } = true;
 
         public bool IsCommitTimeColumnVisibleInHistory
         {
             get;
             set;
-        } = true;
+        } = false;
 
         public double AuthorColumnWidth
         {
             get;
             set;
         } = 120;
+
+        public double BranchColumnWidth
+        {
+            get;
+            set;
+        } = 130;
+
+        public double GraphColumnWidth
+        {
+            get;
+            set;
+        } = 140;
+
+        public double SubjectColumnWidth
+        {
+            get;
+            set;
+        } = 180;
+
+        public bool HasCustomSubjectColumnWidth
+        {
+            get;
+            set;
+        } = false;
+
+        public double AuthorTimeColumnWidth
+        {
+            get;
+            set;
+        } = 150;
+
+        public double SHAColumnWidth
+        {
+            get;
+            set;
+        } = 100;
+
+        public double CommitTimeColumnWidth
+        {
+            get;
+            set;
+        } = 150;
 
         public bool EnableTopoOrderInHistory
         {
@@ -193,7 +235,7 @@ namespace SourceGit.Models
         {
             get;
             set;
-        } = false;
+        } = true;
 
         public bool IsTagsExpandedInSideBar
         {

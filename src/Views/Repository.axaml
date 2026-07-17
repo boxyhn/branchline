@@ -16,8 +16,22 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
+    <ExperimentalAcrylicBorder Grid.Column="0"
+                               Margin="6,6,3,6"
+                               CornerRadius="12"
+                               Material="{DynamicResource Material.Glass.Sidebar}"
+                               Effect="drop-shadow(0 2 10 #26000000)"
+                               IsHitTestVisible="False"/>
+    <Border Grid.Column="0"
+            Background="#2E000000"
+            BorderBrush="{DynamicResource Brush.GlassBorder}"
+            BorderThickness="1"
+            Margin="6,6,3,6"
+            CornerRadius="12"
+            IsHitTestVisible="False"/>
+
     <!-- Left Panel -->
-    <Grid Grid.Column="0" RowDefinitions="Auto,*">
+    <Grid Grid.Column="0" Margin="6,6,3,6" RowDefinitions="Auto,*" Background="Transparent" ClipToBounds="True">
       <!-- Page Switcher for Left Contents (Dashboard or CommitSearch) -->
       <StackPanel Grid.Row="0" Margin="0,6" Height="24" HorizontalAlignment="Center" Orientation="Horizontal">
         <RadioButton Classes="switch_button"
@@ -52,7 +66,7 @@
       <!-- Dashboard -->
       <Grid Grid.Row="1" Margin="0,0,0,8" RowDefinitions="Auto,Auto,*" IsVisible="{Binding !IsSearchingCommits}">
         <!-- Page Switcher for Right Panel -->
-        <Border Grid.Row="0" Margin="8,0,4,0" BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}" CornerRadius="6">
+        <Border Grid.Row="0" Margin="8,0,4,0" BorderThickness="1" BorderBrush="{DynamicResource Brush.GlassBorder}" Background="#14FFFFFF" CornerRadius="6">
           <ListBox Background="Transparent" Padding="4" SelectedIndex="{Binding SelectedViewIndex, Mode=TwoWay}" SelectionMode="AlwaysSelected">
             <ListBox.Styles>
               <Style Selector="Path.icon">
@@ -70,22 +84,26 @@
                 <Setter Property="Margin" Value="0"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="CornerRadius" Value="4"/>
               </Style>
               <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter, ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="Transparent"/>
               </Style>
               <Style Selector="ListBoxItem:selected">
+                <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
                 <Setter Property="BorderBrush" Value="{DynamicResource Brush.FG1}"/>
               </Style>
+              <Style Selector="ListBoxItem:selected /template/ Border#PART_Background">
+                <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
+              </Style>
               <Style Selector="ListBoxItem:selected Rectangle.indicator">
-                <Setter Property="Fill" Value="{DynamicResource Brush.FG1}"/>
+                <Setter Property="Fill" Value="{DynamicResource Brush.Accent}"/>
               </Style>
               <Style Selector="ListBoxItem:selected TextBlock.header">
                 <Setter Property="Foreground" Value="{DynamicResource Brush.FG1}"/>
               </Style>
               <Style Selector="ListBoxItem:selected Path.icon">
-                <Setter Property="Fill" Value="{DynamicResource Brush.FG1}"/>
+                <Setter Property="Fill" Value="{DynamicResource Brush.Accent}"/>
               </Style>
             </ListBox.Styles>
 
@@ -715,7 +733,7 @@
                   Focusable="False"/>
 
     <!-- Right -->
-    <Grid Grid.Column="2" RowDefinitions="Auto,Auto,Auto,*">
+    <Grid Grid.Column="2" RowDefinitions="Auto,Auto,Auto,*" Background="{DynamicResource Brush.Window}">
       <Grid Grid.Row="0" Height="28" ColumnDefinitions="*,Auto,Auto" Background="{DynamicResource Brush.Conflict}" IsVisible="{Binding InProgressContext, Converter={x:Static ObjectConverters.IsNotNull}}">
         <ContentControl Grid.Column="0" Margin="8,0" Content="{Binding InProgressContext}">
           <ContentControl.DataTemplates>

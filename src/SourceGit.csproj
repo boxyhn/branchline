@@ -9,13 +9,13 @@
     <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
     <InvariantGlobalization>false</InvariantGlobalization>
 
-    <Product>SourceGit</Product>
-    <Description>OpenSource GIT client</Description>
-    <Company>sourcegit-scm</Company>
-    <Copyright>Copyright © $([System.DateTime]::Now.Year) sourcegit-scm.</Copyright>
+    <Product>Branchline</Product>
+    <Description>Visual Git client built for readable branch history</Description>
+    <Company>Branchline</Company>
+    <Copyright>Copyright © $([System.DateTime]::Now.Year) Branchline contributors.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/sourcegit-scm/sourcegit.git</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/sourcegit-scm/sourcegit.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/boxyhn/branchline</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/boxyhn/branchline.git</RepositoryUrl>
     <RepositoryType>Public</RepositoryType>
   </PropertyGroup>
 
@@ -79,5 +79,3 @@
     </ItemGroup>
   </Target>
 </Project>
-
-

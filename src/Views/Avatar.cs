@@ -58,7 +58,7 @@ namespace SourceGit.Views
             if (_user == null)
                 return;
 
-            var corner = (float)Math.Max(2, Bounds.Width / 16);
+            var corner = (float)(Bounds.Width * 0.5);
             var rect = new Rect(0, 0, Bounds.Width, Bounds.Height);
             var clip = context.PushClip(new RoundedRect(rect, corner));
 

@@ -8,6 +8,7 @@ using System.Runtime.Versioning;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using Avalonia.Platform;
 
 namespace SourceGit.Native
@@ -45,13 +46,20 @@ namespace SourceGit.Native
             window.ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.SystemChrome;
             window.ExtendClientAreaToDecorationsHint = true;
             window.BorderThickness = new Thickness(0);
+            window.Background = Brushes.Transparent;
+            window.TransparencyBackgroundFallback = new SolidColorBrush(Color.Parse("#FF1B1D22"));
+            window.TransparencyLevelHint =
+            [
+                WindowTransparencyLevel.Blur,
+                WindowTransparencyLevel.Transparent,
+            ];
         }
 
         public string GetDataDir()
         {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "SourceGit");
+                "Branchline");
         }
 
         public string FindGitExecutable()

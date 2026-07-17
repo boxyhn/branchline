@@ -25,6 +25,18 @@ namespace SourceGit.Views
             set => SetAndRaise(IsDetailsPanelExpandedProperty, ref _isDetailsPanelExpanded, value);
         }
 
+        public static readonly DirectProperty<CommitDetail, bool> UseExternalDiffHostProperty =
+            AvaloniaProperty.RegisterDirect<CommitDetail, bool>(
+                nameof(UseExternalDiffHost),
+                static o => o.UseExternalDiffHost,
+                static (o, v) => o.UseExternalDiffHost = v);
+
+        public bool UseExternalDiffHost
+        {
+            get => _useExternalDiffHost;
+            set => SetAndRaise(UseExternalDiffHostProperty, ref _useExternalDiffHost, value);
+        }
+
         public CommitDetail()
         {
             InitializeComponent();
@@ -546,5 +558,6 @@ namespace SourceGit.Views
         }
 
         private bool _isDetailsPanelExpanded = true;
+        private bool _useExternalDiffHost = false;
     }
 }

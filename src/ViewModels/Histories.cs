@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -116,10 +117,30 @@ namespace SourceGit.ViewModels
             get => _detailContext;
             set
             {
+                if (ReferenceEquals(_detailContext, value))
+                    return;
+
+                if (_detailContext is INotifyPropertyChanged previous)
+                    previous.PropertyChanged -= OnDetailContextPropertyChanged;
+
                 if (SetProperty(ref _detailContext, value))
+                {
+                    if (value is INotifyPropertyChanged current)
+                        current.PropertyChanged += OnDetailContextPropertyChanged;
+
                     OnPropertyChanged(nameof(IsOpenAsStandaloneVisible));
+                    OnPropertyChanged(nameof(ActiveDiffContext));
+                    OnPropertyChanged(nameof(ActiveRevisionFileContent));
+                    OnPropertyChanged(nameof(ActiveRevisionFilePath));
+                }
             }
         }
+
+        public DiffContext ActiveDiffContext => (_detailContext as CommitDetail)?.ActiveDiffContext;
+
+        public object ActiveRevisionFileContent => (_detailContext as CommitDetail)?.ActiveRevisionFileContent;
+
+        public string ActiveRevisionFilePath => (_detailContext as CommitDetail)?.ActiveRevisionFilePath;
 
         public Models.Bisect Bisect
         {
@@ -169,6 +190,48 @@ namespace SourceGit.ViewModels
         {
             get => _repo.UIStates.AuthorColumnWidth;
             set => _repo.UIStates.AuthorColumnWidth = value;
+        }
+
+        public double BranchColumnWidth
+        {
+            get => _repo.UIStates.BranchColumnWidth;
+            set => _repo.UIStates.BranchColumnWidth = value;
+        }
+
+        public double GraphColumnWidth
+        {
+            get => _repo.UIStates.GraphColumnWidth;
+            set => _repo.UIStates.GraphColumnWidth = value;
+        }
+
+        public double SubjectColumnWidth
+        {
+            get => _repo.UIStates.SubjectColumnWidth;
+            set => _repo.UIStates.SubjectColumnWidth = value;
+        }
+
+        public bool HasCustomSubjectColumnWidth
+        {
+            get => _repo.UIStates.HasCustomSubjectColumnWidth;
+            set => _repo.UIStates.HasCustomSubjectColumnWidth = value;
+        }
+
+        public double AuthorTimeColumnWidth
+        {
+            get => _repo.UIStates.AuthorTimeColumnWidth;
+            set => _repo.UIStates.AuthorTimeColumnWidth = value;
+        }
+
+        public double SHAColumnWidth
+        {
+            get => _repo.UIStates.SHAColumnWidth;
+            set => _repo.UIStates.SHAColumnWidth = value;
+        }
+
+        public double CommitTimeColumnWidth
+        {
+            get => _repo.UIStates.CommitTimeColumnWidth;
+            set => _repo.UIStates.CommitTimeColumnWidth = value;
         }
 
         public bool IsOpenAsStandaloneVisible
@@ -442,6 +505,16 @@ namespace SourceGit.ViewModels
 
         private void PostCommitsChanged()
         {
+            if (!_hasInitializedCommitSelection && _commits.Count > 0)
+            {
+                _hasInitializedCommitSelection = true;
+                if (_selectedCommits.Count == 0)
+                {
+                    SelectedCommits = [_commits[0]];
+                    return;
+                }
+            }
+
             if (_selectedCommits.Count == 0)
                 return;
 
@@ -510,6 +583,16 @@ namespace SourceGit.ViewModels
                 GenerateGraph(_commits);
         }
 
+        private void OnDetailContextPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(CommitDetail.ActiveDiffContext))
+                OnPropertyChanged(nameof(ActiveDiffContext));
+            else if (e.PropertyName == nameof(CommitDetail.ActiveRevisionFileContent))
+                OnPropertyChanged(nameof(ActiveRevisionFileContent));
+            else if (e.PropertyName == nameof(CommitDetail.ActiveRevisionFilePath))
+                OnPropertyChanged(nameof(ActiveRevisionFilePath));
+        }
+
         private void GenerateGraph(List<Models.Commit> commits, bool commitsChanged = false)
         {
             var firstParentOnly = _repo.UIStates.HistoryShowFlags.HasFlag(Models.HistoryShowFlags.FirstParentOnly);
@@ -534,9 +617,10 @@ namespace SourceGit.ViewModels
         private Models.Bisect _bisect = null;
         private object _detailContext = new Models.Null();
         private bool _ignoreSelectionChange = false;
+        private bool _hasInitializedCommitSelection = false;
 
         private GridLength _leftArea = new(1, GridUnitType.Star);
-        private GridLength _rightArea = new(1, GridUnitType.Star);
+        private GridLength _rightArea = new(320, GridUnitType.Pixel);
         private GridLength _topArea = new(1, GridUnitType.Star);
         private GridLength _bottomArea = new(1, GridUnitType.Star);
         private bool _isCollapseDetails = false;

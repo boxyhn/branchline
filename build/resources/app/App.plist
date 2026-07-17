@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIconFile</key>
-	<string>App.icns</string>
+	<string>Branchline.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sourcegit-scm.sourcegit</string>
+	<string>com.sihyunpark.branchline</string>
 	<key>CFBundleName</key>
-	<string>SourceGit</string>
+	<string>Branchline</string>
 	<key>CFBundleVersion</key>
-	<string>SOURCE_GIT_VERSION.0</string>
+	<string>SOURCE_GIT_VERSION</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>11.0</string>
+	<string>13.0</string>
 	<key>CFBundleExecutable</key>
 	<string>SourceGit</string>
 	<key>CFBundleInfoDictionaryVersion</key>

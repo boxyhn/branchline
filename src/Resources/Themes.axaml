@@ -18,9 +18,10 @@
       <Color x:Key="Color.Border0">#FFCFCFCF</Color>
       <Color x:Key="Color.Border1">#FF898989</Color>
       <Color x:Key="Color.Border2">#FFCFCFCF</Color>
-      <Color x:Key="Color.FlatButton.Background">#FFF8F8F8</Color>
-      <Color x:Key="Color.FlatButton.BackgroundHovered">White</Color>
-      <Color x:Key="Color.FlatButton.FloatingBorder">#FF898989</Color>
+      <Color x:Key="Color.FlatButton.Background">#FFF7F9FB</Color>
+      <Color x:Key="Color.FlatButton.BackgroundHovered">#FFFFFFFF</Color>
+      <Color x:Key="Color.FlatButton.BackgroundPressed">#FFE3EBF2</Color>
+      <Color x:Key="Color.FlatButton.FloatingBorder">#FFD3D9DF</Color>
       <Color x:Key="Color.FG1">#FF1F1F1F</Color>
       <Color x:Key="Color.FG2">#FF6F6F6F</Color>
       <Color x:Key="Color.Diff.EmptyBG">#10000000</Color>
@@ -33,40 +34,55 @@
       <Color x:Key="Color.InlineCode">#FFE4E4E4</Color>
       <Color x:Key="Color.InlineCodeFG">Black</Color>
       <Color x:Key="Color.HistoryBG">#FFF0F5F9</Color>
+      <Color x:Key="Color.GlassTint">#FFF6FAFD</Color>
+      <Color x:Key="Color.GlassFallback">#D9EEF3F7</Color>
+      <Color x:Key="Color.GlassBorder">#80FFFFFF</Color>
+      <Color x:Key="Color.GlassHighlight">#CCFFFFFF</Color>
+      <Color x:Key="Color.GlassSelection">#99FFFFFF</Color>
+      <Color x:Key="Color.Selection">#12000000</Color>
+      <Color x:Key="Color.SelectionStrong">#20000000</Color>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Dark">
-      <Color x:Key="Color.Window">#FF252525</Color>
-      <Color x:Key="Color.WindowBorder">#FF606060</Color>
-      <Color x:Key="Color.TitleBar">#FF1F1F1F</Color>
-      <Color x:Key="Color.ToolBar">#FF2F2F2F</Color>
-      <Color x:Key="Color.Popup">#FF2B2B2B</Color>
-      <Color x:Key="Color.PopupBorder">#FF393939</Color>
-      <Color x:Key="Color.Contents">#FF1C1C1C</Color>
-      <Color x:Key="Color.Badge">#FF8F8F8F</Color>
-      <Color x:Key="Color.BadgeFG">#FFE0E0E0</Color>
+      <Color x:Key="Color.Window">#FF1B1D22</Color>
+      <Color x:Key="Color.WindowBorder">#FF3A3E47</Color>
+      <Color x:Key="Color.TitleBar">#B31F2228</Color>
+      <Color x:Key="Color.ToolBar">#A6262930</Color>
+      <Color x:Key="Color.Popup">#F22A2D34</Color>
+      <Color x:Key="Color.PopupBorder">#FF454A54</Color>
+      <Color x:Key="Color.Contents">#FF111318</Color>
+      <Color x:Key="Color.Badge">#FF4B515C</Color>
+      <Color x:Key="Color.BadgeFG">#FFF3F5F8</Color>
       <Color x:Key="Color.Conflict">#FFFAFAD2</Color>
       <Color x:Key="Color.Conflict.Foreground">#FF252525</Color>
       <Color x:Key="Color.Conflict.MineBG">#400078D7</Color>
       <Color x:Key="Color.Conflict.TheirsBG">#40FF8C00</Color>
-      <Color x:Key="Color.Border0">#FF181818</Color>
-      <Color x:Key="Color.Border1">#FF7C7C7C</Color>
-      <Color x:Key="Color.Border2">#FF404040</Color>
-      <Color x:Key="Color.FlatButton.Background">#FF303030</Color>
-      <Color x:Key="Color.FlatButton.BackgroundHovered">#FF333333</Color>
-      <Color x:Key="Color.FlatButton.FloatingBorder">#FF4F4F4F</Color>
-      <Color x:Key="Color.FG1">#FFDFDFDF</Color>
-      <Color x:Key="Color.FG2">#FF9F9F9F</Color>
+      <Color x:Key="Color.Border0">#FF252830</Color>
+      <Color x:Key="Color.Border1">#FF656B76</Color>
+      <Color x:Key="Color.Border2">#FF353941</Color>
+      <Color x:Key="Color.FlatButton.Background">#FF2D3037</Color>
+      <Color x:Key="Color.FlatButton.BackgroundHovered">#FF3A3E47</Color>
+      <Color x:Key="Color.FlatButton.BackgroundPressed">#FF23262C</Color>
+      <Color x:Key="Color.FlatButton.FloatingBorder">#FF4A4F59</Color>
+      <Color x:Key="Color.FG1">#FFF2F3F5</Color>
+      <Color x:Key="Color.FG2">#FFA7ABB3</Color>
       <Color x:Key="Color.Diff.EmptyBG">#3C000000</Color>
       <Color x:Key="Color.Diff.AddedBG">#C03A5C3F</Color>
       <Color x:Key="Color.Diff.DeletedBG">#C0633F3E</Color>
       <Color x:Key="Color.Diff.AddedHighlight">#A0308D3C</Color>
       <Color x:Key="Color.Diff.DeletedHighlight">#A09F4247</Color>
       <Color x:Key="Color.Diff.BlockBorderHighlight">DarkCyan</Color>
-      <Color x:Key="Color.Link">#4DAAFC</Color>
-      <Color x:Key="Color.InlineCode">#FF383838</Color>
+      <Color x:Key="Color.Link">#36B9E6</Color>
+      <Color x:Key="Color.InlineCode">#FF2B2E35</Color>
       <Color x:Key="Color.InlineCodeFG">#FFF0F0F0</Color>
-      <Color x:Key="Color.HistoryBG">#FF272727</Color>
+      <Color x:Key="Color.HistoryBG">#FF15181D</Color>
+      <Color x:Key="Color.GlassTint">#FF090B0F</Color>
+      <Color x:Key="Color.GlassFallback">#F20D0F14</Color>
+      <Color x:Key="Color.GlassBorder">#4DFFFFFF</Color>
+      <Color x:Key="Color.GlassHighlight">#52FFFFFF</Color>
+      <Color x:Key="Color.GlassSelection">#1AFFFFFF</Color>
+      <Color x:Key="Color.Selection">#18FFFFFF</Color>
+      <Color x:Key="Color.SelectionStrong">#2BFFFFFF</Color>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 
@@ -88,6 +104,7 @@
   <SolidColorBrush x:Key="Brush.Border2" Color="{DynamicResource Color.Border2}"/>
   <SolidColorBrush x:Key="Brush.FlatButton.Background" Color="{DynamicResource Color.FlatButton.Background}"/>
   <SolidColorBrush x:Key="Brush.FlatButton.BackgroundHovered" Color="{DynamicResource Color.FlatButton.BackgroundHovered}"/>
+  <SolidColorBrush x:Key="Brush.FlatButton.BackgroundPressed" Color="{DynamicResource Color.FlatButton.BackgroundPressed}"/>
   <SolidColorBrush x:Key="Brush.FlatButton.FloatingBorder" Color="{DynamicResource Color.FlatButton.FloatingBorder}"/>
   <SolidColorBrush x:Key="Brush.FG1" Color="{DynamicResource Color.FG1}"/>
   <SolidColorBrush x:Key="Brush.FG2" Color="{DynamicResource Color.FG2}"/>
@@ -103,6 +120,39 @@
   <SolidColorBrush x:Key="Brush.InlineCode" Color="{DynamicResource Color.InlineCode}"/>
   <SolidColorBrush x:Key="Brush.InlineCodeFG" Color="{DynamicResource Color.InlineCodeFG}"/>
   <SolidColorBrush x:Key="Brush.HistoryBG" Color="{DynamicResource Color.HistoryBG}"/>
+  <SolidColorBrush x:Key="Brush.GlassBorder" Color="{DynamicResource Color.GlassBorder}"/>
+  <SolidColorBrush x:Key="Brush.GlassHighlight" Color="{DynamicResource Color.GlassHighlight}"/>
+  <SolidColorBrush x:Key="Brush.GlassSelection" Color="{DynamicResource Color.GlassSelection}"/>
+  <SolidColorBrush x:Key="Brush.Selection" Color="{DynamicResource Color.Selection}"/>
+  <SolidColorBrush x:Key="Brush.SelectionStrong" Color="{DynamicResource Color.SelectionStrong}"/>
+  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Chrome"
+                               BackgroundSource="Digger"
+                               TintColor="{DynamicResource Color.GlassTint}"
+                               TintOpacity="1"
+                               MaterialOpacity="0.72"
+                               PlatformTransparencyCompensationLevel="0.04"
+                               FallbackColor="{DynamicResource Color.GlassFallback}"/>
+  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Control"
+                               BackgroundSource="Digger"
+                               TintColor="{DynamicResource Color.GlassTint}"
+                               TintOpacity="0.55"
+                               MaterialOpacity="0.72"
+                               PlatformTransparencyCompensationLevel="0.04"
+                               FallbackColor="{DynamicResource Color.GlassFallback}"/>
+  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Sidebar"
+                               BackgroundSource="Digger"
+                               TintColor="{DynamicResource Color.GlassTint}"
+                               TintOpacity="1"
+                               MaterialOpacity="0.68"
+                               PlatformTransparencyCompensationLevel="0.05"
+                               FallbackColor="{DynamicResource Color.GlassFallback}"/>
+  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Overlay"
+                               BackgroundSource="Digger"
+                               TintColor="{DynamicResource Color.GlassTint}"
+                               TintOpacity="0.48"
+                               MaterialOpacity="0.82"
+                               PlatformTransparencyCompensationLevel="0.10"
+                               FallbackColor="{DynamicResource Color.Popup}"/>
 
   <FontFamily x:Key="Fonts.Default">fonts:Inter#Inter</FontFamily>
   <FontFamily x:Key="Fonts.Monospace">fonts:SourceGit#JetBrains Mono NL</FontFamily>

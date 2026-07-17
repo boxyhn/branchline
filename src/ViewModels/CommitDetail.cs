@@ -41,6 +41,9 @@ namespace SourceGit.ViewModels
                 {
                     _sharedData.ActiveTabIndex = value;
                     OnPropertyChanged(nameof(ActiveTabIndex));
+                    OnPropertyChanged(nameof(ActiveDiffContext));
+                    OnPropertyChanged(nameof(ActiveRevisionFileContent));
+                    OnPropertyChanged(nameof(ActiveRevisionFilePath));
 
                     if (value == 1 && DiffContext == null && _selectedChanges is { Count: 1 })
                         DiffContext = new DiffContext(_repo.FullPath, new Models.DiffOption(_commit, _selectedChanges[0]));
@@ -115,8 +118,14 @@ namespace SourceGit.ViewModels
         public DiffContext DiffContext
         {
             get => _diffContext;
-            private set => SetProperty(ref _diffContext, value);
+            private set
+            {
+                if (SetProperty(ref _diffContext, value))
+                    OnPropertyChanged(nameof(ActiveDiffContext));
+            }
         }
+
+        public DiffContext ActiveDiffContext => ActiveTabIndex == 1 ? _diffContext : null;
 
         public string SearchChangeFilter
         {
@@ -131,14 +140,26 @@ namespace SourceGit.ViewModels
         public string ViewRevisionFilePath
         {
             get => _viewRevisionFilePath;
-            private set => SetProperty(ref _viewRevisionFilePath, value);
+            private set
+            {
+                if (SetProperty(ref _viewRevisionFilePath, value))
+                    OnPropertyChanged(nameof(ActiveRevisionFilePath));
+            }
         }
 
         public object ViewRevisionFileContent
         {
             get => _viewRevisionFileContent;
-            private set => SetProperty(ref _viewRevisionFileContent, value);
+            private set
+            {
+                if (SetProperty(ref _viewRevisionFileContent, value))
+                    OnPropertyChanged(nameof(ActiveRevisionFileContent));
+            }
         }
+
+        public string ActiveRevisionFilePath => ActiveTabIndex == 2 ? _viewRevisionFilePath : null;
+
+        public object ActiveRevisionFileContent => ActiveTabIndex == 2 ? _viewRevisionFileContent : null;
 
         public string RevisionFileSearchFilter
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
@@ -9,9 +10,84 @@ namespace SourceGit.Views
 {
     public partial class CommitChanges : UserControl
     {
+        public static readonly DirectProperty<CommitChanges, bool> UseExternalDiffHostProperty =
+            AvaloniaProperty.RegisterDirect<CommitChanges, bool>(
+                nameof(UseExternalDiffHost),
+                static o => o.UseExternalDiffHost,
+                static (o, v) => o.UseExternalDiffHost = v);
+
+        public static readonly DirectProperty<CommitChanges, GridLength> ChangeListWidthProperty =
+            AvaloniaProperty.RegisterDirect<CommitChanges, GridLength>(
+                nameof(ChangeListWidth),
+                static o => o.ChangeListWidth,
+                static (o, v) => o.ChangeListWidth = v);
+
+        public bool UseExternalDiffHost
+        {
+            get => _useExternalDiffHost;
+            set
+            {
+                if (_useExternalDiffHost == value)
+                    return;
+
+                SetAndRaise(UseExternalDiffHostProperty, ref _useExternalDiffHost, value);
+                ApplyDiffHostMode();
+            }
+        }
+
+        public GridLength ChangeListWidth
+        {
+            get => _changeListWidth;
+            set
+            {
+                if (_changeListWidth == value)
+                    return;
+
+                SetAndRaise(ChangeListWidthProperty, ref _changeListWidth, value);
+                if (!_isApplyingDiffHostMode && !UseExternalDiffHost)
+                    ViewModels.Preferences.Instance.Layout.CommitDetailChangesLeftWidth = value;
+            }
+        }
+
         public CommitChanges()
         {
             InitializeComponent();
+            ApplyDiffHostMode();
+        }
+
+        private void ApplyDiffHostMode()
+        {
+            if (LayoutGrid == null)
+                return;
+
+            _isApplyingDiffHostMode = true;
+            if (UseExternalDiffHost)
+            {
+                ChangeListWidth = new GridLength(1, GridUnitType.Star);
+                LayoutGrid.ColumnDefinitions[1].Width = new GridLength(0);
+                LayoutGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                EmbeddedDiffSplitter.IsVisible = false;
+                EmbeddedDiffPanel.IsVisible = false;
+                EmbeddedDiffPanel.DataContext = null;
+            }
+            else
+            {
+                ChangeListWidth = ViewModels.Preferences.Instance.Layout.CommitDetailChangesLeftWidth;
+                LayoutGrid.ColumnDefinitions[1].Width = new GridLength(4);
+                LayoutGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+                EmbeddedDiffSplitter.IsVisible = true;
+                EmbeddedDiffPanel.IsVisible = true;
+                EmbeddedDiffPanel.ClearValue(DataContextProperty);
+            }
+            _isApplyingDiffHostMode = false;
+        }
+
+        private void OnCloseExternalDiff(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            if (DataContext is ViewModels.CommitDetail vm)
+                vm.SelectedChanges = [];
+
+            e.Handled = true;
         }
 
         private void OnChangeContextRequested(object sender, ContextRequestedEventArgs e)
@@ -71,5 +147,9 @@ namespace SourceGit.Views
                 e.Handled = true;
             }
         }
+
+        private bool _useExternalDiffHost;
+        private bool _isApplyingDiffHostMode;
+        private GridLength _changeListWidth = ViewModels.Preferences.Instance.Layout.CommitDetailChangesLeftWidth;
     }
 }

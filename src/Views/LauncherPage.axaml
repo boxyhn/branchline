@@ -9,14 +9,12 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SourceGit.Views.LauncherPage"
              x:DataType="vm:LauncherPage">
-  <Grid RowDefinitions="36,*">
+  <Grid RowDefinitions="44,*" Background="{DynamicResource Brush.HistoryBG}">
     <!-- ToolBar -->
-    <Border Grid.Row="0"
-            BorderBrush="{DynamicResource Brush.Border0}"
-            BorderThickness="0,0,0,1"
-            Background="{DynamicResource Brush.ToolBar}"
-            PointerPressed="OnToolBarPointerPressed">
-      <ContentControl Content="{Binding Data}">
+    <ExperimentalAcrylicBorder Grid.Row="0"
+                               Material="{DynamicResource Material.Glass.Chrome}"
+                               PointerPressed="OnToolBarPointerPressed">
+      <ContentControl Margin="4,6" Content="{Binding Data}">
         <ContentControl.DataTemplates>
           <DataTemplate DataType="vm:Welcome">
             <v:WelcomeToolbar/>
@@ -27,7 +25,12 @@
           </DataTemplate>
         </ContentControl.DataTemplates>
       </ContentControl>
-    </Border>
+    </ExperimentalAcrylicBorder>
+    <Border Grid.Row="0"
+            Background="#28000000"
+            BorderThickness="0,0,0,1"
+            BorderBrush="{DynamicResource Brush.GlassBorder}"
+            IsHitTestVisible="False"/>
 
     <!-- Body -->
     <Border Grid.Row="1">

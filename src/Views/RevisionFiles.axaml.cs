@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -6,9 +7,52 @@ namespace SourceGit.Views
 {
     public partial class RevisionFiles : UserControl
     {
+        public static readonly DirectProperty<RevisionFiles, bool> UseExternalFileHostProperty =
+            AvaloniaProperty.RegisterDirect<RevisionFiles, bool>(
+                nameof(UseExternalFileHost),
+                static o => o.UseExternalFileHost,
+                static (o, v) => o.UseExternalFileHost = v);
+
+        public bool UseExternalFileHost
+        {
+            get => _useExternalFileHost;
+            set
+            {
+                if (_useExternalFileHost == value)
+                    return;
+
+                SetAndRaise(UseExternalFileHostProperty, ref _useExternalFileHost, value);
+                ApplyFileHostMode();
+            }
+        }
+
         public RevisionFiles()
         {
             InitializeComponent();
+            ApplyFileHostMode();
+        }
+
+        private void ApplyFileHostMode()
+        {
+            if (LayoutGrid == null)
+                return;
+
+            if (UseExternalFileHost)
+            {
+                LayoutGrid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+                LayoutGrid.ColumnDefinitions[1].Width = new GridLength(0);
+                LayoutGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                EmbeddedFileSplitter.IsVisible = false;
+                EmbeddedFilePanel.IsVisible = false;
+            }
+            else
+            {
+                LayoutGrid.ColumnDefinitions[0].Width = ViewModels.Preferences.Instance.Layout.CommitDetailFilesLeftWidth;
+                LayoutGrid.ColumnDefinitions[1].Width = new GridLength(4);
+                LayoutGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+                EmbeddedFileSplitter.IsVisible = true;
+                EmbeddedFilePanel.IsVisible = true;
+            }
         }
 
         private void OnToggleSearch(object _, RoutedEventArgs e)
@@ -92,5 +136,7 @@ namespace SourceGit.Views
 
             e.Handled = true;
         }
+
+        private bool _useExternalFileHost;
     }
 }

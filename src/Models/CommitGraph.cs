@@ -20,7 +20,7 @@ namespace SourceGit.Models
     {
         public static List<Pen> Pens { get; } = [];
 
-        public static void SetDefaultPens(double thickness = 2)
+        public static void SetDefaultPens(double thickness = 2.4)
         {
             SetPens(s_defaultPenColors, thickness);
         }
@@ -64,6 +64,8 @@ namespace SourceGit.Models
             public Point Center;
             public int Color;
             public bool IsHighlighted;
+            public User Author;
+            public Commit Commit;
         }
 
         public List<Path> Paths { get; } = [];
@@ -72,8 +74,8 @@ namespace SourceGit.Models
 
         public static CommitGraph Generate(List<Commit> commits, bool recalculateMergeState, bool firstParentOnlyEnabled, CommitGraphHighlighting highlighting, HashSet<string> highlightExtraCommits)
         {
-            const double unitWidth = 12;
-            const double halfWidth = 6;
+            const double unitWidth = 18;
+            const double halfWidth = 9;
             const double unitHeight = 1;
             const double halfHeight = 0.5;
 
@@ -215,7 +217,14 @@ namespace SourceGit.Models
                 // Calculate link position of this commit.
                 var position = new Point(major?.LastX ?? offsetX, offsetY);
                 var dotColor = major?.Path.Color ?? 0;
-                var anchor = new Dot() { Center = position, Color = dotColor, IsHighlighted = isHighlighted };
+                var anchor = new Dot()
+                {
+                    Center = position,
+                    Color = dotColor,
+                    IsHighlighted = isHighlighted,
+                    Author = commit.Author,
+                    Commit = commit,
+                };
                 if (commit.IsCurrentHead)
                     anchor.Type = DotType.Head;
                 else if (commit.Parents.Count > 1)
@@ -435,16 +444,16 @@ namespace SourceGit.Models
 
         private static int s_penCount = 0;
         private static readonly List<Color> s_defaultPenColors = [
-            Colors.Orange,
-            Colors.ForestGreen,
-            Colors.Turquoise,
-            Colors.Olive,
-            Colors.Magenta,
-            Colors.Red,
-            Colors.Khaki,
-            Colors.Lime,
-            Colors.RoyalBlue,
-            Colors.Teal,
+            Color.Parse("#17A8D1"),
+            Color.Parse("#1677FF"),
+            Color.Parse("#7A21D4"),
+            Color.Parse("#B300C8"),
+            Color.Parse("#E00086"),
+            Color.Parse("#00B8A9"),
+            Color.Parse("#675CFF"),
+            Color.Parse("#D83A56"),
+            Color.Parse("#4BA3FF"),
+            Color.Parse("#A64DFF"),
         ];
     }
 }

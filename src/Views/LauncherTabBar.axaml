@@ -51,6 +51,16 @@
               <Setter Property="Background" Value="Transparent"/>
               <Setter Property="Opacity" Value="1"/>
             </Style>
+            <Style Selector="ListBoxItem:pointerover v|LauncherTabSizeBox">
+              <Setter Property="Background" Value="{DynamicResource Brush.Selection}"/>
+              <Setter Property="CornerRadius" Value="6,6,0,0"/>
+            </Style>
+            <Style Selector="ListBoxItem:selected v|LauncherTabSizeBox">
+              <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
+              <Setter Property="BorderBrush" Value="{DynamicResource Brush.GlassHighlight}"/>
+              <Setter Property="BorderThickness" Value="0,0,0,1"/>
+              <Setter Property="CornerRadius" Value="6,6,0,0"/>
+            </Style>
           </ListBox.Styles>
 
           <ListBox.ItemsPanel>

@@ -6,17 +6,18 @@
              xmlns:v="using:SourceGit.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SourceGit.Views.CommitChanges"
-             x:DataType="vm:CommitDetail">
-  <Grid>
+             x:DataType="vm:CommitDetail"
+             x:Name="ThisControl">
+  <Grid x:Name="LayoutGrid">
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=Layout.CommitDetailChangesLeftWidth, Mode=TwoWay}" MinWidth="200"/>
+      <ColumnDefinition Width="{Binding #ThisControl.ChangeListWidth, Mode=TwoWay}" MinWidth="200"/>
       <ColumnDefinition Width="4"/>
-      <ColumnDefinition Width="*" MinWidth="100"/>
+      <ColumnDefinition Width="*" MinWidth="0"/>
     </Grid.ColumnDefinitions>
 
     <Grid Grid.Column="0" RowDefinitions="26,*,26">
       <!-- Search & Display Mode -->
-      <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+      <Grid Grid.Row="0" Margin="6,0" ColumnDefinitions="*,Auto,Auto">
         <TextBox Grid.Column="0"
                  x:Name="CommitChangeSearchBox"
                  Height="26"
@@ -42,10 +43,20 @@
                                   Width="18" Height="18"
                                   Margin="4,0,0,0"
                                   ViewMode="{Binding Source={x:Static vm:Preferences.Instance}, Path=CommitChangeViewMode, Mode=TwoWay}"/>
+
+        <Button Grid.Column="2"
+                Classes="icon_button"
+                Width="24" Height="24"
+                Margin="4,0,0,0"
+                Click="OnCloseExternalDiff"
+                IsVisible="{Binding #ThisControl.UseExternalDiffHost}"
+                ToolTip.Tip="Back to graph">
+          <Path Width="10" Height="10" Data="{StaticResource Icons.Close}"/>
+        </Button>
       </Grid>
 
       <!-- Changes -->
-      <Border Grid.Row="1" Margin="0,4,0,0" BorderBrush="{DynamicResource Brush.Border2}" BorderThickness="1" Background="{DynamicResource Brush.Contents}">
+      <Border Grid.Row="1" Margin="0,4,0,0" Background="Transparent">
         <v:ChangeCollectionView ViewMode="{Binding Source={x:Static vm:Preferences.Instance}, Path=CommitChangeViewMode}"
                                 EnableCompactFolders="{Binding Source={x:Static vm:Preferences.Instance}, Path=EnableCompactFoldersInChangesTree}"
                                 Changes="{Binding VisibleChanges}"
@@ -55,8 +66,8 @@
       </Border>
 
       <!-- Summary -->
-      <Border Grid.Row="2" BorderBrush="{DynamicResource Brush.Border2}" BorderThickness="1,0,1,1" Background="Transparent">
-        <TextBlock Margin="4,0,0,0"
+      <Border Grid.Row="2" BorderBrush="{DynamicResource Brush.Border2}" BorderThickness="0,1,0,0" Background="Transparent">
+        <TextBlock Margin="8,0,0,0"
                    Foreground="{DynamicResource Brush.FG2}"
                    HorizontalAlignment="Left" VerticalAlignment="Center">
           <Run Text="{Binding Changes.Count, Mode=OneWay}" FontWeight="Bold"/>
@@ -65,13 +76,14 @@
       </Border>
     </Grid>
 
-    <GridSplitter Grid.Column="1"
+    <GridSplitter x:Name="EmbeddedDiffSplitter"
+                  Grid.Column="1"
                   MinWidth="1"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Background="Transparent"
                   Focusable="False"/>
 
-    <Grid Grid.Column="2">
+    <Grid x:Name="EmbeddedDiffPanel" Grid.Column="2">
       <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}">
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
           <Path Width="64" Height="64" Data="{StaticResource Icons.Diff}" Fill="{DynamicResource Brush.FG2}"/>

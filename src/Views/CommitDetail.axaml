@@ -10,101 +10,75 @@
              x:Class="SourceGit.Views.CommitDetail"
              x:DataType="vm:CommitDetail"
              x:Name="ThisControl">
-  <TabControl SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}" Padding="0,4">
+  <Grid>
+  <ExperimentalAcrylicBorder Height="30"
+                             Margin="6,4,6,0"
+                             VerticalAlignment="Top"
+                             Material="{DynamicResource Material.Glass.Control}"
+                             CornerRadius="8"
+                             IsHitTestVisible="False"/>
+  <Border Height="30"
+          Margin="6,4,6,0"
+          VerticalAlignment="Top"
+          BorderBrush="{DynamicResource Brush.GlassBorder}"
+          BorderThickness="1"
+          CornerRadius="8"
+          IsHitTestVisible="False"/>
+  <TabControl Classes="inspector_tabs" SelectedIndex="{Binding ActiveTabIndex, Mode=TwoWay}">
     <!-- Information Page -->
-    <TabItem>
+    <TabItem Classes="inspector_tab">
       <TabItem.Header>
-        <Border Background="Transparent" PointerPressed="OnTabHeaderPointerPressed">
-          <TextBlock Classes="tab_header" Text="{DynamicResource Text.CommitDetail.Info}"/>
+        <Border Background="Transparent" PointerPressed="OnTabHeaderPointerPressed" ToolTip.Tip="Commit details">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Path Classes="inspector_tab_icon" Width="12" Height="12" Data="{StaticResource Icons.Info}"/>
+            <TextBlock Classes="tab_header" FontWeight="SemiBold" Text="{DynamicResource Text.CommitDetail.Info}"/>
+          </StackPanel>
         </Border>
       </TabItem.Header>
 
-      <ScrollViewer Margin="4,0,0,0"
+      <ScrollViewer Margin="0"
                     Offset="{Binding ScrollOffset, Mode=TwoWay}"
                     HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
                     IsVisible="{Binding #ThisControl.IsDetailsPanelExpanded, Mode=OneWay}">
-        <StackPanel Orientation="Vertical">
-          <!-- Base Information -->
-          <v:CommitBaseInfo Content="{Binding Commit}"
-                            FullMessage="{Binding FullMessage}"
-                            SignInfo="{Binding SignInfo}"
-                            SupportsContainsIn="True"
-                            WebLinks="{Binding WebLinks}"
-                            Children="{Binding Children}"
-                            Margin="0,0,12,0"/>
-
-          <!-- Line -->
-          <Rectangle Height=".65" Margin="8,8,12,8" Fill="{DynamicResource Brush.Border2}"/>
-
-          <!-- Change List -->
-          <ListBox Background="Transparent"
-                   Margin="64,0,12,4"
-                   SelectionMode="Single"
-                   ItemsSource="{Binding Changes, Converter={x:Static c:ListConverters.Top100Changes}}"
-                   KeyDown="OnCommitListKeyDown">
-            <ListBox.Styles>
-              <Style Selector="ListBoxItem">
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="MinHeight" Value="24"/>
-                <Setter Property="CornerRadius" Value="4"/>
-              </Style>
-            </ListBox.Styles>
-
-            <ListBox.ItemsPanel>
-              <ItemsPanelTemplate>
-                <StackPanel Orientation="Vertical"/>
-              </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-
-            <ListBox.ItemTemplate>
-              <DataTemplate DataType="m:Change">
-                <Grid Background="Transparent" Height="24" ColumnDefinitions="36,*" ContextRequested="OnChangeContextRequested" DoubleTapped="OnChangeDoubleTapped">
-                  <ToolTip.Tip>
-                    <TextBlock TextWrapping="Wrap">
-                      <Run Text="{Binding Path, Mode=OneWay}"/>
-                      <Run Text=" • " Foreground="Gray"/>
-                      <Run Text="{Binding IndexDesc, Mode=OneWay}" Foreground="Gray"/>
-                    </TextBlock>
-                  </ToolTip.Tip>
-
-                  <v:ChangeStatusIcon Grid.Column="0"
-                                      Width="14" Height="14"
-                                      HorizontalAlignment="Left"
-                                      Margin="16,0,0,0"
-                                      Change="{Binding}"/>
-                  <TextBlock Grid.Column="1" Text="{Binding Path}" Margin="8,0" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/>
-                </Grid>
-              </DataTemplate>
-            </ListBox.ItemTemplate>
-          </ListBox>
-
-          <!-- Only Top100 Tip -->
-          <TextBlock Margin="108,0,12,16"
-                     Text="{DynamicResource Text.CommitDetail.Info.GotoChangesPage}"
-                     Foreground="{DynamicResource Brush.FG2}"
-                     IsVisible="{Binding Changes, Converter={x:Static c:ListConverters.IsOnlyTop100Shows}}"/>
-        </StackPanel>
+        <v:CommitBaseInfo Content="{Binding Commit}"
+                          FullMessage="{Binding FullMessage}"
+                          SignInfo="{Binding SignInfo}"
+                          SupportsContainsIn="True"
+                          WebLinks="{Binding WebLinks}"
+                          Children="{Binding Children}"/>
       </ScrollViewer>
     </TabItem>
 
-    <TabItem>
+    <TabItem Classes="inspector_tab">
       <TabItem.Header>
-        <Border Background="Transparent" PointerPressed="OnTabHeaderPointerPressed">
-          <TextBlock Classes="tab_header" Text="{DynamicResource Text.CommitDetail.Changes}"/>
+        <Border Background="Transparent" PointerPressed="OnTabHeaderPointerPressed" ToolTip.Tip="Files changed by this commit">
+          <StackPanel Orientation="Horizontal" Spacing="5">
+            <Path Classes="inspector_tab_icon" Width="12" Height="12" Data="{StaticResource Icons.Diff}"/>
+            <TextBlock Classes="tab_header" FontWeight="SemiBold" Text="{DynamicResource Text.CommitDetail.Changes}"/>
+            <Border Classes="inspector_count_badge">
+              <TextBlock FontSize="10" HorizontalAlignment="Center" Text="{Binding Changes.Count}"/>
+            </Border>
+          </StackPanel>
         </Border>
       </TabItem.Header>
-      <v:CommitChanges Margin="4,0"
+      <v:CommitChanges Margin="0,4,0,0"
+                       UseExternalDiffHost="{Binding #ThisControl.UseExternalDiffHost}"
                        IsVisible="{Binding #ThisControl.IsDetailsPanelExpanded, Mode=OneWay}"/>
     </TabItem>
 
-    <TabItem>
+    <TabItem Classes="inspector_tab">
       <TabItem.Header>
-        <Border Background="Transparent" PointerPressed="OnTabHeaderPointerPressed">
-          <TextBlock Classes="tab_header" Text="{DynamicResource Text.CommitDetail.Files}"/>
+        <Border Background="Transparent" PointerPressed="OnTabHeaderPointerPressed" ToolTip.Tip="Complete repository at this commit">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <Path Classes="inspector_tab_icon" Width="12" Height="12" Data="{StaticResource Icons.Tree}"/>
+            <TextBlock Classes="tab_header" FontWeight="SemiBold" Text="{DynamicResource Text.CommitDetail.Files}"/>
+          </StackPanel>
         </Border>
       </TabItem.Header>
-      <v:RevisionFiles Margin="4,0"
+      <v:RevisionFiles Margin="0,4,0,0"
+                       UseExternalFileHost="{Binding #ThisControl.UseExternalDiffHost}"
                        IsVisible="{Binding #ThisControl.IsDetailsPanelExpanded, Mode=OneWay}"/>
     </TabItem>
   </TabControl>
+  </Grid>
 </UserControl>

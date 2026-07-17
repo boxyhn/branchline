@@ -1,52 +1,78 @@
-name: Release
+name: Release Branchline
+
 on:
   push:
     tags:
-      - v*
+      - "v*"
+
+concurrency:
+  group: branchline-release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  build:
-    name: Build
-    uses: ./.github/workflows/build.yml
-  version:
-    name: Prepare version string
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version.outputs.version }}
+  build-macos:
+    name: Build ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS Apple Silicon
+            os: macos-latest
+            runtime: osx-arm64
+          - name: macOS Intel
+            os: macos-15-intel
+            runtime: osx-x64
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Output version string
-        id: version
+      - name: Checkout sources
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish
+        run: dotnet publish src/SourceGit.csproj -c Release -o build/Branchline -r ${{ matrix.runtime }}
+
+      - name: Package app
         env:
-          TAG: ${{ github.ref_name }}
-        run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
-  package:
-    needs: [build, version]
-    name: Package
-    uses: ./.github/workflows/package.yml
-    with:
-      version: ${{ needs.version.outputs.version }}
+          VERSION: ${{ github.ref_name }}
+          RUNTIME: ${{ matrix.runtime }}
+        run: |
+          VERSION="${VERSION#v}"
+          export VERSION
+          bash build/scripts/package.osx-app.sh
+
+      - name: Verify app signature
+        run: codesign --verify --deep --strict build/Branchline.app
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: branchline.${{ matrix.runtime }}
+          path: build/branchline_*.zip
+          if-no-files-found: error
+
   release:
-    needs: [package, version]
-    name: Release
+    name: Publish GitHub Release
+    needs: build-macos
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout sources
-        uses: actions/checkout@v6
-      - name: Create release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ github.ref_name }}
-          VERSION: ${{ needs.version.outputs.version }}
-        run: gh release create "$TAG" -t "$VERSION" --notes-from-tag
-      - name: Download artifacts
+      - name: Download packages
         uses: actions/download-artifact@v8
         with:
-          pattern: package.*
+          pattern: branchline.*
           path: packages
           merge-multiple: true
-      - name: Upload assets
+
+      - name: Publish release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
           TAG: ${{ github.ref_name }}
-        run: gh release upload "$TAG" packages/*
+        run: gh release create "$TAG" packages/* --title "Branchline ${TAG#v}" --generate-notes

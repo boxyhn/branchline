@@ -9,7 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SourceGit.Views.RevisionFiles"
              x:DataType="vm:CommitDetail">
-  <Grid>
+  <Grid x:Name="LayoutGrid">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="{Binding Source={x:Static vm:Preferences.Instance}, Path=Layout.CommitDetailFilesLeftWidth, Mode=TwoWay}" MinWidth="200"/>
       <ColumnDefinition Width="4"/>
@@ -18,7 +18,7 @@
 
     <!-- Left -->
     <Grid Grid.Column="0" RowDefinitions="26,*">
-      <Grid Grid.Row="0" Height="26">
+      <Grid Grid.Row="0" Height="26" Margin="6,0">
         <TextBox Grid.Row="0"
                  x:Name="TxtSearchRevisionFiles"
                  Height="26"
@@ -52,11 +52,10 @@
             </MultiBinding>
           </Popup.IsOpen>
 
-          <Border Margin="8" VerticalAlignment="Top" Effect="drop-shadow(0 0 8 #80000000)">
-            <Border Padding="4"
-                    CornerRadius="4"
-                    Background="{DynamicResource Brush.Popup}"
-                    BorderThickness="1" BorderBrush="{DynamicResource Brush.PopupBorder}">
+          <Border Margin="8" VerticalAlignment="Top" Effect="drop-shadow(0 8 24 #44000000)">
+            <ExperimentalAcrylicBorder Padding="4"
+                                       CornerRadius="10"
+                                       Material="{DynamicResource Material.Glass.Overlay}">
               <v:ListBoxEx x:Name="SearchSuggestionBox"
                            Background="Transparent"
                            SelectionMode="Single"
@@ -102,25 +101,25 @@
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </v:ListBoxEx>
-            </Border>
+            </ExperimentalAcrylicBorder>
           </Border>
         </Popup>
       </Grid>
 
       <!-- File Tree -->
-      <Border Grid.Row="1" Margin="0,4,0,0" BorderBrush="{DynamicResource Brush.Border2}" BorderThickness="1" Background="{DynamicResource Brush.Contents}">
+      <Border Grid.Row="1" Margin="0,4,0,0" Background="Transparent">
         <v:RevisionFileTreeView x:Name="FileTree" Revision="{Binding Commit.SHA}" SearchRequested="OnToggleSearch"/>
       </Border>
     </Grid>
 
-    <GridSplitter Grid.Column="1"
+    <GridSplitter x:Name="EmbeddedFileSplitter" Grid.Column="1"
                   MinWidth="1"
                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                   Background="Transparent"
                   Focusable="False"/>
 
     <!-- Right: File Content Viewer -->
-    <Grid Grid.Column="2">
+    <Grid x:Name="EmbeddedFilePanel" Grid.Column="2">
       <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}">
         <Grid RowDefinitions="Auto,*">
           <Border Grid.Row="0"

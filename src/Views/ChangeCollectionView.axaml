@@ -22,15 +22,16 @@
     </Style>
 
     <Style Selector="ListBoxItem">
-      <Setter Property="Height" Value="24"/>
-      <Setter Property="Margin" Value="0"/>
+      <Setter Property="Height" Value="26"/>
+      <Setter Property="Margin" Value="4,1"/>
       <Setter Property="Padding" Value="0"/>
+      <Setter Property="CornerRadius" Value="6"/>
     </Style>
   </UserControl.Styles>
 
   <UserControl.DataTemplates>
     <DataTemplate DataType="vm:ChangeCollectionAsTree">
-      <v:ChangeCollectionContainer Focusable="True"
+      <v:ChangeCollectionContainer Classes="repo_left_content_list" Focusable="True"
                                    ItemsSource="{Binding Rows}"
                                    SelectedItems="{Binding SelectedRows, Mode=TwoWay}"
                                    SelectionMode="Multiple"
@@ -80,7 +81,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="vm:ChangeCollectionAsGrid">
-      <v:ChangeCollectionContainer Focusable="True"
+      <v:ChangeCollectionContainer Classes="repo_left_content_list" Focusable="True"
                                    ItemsSource="{Binding Changes}"
                                    SelectedItems="{Binding SelectedChanges, Mode=TwoWay}"
                                    SelectionMode="Multiple"
@@ -115,7 +116,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="vm:ChangeCollectionAsList">
-      <v:ChangeCollectionContainer Focusable="True"
+      <v:ChangeCollectionContainer Classes="repo_left_content_list" Focusable="True"
                                    ItemsSource="{Binding Changes}"
                                    SelectedItems="{Binding SelectedChanges, Mode=TwoWay}"
                                    SelectionMode="Multiple"
