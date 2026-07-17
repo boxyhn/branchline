@@ -11,8 +11,8 @@
              x:DataType="vm:LauncherPage">
   <Grid RowDefinitions="44,*" Background="{DynamicResource Brush.HistoryBG}">
     <!-- ToolBar -->
-    <ExperimentalAcrylicBorder Grid.Row="0"
-                               Material="{DynamicResource Material.Glass.Chrome}"
+    <Border Grid.Row="0"
+                               Background="{DynamicResource Brush.Glass.Chrome}"
                                PointerPressed="OnToolBarPointerPressed">
       <ContentControl Margin="4,6" Content="{Binding Data}">
         <ContentControl.DataTemplates>
@@ -25,7 +25,7 @@
           </DataTemplate>
         </ContentControl.DataTemplates>
       </ContentControl>
-    </ExperimentalAcrylicBorder>
+    </Border>
     <Border Grid.Row="0"
             Background="#28000000"
             BorderThickness="0,0,0,1"

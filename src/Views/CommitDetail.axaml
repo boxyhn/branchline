@@ -11,10 +11,10 @@
              x:DataType="vm:CommitDetail"
              x:Name="ThisControl">
   <Grid>
-  <ExperimentalAcrylicBorder Height="30"
+  <Border Height="30"
                              Margin="6,4,6,0"
                              VerticalAlignment="Top"
-                             Material="{DynamicResource Material.Glass.Control}"
+                             Background="{DynamicResource Brush.Glass.Control}"
                              CornerRadius="8"
                              IsHitTestVisible="False"/>
   <Border Height="30"

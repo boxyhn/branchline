@@ -190,12 +190,14 @@
     </Setter>
   </Style>
 
-  <Style Selector="ExperimentalAcrylicBorder.toolbar_group">
+  <Style Selector="Border.toolbar_group">
     <Setter Property="Height" Value="30"/>
     <Setter Property="Margin" Value="4,0"/>
     <Setter Property="Padding" Value="2,0"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="CornerRadius" Value="15"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.GlassBorder}"/>
+    <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="Effect" Value="drop-shadow(0 1 3 #18000000)"/>
   </Style>
 
@@ -209,9 +211,9 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Margin="8" Effect="drop-shadow(0 0 8 #60000000)">
-          <ExperimentalAcrylicBorder Padding="10,7"
+          <Border Padding="10,7"
                   CornerRadius="8"
-                  Material="{DynamicResource Material.Glass.Overlay}"
+                  Background="{DynamicResource Brush.Glass.Overlay}"
                   MaxWidth="{TemplateBinding MaxWidth}"
                   MinHeight="{TemplateBinding MinHeight}"
                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
@@ -226,7 +228,7 @@
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 TextBlock.TextWrapping="Wrap"/>
             </Grid>
-          </ExperimentalAcrylicBorder>
+          </Border>
         </Grid>
       </ControlTemplate>
     </Setter>
@@ -812,7 +814,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Margin="6" Effect="drop-shadow(0 0 6 #80000000)">
-          <ExperimentalAcrylicBorder Material="{DynamicResource Material.Glass.Overlay}"
+          <Border Background="{DynamicResource Brush.Glass.Overlay}"
                   CornerRadius="{TemplateBinding CornerRadius}"
                   Padding="8,6"
                   MaxWidth="{TemplateBinding MaxWidth}"
@@ -831,7 +833,7 @@
                                 Grid.IsSharedSizeScope="True" />
               </ScrollViewer>
             </Grid>
-          </ExperimentalAcrylicBorder>
+          </Border>
         </Grid>
       </ControlTemplate>
     </Setter>
@@ -841,8 +843,8 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Margin="4" Effect="drop-shadow(0 0 4 #80000000)">
-          <ExperimentalAcrylicBorder Name="LayoutRoot"
-                  Material="{DynamicResource Material.Glass.Overlay}"
+          <Border Name="LayoutRoot"
+                  Background="{DynamicResource Brush.Glass.Overlay}"
                   Padding="6,4"
                   CornerRadius="{TemplateBinding CornerRadius}">
             <Grid>
@@ -859,7 +861,7 @@
                                 Grid.IsSharedSizeScope="True" />
               </ScrollViewer>
             </Grid>
-          </ExperimentalAcrylicBorder>
+          </Border>
         </Grid>
       </ControlTemplate>
     </Setter>

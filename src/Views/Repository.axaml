@@ -16,10 +16,10 @@
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
 
-    <ExperimentalAcrylicBorder Grid.Column="0"
+    <Border Grid.Column="0"
                                Margin="6,6,3,6"
                                CornerRadius="12"
-                               Material="{DynamicResource Material.Glass.Sidebar}"
+                               Background="{DynamicResource Brush.Glass.Sidebar}"
                                Effect="drop-shadow(0 2 10 #26000000)"
                                IsHitTestVisible="False"/>
     <Border Grid.Column="0"

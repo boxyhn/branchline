@@ -53,9 +53,9 @@
           </Popup.IsOpen>
 
           <Border Margin="8" VerticalAlignment="Top" Effect="drop-shadow(0 8 24 #44000000)">
-            <ExperimentalAcrylicBorder Padding="4"
+            <Border Padding="4"
                                        CornerRadius="10"
-                                       Material="{DynamicResource Material.Glass.Overlay}">
+                                       Background="{DynamicResource Brush.Glass.Overlay}">
               <v:ListBoxEx x:Name="SearchSuggestionBox"
                            Background="Transparent"
                            SelectionMode="Single"
@@ -101,7 +101,7 @@
                   </DataTemplate>
                 </ListBox.ItemTemplate>
               </v:ListBoxEx>
-            </ExperimentalAcrylicBorder>
+            </Border>
           </Border>
         </Popup>
       </Grid>

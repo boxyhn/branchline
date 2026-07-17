@@ -21,8 +21,8 @@
     <!-- Custom TitleBar -->
     <Grid Grid.Row="0" ColumnDefinitions="Auto,32,32,*,Auto">
       <!-- Bottom border -->
-      <ExperimentalAcrylicBorder Grid.Column="0" Grid.ColumnSpan="5"
-                                 Material="{DynamicResource Material.Glass.Chrome}"
+      <Border Grid.Column="0" Grid.ColumnSpan="5"
+                                 Background="{DynamicResource Brush.Glass.Chrome}"
                                  DoubleTapped="MaximizeOrRestoreWindow"
                                  PointerPressed="BeginMoveWindow"/>
       <Border Grid.Column="0" Grid.ColumnSpan="5"

@@ -8,7 +8,7 @@
              x:Class="SourceGit.Views.RepositoryToolbar"
              x:DataType="vm:Repository">
   <Grid ColumnDefinitions="*,Auto,Auto,Auto,0,*">
-    <ExperimentalAcrylicBorder Grid.Column="0" Classes="toolbar_group" Material="{DynamicResource Material.Glass.Control}" HorizontalAlignment="Left">
+    <Border Grid.Column="0" Classes="toolbar_group" Background="{DynamicResource Brush.Glass.Control}" HorizontalAlignment="Left">
     <StackPanel Orientation="Horizontal">
       <Button Classes="icon_button" Width="28" Click="OpenWithExternalTools" ToolTip.Tip="{DynamicResource Text.Repository.OpenWithExternalTools}">
         <Path Width="14" Height="14" Data="{StaticResource Icons.OpenWith}"/>
@@ -26,9 +26,9 @@
         <Path Width="14" Height="14" Data="{StaticResource Icons.Settings}"/>
       </Button>
     </StackPanel>
-    </ExperimentalAcrylicBorder>
+    </Border>
 
-    <ExperimentalAcrylicBorder Grid.Column="1" Classes="toolbar_group" Material="{DynamicResource Material.Glass.Control}">
+    <Border Grid.Column="1" Classes="toolbar_group" Background="{DynamicResource Brush.Glass.Control}">
       <StackPanel Orientation="Horizontal">
       <Button Classes="icon_button sync_action" Tapped="Fetch">
         <ToolTip.Tip>
@@ -64,9 +64,9 @@
       </Button>
 
       </StackPanel>
-    </ExperimentalAcrylicBorder>
+    </Border>
 
-    <ExperimentalAcrylicBorder Grid.Column="2" Classes="toolbar_group" Material="{DynamicResource Material.Glass.Control}">
+    <Border Grid.Column="2" Classes="toolbar_group" Background="{DynamicResource Brush.Glass.Control}">
       <StackPanel Orientation="Horizontal">
       <Button Classes="icon_button" Width="28" Tapped="StashAll" IsVisible="{Binding !IsBare}">
         <ToolTip.Tip>
@@ -84,9 +84,9 @@
       </Button>
 
       </StackPanel>
-    </ExperimentalAcrylicBorder>
+    </Border>
 
-    <ExperimentalAcrylicBorder Grid.Column="3" Classes="toolbar_group" Material="{DynamicResource Material.Glass.Control}">
+    <Border Grid.Column="3" Classes="toolbar_group" Background="{DynamicResource Brush.Glass.Control}">
       <StackPanel Orientation="Horizontal">
       <Button Classes="icon_button" Width="28" Click="OpenGitFlowMenu" IsVisible="{Binding !IsBare}" ToolTip.Tip="{DynamicResource Text.GitFlow}">
         <Path Width="14" Height="14" Data="{StaticResource Icons.GitFlow}"/>
@@ -108,7 +108,7 @@
         <Path Width="14" Height="14" Margin="0,1,0,0" Data="{StaticResource Icons.Clean}"/>
       </Button>
       </StackPanel>
-    </ExperimentalAcrylicBorder>
+    </Border>
 
     <StackPanel Grid.Column="4" Orientation="Horizontal">
       <Button Width="0" Height="0" Click="PushDirectlyByHotKey" IsVisible="False" HotKey="{OnPlatform Ctrl+Shift+Up, macOS=⌘+Shift+Up}"/>

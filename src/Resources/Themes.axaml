@@ -36,6 +36,15 @@
       <Color x:Key="Color.HistoryBG">#FFF0F5F9</Color>
       <Color x:Key="Color.GlassTint">#FFF6FAFD</Color>
       <Color x:Key="Color.GlassFallback">#D9EEF3F7</Color>
+      <Color x:Key="Color.GlassTop">#F2FFFFFF</Color>
+      <Color x:Key="Color.GlassMid">#DDF1F7FC</Color>
+      <Color x:Key="Color.GlassBottom">#C9DCE8F1</Color>
+      <Color x:Key="Color.GlassControlTop">#DFFFFFFF</Color>
+      <Color x:Key="Color.GlassControlBottom">#B8E9F1F8</Color>
+      <Color x:Key="Color.GlassSidebarTop">#EAF6FBFF</Color>
+      <Color x:Key="Color.GlassSidebarBottom">#C5DDEAF4</Color>
+      <Color x:Key="Color.GlassOverlayTop">#F7FFFFFF</Color>
+      <Color x:Key="Color.GlassOverlayBottom">#E7EEF4FA</Color>
       <Color x:Key="Color.GlassBorder">#80FFFFFF</Color>
       <Color x:Key="Color.GlassHighlight">#CCFFFFFF</Color>
       <Color x:Key="Color.GlassSelection">#99FFFFFF</Color>
@@ -78,6 +87,15 @@
       <Color x:Key="Color.HistoryBG">#FF15181D</Color>
       <Color x:Key="Color.GlassTint">#FF090B0F</Color>
       <Color x:Key="Color.GlassFallback">#F20D0F14</Color>
+      <Color x:Key="Color.GlassTop">#B02B3038</Color>
+      <Color x:Key="Color.GlassMid">#8420252D</Color>
+      <Color x:Key="Color.GlassBottom">#6613171D</Color>
+      <Color x:Key="Color.GlassControlTop">#7A343A45</Color>
+      <Color x:Key="Color.GlassControlBottom">#4D171B22</Color>
+      <Color x:Key="Color.GlassSidebarTop">#A3232831</Color>
+      <Color x:Key="Color.GlassSidebarBottom">#7310141B</Color>
+      <Color x:Key="Color.GlassOverlayTop">#F2383D47</Color>
+      <Color x:Key="Color.GlassOverlayBottom">#E821252D</Color>
       <Color x:Key="Color.GlassBorder">#4DFFFFFF</Color>
       <Color x:Key="Color.GlassHighlight">#52FFFFFF</Color>
       <Color x:Key="Color.GlassSelection">#1AFFFFFF</Color>
@@ -125,34 +143,23 @@
   <SolidColorBrush x:Key="Brush.GlassSelection" Color="{DynamicResource Color.GlassSelection}"/>
   <SolidColorBrush x:Key="Brush.Selection" Color="{DynamicResource Color.Selection}"/>
   <SolidColorBrush x:Key="Brush.SelectionStrong" Color="{DynamicResource Color.SelectionStrong}"/>
-  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Chrome"
-                               BackgroundSource="Digger"
-                               TintColor="{DynamicResource Color.GlassTint}"
-                               TintOpacity="1"
-                               MaterialOpacity="0.72"
-                               PlatformTransparencyCompensationLevel="0.04"
-                               FallbackColor="{DynamicResource Color.GlassFallback}"/>
-  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Control"
-                               BackgroundSource="Digger"
-                               TintColor="{DynamicResource Color.GlassTint}"
-                               TintOpacity="0.55"
-                               MaterialOpacity="0.72"
-                               PlatformTransparencyCompensationLevel="0.04"
-                               FallbackColor="{DynamicResource Color.GlassFallback}"/>
-  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Sidebar"
-                               BackgroundSource="Digger"
-                               TintColor="{DynamicResource Color.GlassTint}"
-                               TintOpacity="1"
-                               MaterialOpacity="0.68"
-                               PlatformTransparencyCompensationLevel="0.05"
-                               FallbackColor="{DynamicResource Color.GlassFallback}"/>
-  <ExperimentalAcrylicMaterial x:Key="Material.Glass.Overlay"
-                               BackgroundSource="Digger"
-                               TintColor="{DynamicResource Color.GlassTint}"
-                               TintOpacity="0.48"
-                               MaterialOpacity="0.82"
-                               PlatformTransparencyCompensationLevel="0.10"
-                               FallbackColor="{DynamicResource Color.Popup}"/>
+  <LinearGradientBrush x:Key="Brush.Glass.Chrome" StartPoint="0%,0%" EndPoint="0%,100%">
+    <GradientStop Color="{DynamicResource Color.GlassTop}" Offset="0"/>
+    <GradientStop Color="{DynamicResource Color.GlassMid}" Offset="0.48"/>
+    <GradientStop Color="{DynamicResource Color.GlassBottom}" Offset="1"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="Brush.Glass.Control" StartPoint="0%,0%" EndPoint="0%,100%">
+    <GradientStop Color="{DynamicResource Color.GlassControlTop}" Offset="0"/>
+    <GradientStop Color="{DynamicResource Color.GlassControlBottom}" Offset="1"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="Brush.Glass.Sidebar" StartPoint="0%,0%" EndPoint="100%,100%">
+    <GradientStop Color="{DynamicResource Color.GlassSidebarTop}" Offset="0"/>
+    <GradientStop Color="{DynamicResource Color.GlassSidebarBottom}" Offset="1"/>
+  </LinearGradientBrush>
+  <LinearGradientBrush x:Key="Brush.Glass.Overlay" StartPoint="0%,0%" EndPoint="0%,100%">
+    <GradientStop Color="{DynamicResource Color.GlassOverlayTop}" Offset="0"/>
+    <GradientStop Color="{DynamicResource Color.GlassOverlayBottom}" Offset="1"/>
+  </LinearGradientBrush>
 
   <FontFamily x:Key="Fonts.Default">fonts:Inter#Inter</FontFamily>
   <FontFamily x:Key="Fonts.Monospace">fonts:SourceGit#JetBrains Mono NL</FontFamily>
