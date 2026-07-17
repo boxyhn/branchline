@@ -655,29 +655,57 @@
   </Style>
 
   <Style Selector="Button.icon_button, RepeatButton.icon_button">
-    <Setter Property="MinWidth" Value="28"/>
-    <Setter Property="MinHeight" Value="28"/>
+    <Setter Property="Width" Value="28"/>
+    <Setter Property="Height" Value="28"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
     <Setter Property="Padding" Value="0"/>
     <Setter Property="CornerRadius" Value="6"/>
     <Setter Property="BorderThickness" Value="0"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <Border x:Name="PART_Border"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"/>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="Transparent"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            RecognizesAccessKey="True"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
   </Style>
   <Style Selector="Button.icon_button > Path, RepeatButton.icon_button > Path">
     <Setter Property="Stretch" Value="Uniform"/>
     <Setter Property="HorizontalAlignment" Value="Center"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
   </Style>
-  <Style Selector="Button.icon_button /template/ ContentPresenter#PART_ContentPresenter, RepeatButton.icon_button /template/ ContentPresenter#PART_ContentPresenter">
+  <Style Selector="Button.icon_button /template/ Border#PART_Border, RepeatButton.icon_button /template/ Border#PART_Border">
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="CornerRadius" Value="6"/>
   </Style>
-  <Style Selector="Button.icon_button:pointerover /template/ ContentPresenter#PART_ContentPresenter, RepeatButton.icon_button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+  <Style Selector="Button.icon_button:pointerover /template/ Border#PART_Border, RepeatButton.icon_button:pointerover /template/ Border#PART_Border">
     <Setter Property="Background" Value="{DynamicResource Brush.Hover}"/>
     <Setter Property="CornerRadius" Value="6"/>
   </Style>
-  <Style Selector="Button.icon_button:pressed /template/ ContentPresenter#PART_ContentPresenter, RepeatButton.icon_button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+  <Style Selector="Button.icon_button:pressed, RepeatButton.icon_button:pressed">
+    <Setter Property="RenderTransform" Value="scale(1)"/>
+  </Style>
+  <Style Selector="Button.icon_button:pressed /template/ Border#PART_Border, RepeatButton.icon_button:pressed /template/ Border#PART_Border">
     <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
   </Style>
 
@@ -688,7 +716,7 @@
   <Style Selector="Button.icon_button.sync_primary">
     <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
   </Style>
-  <Style Selector="Button.icon_button.sync_primary /template/ ContentPresenter#PART_ContentPresenter">
+  <Style Selector="Button.icon_button.sync_primary /template/ Border#PART_Border">
     <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
     <Setter Property="CornerRadius" Value="6"/>
   </Style>
@@ -703,6 +731,13 @@
     <Setter Property="Height" Value="24"/>
     <Setter Property="MinWidth" Value="24"/>
     <Setter Property="MinHeight" Value="24"/>
+    <Setter Property="CornerRadius" Value="5"/>
+  </Style>
+  <Style Selector="Button.icon_button.inspector_action">
+    <Setter Property="Width" Value="24"/>
+    <Setter Property="Height" Value="24"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
     <Setter Property="CornerRadius" Value="5"/>
   </Style>
 
@@ -1352,30 +1387,59 @@
   <Style Selector="ToggleButton.line_path">
     <Setter Property="Margin" Value="0"/>
     <Setter Property="Padding" Value="0"/>
-    <Setter Property="MinWidth" Value="28"/>
-    <Setter Property="MinHeight" Value="28"/>
+    <Setter Property="Width" Value="28"/>
+    <Setter Property="Height" Value="28"/>
+    <Setter Property="MinWidth" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
     <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="HorizontalAlignment" Value="Center"/>
     <Setter Property="VerticalAlignment" Value="Center"/>
     <Setter Property="Opacity" Value=".9"/>
+    <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <Border x:Name="PART_Border"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"/>
+          <ContentPresenter x:Name="PART_ContentPresenter"
+                            Background="Transparent"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            Foreground="{TemplateBinding Foreground}"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            RecognizesAccessKey="True"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
 
     <Style Selector="^:pointerover">
       <Setter Property="Opacity" Value="1"/>
 
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^ /template/ Border#PART_Border">
         <Setter Property="Background" Value="{DynamicResource Brush.FlatButton.BackgroundHovered}"/>
         <Setter Property="CornerRadius" Value="6"/>
       </Style>
     </Style>
 
-    <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
-      <Setter Property="CornerRadius" Value="6"/>
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform" Value="scale(1)"/>
+
+      <Style Selector="^ /template/ Border#PART_Border">
+        <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
+        <Setter Property="CornerRadius" Value="6"/>
+      </Style>
     </Style>
 
     <Style Selector="^:checked">
-      <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+      <Style Selector="^ /template/ Border#PART_Border">
         <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
         <Setter Property="CornerRadius" Value="6"/>
       </Style>
@@ -1465,22 +1529,23 @@
     <Setter Property="MinHeight" Value="28"/>
     <Setter Property="Margin" Value="1,0"/>
     <Setter Property="Padding" Value="8,0"/>
-    <Setter Property="CornerRadius" Value="5"/>
-    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="Background" Value="Transparent"/>
   </Style>
   <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:pointerover /template/ ContentPresenter#PART_ContentPresenter">
     <Setter Property="Background" Value="{DynamicResource Brush.Hover}"/>
-    <Setter Property="CornerRadius" Value="5"/>
+    <Setter Property="CornerRadius" Value="6"/>
   </Style>
   <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:selected">
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
-    <Setter Property="BorderThickness" Value="0,0,0,2"/>
+    <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.GlassBorder}"/>
+    <Setter Property="BorderThickness" Value="1"/>
   </Style>
   <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:selected /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="CornerRadius" Value="5"/>
+    <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
+    <Setter Property="CornerRadius" Value="6"/>
   </Style>
   <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab Path.inspector_tab_icon">
     <Setter Property="Fill" Value="{DynamicResource Brush.FG2}"/>
