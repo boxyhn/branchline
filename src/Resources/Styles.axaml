@@ -635,6 +635,17 @@
     <Setter Property="Stroke" Value="Red"/>
   </Style>
 
+  <Style Selector="Button, RepeatButton, ToggleButton">
+    <Setter Property="RenderTransform" Value="scale(1)"/>
+    <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
+    <Setter Property="Transitions">
+      <Transitions/>
+    </Setter>
+  </Style>
+  <Style Selector="Button:pressed, RepeatButton:pressed, ToggleButton:pressed">
+    <Setter Property="RenderTransform" Value="scale(1)"/>
+  </Style>
+
   <Style Selector="Button.caption_button">
     <Setter Property="Width" Value="48"/>
     <Setter Property="BorderThickness" Value="0"/>
@@ -676,7 +687,7 @@
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"/>
-          <ContentPresenter x:Name="PART_ContentPresenter"
+          <ContentPresenter x:Name="PART_ContentHost"
                             Background="Transparent"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -723,6 +734,9 @@
   <Style Selector="Button.icon_button.sync_primary Path">
     <Setter Property="Fill" Value="{DynamicResource Brush.Accent}"/>
   </Style>
+  <Style Selector="Button.icon_button.sync_primary:pressed /template/ Border#PART_Border">
+    <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
+  </Style>
   <Style Selector="Button.icon_button:disabled Path">
     <Setter Property="Fill" Value="{DynamicResource Brush.FG2}"/>
   </Style>
@@ -761,11 +775,12 @@
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"/>
 
-          <ContentPresenter x:Name="PART_ContentPresenter"
+          <ContentPresenter x:Name="PART_ContentHost"
                             Background="Transparent"
                             Padding="{TemplateBinding Padding}"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Foreground="{TemplateBinding Foreground}"
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"/>
         </Grid>
@@ -778,14 +793,8 @@
   <Style Selector="Button.flat:pressed /template/ Border#PART_Border">
     <Setter Property="Background" Value="{DynamicResource Brush.FlatButton.BackgroundPressed}"/>
   </Style>
-  <Style Selector="Button.flat:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="Transparent"/>
-  </Style>
   <Style Selector="Button.flat:disabled">
     <Setter Property="Background" Value="{DynamicResource Brush.FlatButton.Background}"/>
-  </Style>
-  <Style Selector="Button.flat:disabled /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="Transparent"/>
   </Style>
   <Style Selector="Button.flat.primary">
     <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}"/>
@@ -795,15 +804,11 @@
   <Style Selector="Button.flat.primary:pointerover /template/ Border#PART_Border">
     <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}"/>
   </Style>
-  <Style Selector="Button.flat.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}"/>
-    <Setter Property="Background" Value="Transparent"/>
+  <Style Selector="Button.flat.primary:pressed /template/ Border#PART_Border">
+    <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}"/>
   </Style>
   <Style Selector="Button.flat.primary:disabled">
     <Setter Property="Opacity" Value=".65"/>
-  </Style>
-  <Style Selector="Button.flat.primary:disabled /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}"/>
   </Style>
   <Style Selector="Button.flat.primary ToolTip TextBlock">
     <Setter Property="Foreground" Value="{DynamicResource Brush.FG1}"/>
@@ -1239,7 +1244,7 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Border CornerRadius="5" Background="{TemplateBinding Background}">
-          <ContentPresenter x:Name="PART_ContentPresenter"
+          <ContentPresenter x:Name="PART_ContentHost"
                             Margin="0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -1260,7 +1265,11 @@
     </Style>
 
     <Style Selector="^:checked:pointerover">
-      <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
+      <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
+    </Style>
+
+    <Style Selector="^:pressed, ^:checked:pressed">
+      <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
     </Style>
 
     <Style Selector="^ Path">
@@ -1304,7 +1313,7 @@
                 RenderTransformOrigin="50%,50%"
                 RenderTransform="rotate(270deg)"/>
           <ContentPresenter Grid.Column="1"
-                            x:Name="PART_ContentPresenter"
+                            x:Name="PART_ContentHost"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -1322,14 +1331,8 @@
   <Style Selector="ToggleButton.group_expander:pressed">
     <Setter Property="RenderTransform" Value="scale(1)"/>
   </Style>
-  <Style Selector="ToggleButton.group_expander:checked /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="Transparent"/>
-  </Style>
   <Style Selector="ToggleButton.group_expander:checked /template/ Path#PART_IndicatorIcon">
     <Setter Property="RenderTransform" Value="rotate(0deg)"/>
-  </Style>
-  <Style Selector="ToggleButton.group_expander:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="Transparent"/>
   </Style>
 
   <Style Selector="ToggleButton.tree_expander">
@@ -1407,7 +1410,7 @@
                   BorderBrush="{TemplateBinding BorderBrush}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   CornerRadius="{TemplateBinding CornerRadius}"/>
-          <ContentPresenter x:Name="PART_ContentPresenter"
+          <ContentPresenter x:Name="PART_ContentHost"
                             Background="Transparent"
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -1424,28 +1427,34 @@
       <Setter Property="Opacity" Value="1"/>
 
       <Style Selector="^ /template/ Border#PART_Border">
-        <Setter Property="Background" Value="{DynamicResource Brush.FlatButton.BackgroundHovered}"/>
-        <Setter Property="CornerRadius" Value="6"/>
-      </Style>
-    </Style>
-
-    <Style Selector="^:pressed">
-      <Setter Property="RenderTransform" Value="scale(1)"/>
-
-      <Style Selector="^ /template/ Border#PART_Border">
-        <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
+        <Setter Property="Background" Value="{DynamicResource Brush.Hover}"/>
         <Setter Property="CornerRadius" Value="6"/>
       </Style>
     </Style>
 
     <Style Selector="^:checked">
+      <Setter Property="Opacity" Value="1"/>
+
       <Style Selector="^ /template/ Border#PART_Border">
-        <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
+        <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
         <Setter Property="CornerRadius" Value="6"/>
       </Style>
 
       <Style Selector="^ Path">
         <Setter Property="Fill" Value="{DynamicResource Brush.Accent}"/>
+      </Style>
+    </Style>
+
+    <Style Selector="^:checked:pointerover /template/ Border#PART_Border">
+      <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
+    </Style>
+
+    <Style Selector="^:pressed, ^:checked:pressed">
+      <Setter Property="RenderTransform" Value="scale(1)"/>
+
+      <Style Selector="^ /template/ Border#PART_Border">
+        <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
+        <Setter Property="CornerRadius" Value="6"/>
       </Style>
     </Style>
   </Style>
@@ -1486,11 +1495,14 @@
   <Style Selector="ToggleButton.toggle_untracked:pointerover /template/ Border#PART_Background">
     <Setter Property="Background" Value="{DynamicResource Brush.Hover}"/>
   </Style>
-  <Style Selector="ToggleButton.toggle_untracked:pressed /template/ Border#PART_Background">
-    <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
-  </Style>
   <Style Selector="ToggleButton.toggle_untracked:checked /template/ Border#PART_Background">
+    <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
+  </Style>
+  <Style Selector="ToggleButton.toggle_untracked:checked:pointerover /template/ Border#PART_Background">
     <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
+  </Style>
+  <Style Selector="ToggleButton.toggle_untracked:pressed /template/ Border#PART_Background, ToggleButton.toggle_untracked:checked:pressed /template/ Border#PART_Background">
+    <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
   </Style>
   <Style Selector="ToggleButton.toggle_untracked:checked /template/ Path#PART_IndicatorIcon">
     <Setter Property="Data" Value="{StaticResource Icons.Eye}"/>
@@ -1529,23 +1541,46 @@
     <Setter Property="MinHeight" Value="28"/>
     <Setter Property="Margin" Value="1,0"/>
     <Setter Property="Padding" Value="8,0"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
     <Setter Property="CornerRadius" Value="6"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border x:Name="PART_InspectorTabRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+          <ContentPresenter x:Name="PART_InspectorTabHeader"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
   </Style>
-  <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+  <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:pointerover /template/ Border#PART_InspectorTabRoot">
     <Setter Property="Background" Value="{DynamicResource Brush.Hover}"/>
-    <Setter Property="CornerRadius" Value="6"/>
   </Style>
   <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:selected">
     <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
     <Setter Property="BorderBrush" Value="{DynamicResource Brush.GlassBorder}"/>
     <Setter Property="BorderThickness" Value="1"/>
   </Style>
-  <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:selected /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource Brush.GlassSelection}"/>
-    <Setter Property="CornerRadius" Value="6"/>
+  <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:selected:pointerover /template/ Border#PART_InspectorTabRoot">
+    <Setter Property="Background" Value="{DynamicResource Brush.SelectionStrong}"/>
+  </Style>
+  <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:pressed /template/ Border#PART_InspectorTabRoot, TabControl.inspector_tabs TabItem.inspector_tab:selected:pressed /template/ Border#PART_InspectorTabRoot">
+    <Setter Property="Background" Value="{DynamicResource Brush.Pressed}"/>
+  </Style>
+  <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab:disabled">
+    <Setter Property="Opacity" Value=".45"/>
   </Style>
   <Style Selector="TabControl.inspector_tabs TabItem.inspector_tab Path.inspector_tab_icon">
     <Setter Property="Fill" Value="{DynamicResource Brush.FG2}"/>

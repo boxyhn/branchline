@@ -64,6 +64,7 @@
 - Variants and states: rest, pointer-over, pressed, selected or checked, focus-visible, inactive window, disabled, loading, empty, and error.
 - Token ownership: color and material in `src/Resources/Themes.axaml`; global component anatomy in `src/Resources/Styles.axaml`; screen composition in `src/Views/*.axaml`.
 - Button contract: icon buttons have a stable 28 x 28 hit area, 12-14 px glyph, 6 px radius, no rest fill outside a group, subtle hover fill, darker pressed fill, and a visible focus ring.
+- Pressed-state contract: buttons never scale, translate, change padding, or change border thickness. Custom templates use app-owned part names so framework state layers cannot stack; disabled wins over pressed, pressed over selected or checked, selected pointer-over over selected, and pointer-over over rest.
 - Pane contract: navigation and inspector may use translucent material; history, working copy, editors, and diff remain opaque. Pane separators are 1 px and splitters keep a larger invisible drag target.
 
 ## Accessibility
