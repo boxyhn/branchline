@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to build
+        required: true
+        type: string
 
 concurrency:
   group: branchline-release-${{ github.ref }}
@@ -27,6 +33,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v6
         with:
+          ref: ${{ inputs.tag || github.ref }}
           submodules: true
 
       - name: Setup .NET
@@ -39,7 +46,7 @@ jobs:
 
       - name: Package app
         env:
-          VERSION: ${{ github.ref_name }}
+          VERSION: ${{ inputs.tag || github.ref_name }}
           RUNTIME: ${{ matrix.runtime }}
         run: |
           VERSION="${VERSION#v}"
@@ -74,5 +81,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          TAG: ${{ github.ref_name }}
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: gh release create "$TAG" packages/* --title "Branchline ${TAG#v}" --generate-notes
