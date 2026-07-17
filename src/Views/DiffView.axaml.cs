@@ -72,7 +72,8 @@ namespace SourceGit.Views
 
         private void OnToggleButtonPropertyChanged(object sender, AvaloniaPropertyChangedEventArgs e)
         {
-            if (e.Property == ToggleButton.IsCheckedProperty && DataContext is ViewModels.DiffContext vm)
+            if ((e.Property == ToggleButton.IsCheckedProperty || e.Property == MenuItem.IsCheckedProperty) &&
+                DataContext is ViewModels.DiffContext vm)
                 vm.CheckSettings();
         }
 

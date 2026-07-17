@@ -66,11 +66,11 @@ namespace SourceGit.Views
 
             if (change.Property == TimestampProperty)
             {
-                SetCurrentValue(TextProperty, GetDisplayText());
+                UpdateDisplayText();
             }
             else if (change.Property == ShowAsDateTimeProperty)
             {
-                SetCurrentValue(TextProperty, GetDisplayText());
+                UpdateDisplayText();
 
                 if (ShowAsDateTime)
                 {
@@ -85,8 +85,7 @@ namespace SourceGit.Views
             }
             else if (change.Property == DateTimeFormatProperty || change.Property == Use24HoursProperty)
             {
-                if (ShowAsDateTime)
-                    SetCurrentValue(TextProperty, GetDisplayText());
+                UpdateDisplayText();
             }
         }
 
@@ -120,7 +119,13 @@ namespace SourceGit.Views
         protected override void OnDataContextChanged(EventArgs e)
         {
             base.OnDataContextChanged(e);
+            UpdateDisplayText();
+        }
+
+        private void UpdateDisplayText()
+        {
             SetCurrentValue(TextProperty, GetDisplayText());
+            ToolTip.SetTip(this, ShowAsDateTime ? null : Models.DateTimeFormat.Format(Timestamp));
         }
 
         private string GetDisplayText()

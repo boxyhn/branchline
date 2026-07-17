@@ -56,6 +56,14 @@
       <Color x:Key="Color.GlassSelection">#0F000000</Color>
       <Color x:Key="Color.Selection">#0A000000</Color>
       <Color x:Key="Color.SelectionStrong">#14000000</Color>
+      <Color x:Key="Color.Status.Modified">#FF9A6700</Color>
+      <Color x:Key="Color.Status.TypeChanged">#FF7A5AF8</Color>
+      <Color x:Key="Color.Status.Added">#FF218739</Color>
+      <Color x:Key="Color.Status.Deleted">#FFD1242F</Color>
+      <Color x:Key="Color.Status.Renamed">#FF5965D8</Color>
+      <Color x:Key="Color.Status.Copied">#FF8A6A00</Color>
+      <Color x:Key="Color.Status.Untracked">#FF58727F</Color>
+      <Color x:Key="Color.Status.Conflict">#FFC2410C</Color>
     </ResourceDictionary>
 
     <ResourceDictionary x:Key="Dark">
@@ -113,6 +121,14 @@
       <Color x:Key="Color.GlassSelection">#16FFFFFF</Color>
       <Color x:Key="Color.Selection">#12FFFFFF</Color>
       <Color x:Key="Color.SelectionStrong">#24FFFFFF</Color>
+      <Color x:Key="Color.Status.Modified">#FFE3B341</Color>
+      <Color x:Key="Color.Status.TypeChanged">#FFB5A1FF</Color>
+      <Color x:Key="Color.Status.Added">#FF56D364</Color>
+      <Color x:Key="Color.Status.Deleted">#FFFF7B72</Color>
+      <Color x:Key="Color.Status.Renamed">#FF8B98FF</Color>
+      <Color x:Key="Color.Status.Copied">#FFDDBB55</Color>
+      <Color x:Key="Color.Status.Untracked">#FF7CB7C4</Color>
+      <Color x:Key="Color.Status.Conflict">#FFFFA657</Color>
     </ResourceDictionary>
   </ResourceDictionary.ThemeDictionaries>
 
@@ -161,6 +177,14 @@
   <SolidColorBrush x:Key="Brush.GlassSelection" Color="{DynamicResource Color.GlassSelection}"/>
   <SolidColorBrush x:Key="Brush.Selection" Color="{DynamicResource Color.Selection}"/>
   <SolidColorBrush x:Key="Brush.SelectionStrong" Color="{DynamicResource Color.SelectionStrong}"/>
+  <SolidColorBrush x:Key="Brush.Status.Modified" Color="{DynamicResource Color.Status.Modified}"/>
+  <SolidColorBrush x:Key="Brush.Status.TypeChanged" Color="{DynamicResource Color.Status.TypeChanged}"/>
+  <SolidColorBrush x:Key="Brush.Status.Added" Color="{DynamicResource Color.Status.Added}"/>
+  <SolidColorBrush x:Key="Brush.Status.Deleted" Color="{DynamicResource Color.Status.Deleted}"/>
+  <SolidColorBrush x:Key="Brush.Status.Renamed" Color="{DynamicResource Color.Status.Renamed}"/>
+  <SolidColorBrush x:Key="Brush.Status.Copied" Color="{DynamicResource Color.Status.Copied}"/>
+  <SolidColorBrush x:Key="Brush.Status.Untracked" Color="{DynamicResource Color.Status.Untracked}"/>
+  <SolidColorBrush x:Key="Brush.Status.Conflict" Color="{DynamicResource Color.Status.Conflict}"/>
   <SolidColorBrush x:Key="Brush.Glass.Chrome" Color="{DynamicResource Color.GlassTop}"/>
   <SolidColorBrush x:Key="Brush.Glass.Control" Color="{DynamicResource Color.GlassControlTop}"/>
   <SolidColorBrush x:Key="Brush.Glass.Sidebar" Color="{DynamicResource Color.GlassSidebarTop}"/>

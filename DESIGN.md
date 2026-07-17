@@ -54,6 +54,8 @@
 - Shape/radius/elevation: 4 px for dense rows and inputs, 6 px for grouped controls, 8 px maximum for popovers. Page panes remain edge-to-edge. Shadows are limited to detached overlays.
 - Motion: no decorative motion. Feedback is immediate and uses opacity or color changes without geometry shifts.
 - Imagery/iconography: familiar single-color symbols, 12-14 px in compact bars. Use text when a symbol is ambiguous. Do not manually tint all navigation symbols with a brand color.
+- Icon source policy: shared icons must be original geometry or come from a permissive pack with attribution. Apple SF Symbols must never be copied into the cross-platform resource dictionary; a future macOS-only provider may resolve them from AppKit at runtime and must always retain a permissive fallback.
+- Icon naming policy: new workflow actions use semantic keys such as `Icon.StageSelected` and `Icon.NextChange`. Pack-specific or legacy `Icons.*` keys remain implementation details while high-frequency screens migrate.
 
 ## Components
 
@@ -99,6 +101,7 @@
 - Design-token constraints: do not hard-code new surface colors in views when a semantic brush can own the role.
 - Performance constraints: keep virtualized lists, avoid per-row effects, and do not add blur or shadow to scrolling data.
 - Compatibility constraints: macOS supports only transparent Avalonia windows; native interop owns backdrop blur. `ExperimentalAcrylicBorder` and `ExperimentalAcrylicMaterial` are banned because they previously crashed during popup and tooltip updates.
+- Asset constraints: Apple design resources are reference material, not distributable application assets. Do not export, trace, or vendor SF Symbols into `Icons.axaml`.
 - Test/screenshot expectations: build Debug and self-contained macOS Release; capture launcher, history or diff, and working-copy states at 1280 x 720; inspect title bar, toolbar groups, sidebar, primary content, inspector, empty states, and longest visible labels; verify no new crash logs after interaction.
 
 ## Open questions
@@ -106,3 +109,4 @@
 - [ ] Decide whether a future release should expose Small, Medium, and Large sidebar density as a user preference.
 - [ ] Validate the light theme on a light macOS desktop after the dark-theme overhaul is accepted.
 - [ ] Evaluate replacing custom title tabs with a more native tabbing model without changing multi-repository behavior.
+- [ ] Audit the provenance and license of legacy geometries in `Icons.axaml` before replacing the remaining low-frequency icons.

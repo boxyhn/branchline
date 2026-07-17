@@ -980,6 +980,8 @@
   <x:String x:Key="Text.WorkingCopy.Conflicts.UseMine" xml:space="preserve">내 것 사용</x:String>
   <x:String x:Key="Text.WorkingCopy.Conflicts.UseTheirs" xml:space="preserve">상대방 것 사용</x:String>
   <x:String x:Key="Text.WorkingCopy.IncludeUntracked" xml:space="preserve">추적하지 않는 파일 포함</x:String>
+  <x:String x:Key="Text.WorkingCopy.FilesSelected" xml:space="preserve">개 파일 선택됨</x:String>
+  <x:String x:Key="Text.WorkingCopy.MultiSelectionHint" xml:space="preserve">선택 항목을 스테이지하거나 컨텍스트 메뉴에서 작업할 수 있습니다.</x:String>
   <x:String x:Key="Text.WorkingCopy.NoCommitHistories" xml:space="preserve">최근 입력한 메시지 없음</x:String>
   <x:String x:Key="Text.WorkingCopy.NoCommitTemplates" xml:space="preserve">커밋 템플릿 없음</x:String>
   <x:String x:Key="Text.WorkingCopy.NoVerify" xml:space="preserve">검증 안 함</x:String>

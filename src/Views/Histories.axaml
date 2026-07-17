@@ -27,6 +27,7 @@
       <v:HistoriesCommitList x:Name="CommitListContainer"
                              Classes="static_scrollbar"
                              ScrollViewer.AllowAutoHide="False"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              Background="Transparent"
                              ItemsSource="{Binding Commits, Mode=OneWay}"
                              TotalCommits="{Binding Commits.Count, Mode=OneWay}"
@@ -71,7 +72,7 @@
           </Style>
 
           <Style Selector="DataGridColumnHeader">
-            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="MinHeight" Value="26"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
               <ControlTemplate>
@@ -79,18 +80,10 @@
                         Background="{TemplateBinding Background}"
                         BorderThickness="0"
                         CornerRadius="0">
-                  <Grid ColumnDefinitions="*,4">
+                  <Grid>
                     <ContentPresenter x:Name="PART_ContentPresenter"
-                                      Grid.Column="0"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}" />
-
-                    <Rectangle Name="VerticalSeparator"
-                               Grid.Column="1"
-                               Width="1"
-                               HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                               Fill="{DynamicResource Brush.Border0}"
-                               IsVisible="{TemplateBinding AreSeparatorsVisible}" />
                   </Grid>
                 </Border>
               </ControlTemplate>
@@ -114,7 +107,7 @@
         </DataGrid.Styles>
 
         <DataGrid.Columns>
-          <DataGridTemplateColumn Width="130" MinWidth="76" IsReadOnly="True">
+          <DataGridTemplateColumn Width="96" MinWidth="72" IsReadOnly="True">
             <DataGridTemplateColumn.Header>
               <TextBlock Classes="table_header"
                          Text="{DynamicResource Text.CommandPalette.BranchesAndTags}"
@@ -138,9 +131,9 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn Width="140" MinWidth="90" IsReadOnly="True">
+          <DataGridTemplateColumn Width="84" MinWidth="64" IsReadOnly="True">
             <DataGridTemplateColumn.Header>
-              <TextBlock Classes="table_header" Text="GRAPH" HorizontalAlignment="Center"/>
+              <TextBlock Classes="table_header" Text="Graph" HorizontalAlignment="Center"/>
             </DataGridTemplateColumn.Header>
 
             <DataGridTemplateColumn.CellTemplate>
@@ -150,9 +143,9 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn Width="*" MinWidth="120" IsReadOnly="True">
+          <DataGridTemplateColumn Width="*" MinWidth="160" IsReadOnly="True">
             <DataGridTemplateColumn.Header>
-              <TextBlock Classes="table_header" Text="COMMIT MESSAGE" Margin="10,0,0,0" HorizontalAlignment="Left"/>
+              <TextBlock Classes="table_header" Text="Commit message" Margin="8,0,0,0" HorizontalAlignment="Left"/>
             </DataGridTemplateColumn.Header>
 
             <DataGridTemplateColumn.CellTemplate>
@@ -189,7 +182,7 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn Width="120" MinWidth="90" IsReadOnly="True" IsVisible="{Binding IsAuthorColumnVisible, Mode=OneWay}">
+          <DataGridTemplateColumn Width="96" MinWidth="76" IsReadOnly="True" IsVisible="{Binding IsAuthorColumnVisible, Mode=OneWay}">
             <DataGridTemplateColumn.Header>
               <TextBlock Classes="table_header" Text="{DynamicResource Text.Histories.Header.Author}" Margin="8,0,0,0" HorizontalAlignment="Left"/>
             </DataGridTemplateColumn.Header>
@@ -237,41 +230,41 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn Width="150" MinWidth="145" IsReadOnly="True" IsVisible="{Binding IsAuthorTimeColumnVisible, Mode=OneWay}">
+          <DataGridTemplateColumn Width="124" MinWidth="108" IsReadOnly="True" IsVisible="{Binding IsAuthorTimeColumnVisible, Mode=OneWay}">
             <DataGridTemplateColumn.Header>
               <TextBlock Classes="table_header" Text="{DynamicResource Text.Histories.Header.AuthorTime}" Margin="8,0,0,0" HorizontalAlignment="Left"/>
             </DataGridTemplateColumn.Header>
 
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate DataType="m:Commit">
-                <Border Padding="8,0" Background="Transparent" ClipToBounds="True">
+                <Border Padding="4,0" Background="Transparent" ClipToBounds="True">
                   <v:CommitTimeTextBlock FontFeatures="+tnum"
+                                         FontSize="11"
+                                         Foreground="{DynamicResource Brush.FG2}"
                                          FontWeight="{Binding IsCurrentHead, Converter={x:Static c:BoolConverters.IsBoldToFontWeight}}"
                                          Opacity="{Binding IsMerged, Converter={x:Static c:BoolConverters.IsMergedToOpacity}}"
                                          Timestamp="{Binding AuthorTime, Mode=OneWay}"
-                                         ShowAsDateTime="True"
-                                         DateTimeFormat="{Binding Source={x:Static vm:Preferences.Instance}, Path=DateTimeFormat, Mode=OneWay}"
-                                         Use24Hours="{Binding Source={x:Static vm:Preferences.Instance}, Path=Use24Hours, Mode=OneWay}"/>
+                                         ShowAsDateTime="False"/>
                 </Border>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn Width="150" MinWidth="145" IsReadOnly="True" IsVisible="{Binding IsCommitTimeColumnVisible, Mode=OneWay}">
+          <DataGridTemplateColumn Width="124" MinWidth="108" IsReadOnly="True" IsVisible="{Binding IsCommitTimeColumnVisible, Mode=OneWay}">
             <DataGridTemplateColumn.Header>
               <TextBlock Classes="table_header" Text="{DynamicResource Text.Histories.Header.CommitTime}" Margin="8,0,0,0" HorizontalAlignment="Left"/>
             </DataGridTemplateColumn.Header>
 
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate DataType="m:Commit">
-                <Border Padding="8,0" Background="Transparent" ClipToBounds="True">
+                <Border Padding="4,0" Background="Transparent" ClipToBounds="True">
                   <v:CommitTimeTextBlock FontWeight="{Binding IsCurrentHead, Converter={x:Static c:BoolConverters.IsBoldToFontWeight}}"
                                          FontFeatures="+tnum"
+                                         FontSize="11"
+                                         Foreground="{DynamicResource Brush.FG2}"
                                          Opacity="{Binding IsMerged, Converter={x:Static c:BoolConverters.IsMergedToOpacity}}"
                                          Timestamp="{Binding CommitterTime, Mode=OneWay}"
-                                         ShowAsDateTime="True"
-                                         DateTimeFormat="{Binding Source={x:Static vm:Preferences.Instance}, Path=DateTimeFormat, Mode=OneWay}"
-                                         Use24Hours="{Binding Source={x:Static vm:Preferences.Instance}, Path=Use24Hours, Mode=OneWay}"/>
+                                         ShowAsDateTime="False"/>
                 </Border>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>

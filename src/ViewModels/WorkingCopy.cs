@@ -182,6 +182,8 @@ namespace SourceGit.ViewModels
                         else
                             SetDetail(null, true);
                     }
+
+                    NotifySelectionStateChanged();
                 }
             }
         }
@@ -208,9 +210,15 @@ namespace SourceGit.ViewModels
                         else
                             SetDetail(null, false);
                     }
+
+                    NotifySelectionStateChanged();
                 }
             }
         }
+
+        public int SelectedChangeCount => (_selectedUnstaged?.Count ?? 0) + (_selectedStaged?.Count ?? 0);
+
+        public bool HasMultipleSelection => SelectedChangeCount > 1;
 
         public object DetailContext
         {
@@ -227,6 +235,12 @@ namespace SourceGit.ViewModels
         public WorkingCopy(Repository repo)
         {
             _repo = repo;
+        }
+
+        private void NotifySelectionStateChanged()
+        {
+            OnPropertyChanged(nameof(SelectedChangeCount));
+            OnPropertyChanged(nameof(HasMultipleSelection));
         }
 
         public void SetData(List<Models.Change> changes)

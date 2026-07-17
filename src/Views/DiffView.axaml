@@ -10,7 +10,7 @@
              x:Class="SourceGit.Views.DiffView"
              x:DataType="vm:DiffContext">
   <Border BorderThickness="1" BorderBrush="{DynamicResource Brush.Border2}" Background="{DynamicResource Brush.Window}">
-    <Grid RowDefinitions="26,*">
+    <Grid RowDefinitions="32,*">
       <!-- Toolbar -->
       <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource Brush.Border2}">
         <Grid ColumnDefinitions="Auto,Auto,Auto,*,Auto">
@@ -53,12 +53,13 @@
                      TextTrimming="CharacterEllipsis"/>
 
           <!-- Toolbar Buttons -->
-          <StackPanel Grid.Column="4" Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-            <Button x:Name="BtnGotoFirstChange"
-                    Classes="icon_button"
-                    Width="28"
-                    Click="OnGotoFirstChange"
-                    IsVisible="{Binding IsTextDiff}">
+          <StackPanel Grid.Column="4" Margin="8,0,4,0" Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Button x:Name="BtnGotoFirstChange"
+                      Classes="icon_button"
+                      Width="28"
+                      Click="OnGotoFirstChange"
+                      IsVisible="{Binding IsTextDiff}">
               <ToolTip.Tip>
                 <TextBlock>
                   <Run Text="{DynamicResource Text.Diff.First}"/>
@@ -66,14 +67,14 @@
                   <Run Text="{OnPlatform Ctrl+Alt+Home, macOS=⌘+⌥+Home}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
                 </TextBlock>
               </ToolTip.Tip>
-              <Path Width="12" Height="12" Stretch="Uniform" Margin="0,6,0,0" Data="{StaticResource Icons.Top}"/>
-            </Button>
+                <Path Width="12" Height="12" Data="{StaticResource Icon.FirstChange}"/>
+              </Button>
 
-            <Button x:Name="BtnGotoPrevChange"
-                    Classes="icon_button"
-                    Width="28"
-                    Click="OnGotoPrevChange"
-                    IsVisible="{Binding IsTextDiff}">
+              <Button x:Name="BtnGotoPrevChange"
+                      Classes="icon_button"
+                      Width="28"
+                      Click="OnGotoPrevChange"
+                      IsVisible="{Binding IsTextDiff}">
               <ToolTip.Tip>
                 <TextBlock>
                   <Run Text="{DynamicResource Text.Diff.Prev}"/>
@@ -81,22 +82,25 @@
                   <Run Text="{OnPlatform Ctrl+Alt+Up, macOS=⌘+⌥+Up}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
                 </TextBlock>
               </ToolTip.Tip>
-              <Path Width="12" Height="12" Stretch="Uniform" Margin="0,6,0,0" Data="{StaticResource Icons.Up}"/>
-            </Button>
+                <Path Width="12" Height="12" Data="{StaticResource Icon.PreviousChange}"/>
+              </Button>
 
-            <ContentControl Content="{Binding Content, Mode=OneWay}" IsVisible="{Binding IsTextDiff}">
-              <ContentControl.DataTemplates>
-                <DataTemplate DataType="vm:TextDiffContext">
-                  <TextBlock Margin="0,0,0,0" FontSize="11" Text="{Binding BlockNavigation.Indicator}"/>
-                </DataTemplate>
-              </ContentControl.DataTemplates>
-            </ContentControl>
+              <ContentControl MinWidth="24"
+                              HorizontalContentAlignment="Center"
+                              Content="{Binding Content, Mode=OneWay}"
+                              IsVisible="{Binding IsTextDiff}">
+                <ContentControl.DataTemplates>
+                  <DataTemplate DataType="vm:TextDiffContext">
+                    <TextBlock FontSize="11" Foreground="{DynamicResource Brush.FG2}" Text="{Binding BlockNavigation.Indicator}"/>
+                  </DataTemplate>
+                </ContentControl.DataTemplates>
+              </ContentControl>
 
-            <Button x:Name="BtnGotoNextChange"
-                    Classes="icon_button"
-                    Width="28"
-                    Click="OnGotoNextChange"
-                    IsVisible="{Binding IsTextDiff}">
+              <Button x:Name="BtnGotoNextChange"
+                      Classes="icon_button"
+                      Width="28"
+                      Click="OnGotoNextChange"
+                      IsVisible="{Binding IsTextDiff}">
               <ToolTip.Tip>
                 <TextBlock>
                   <Run Text="{DynamicResource Text.Diff.Next}"/>
@@ -104,14 +108,14 @@
                   <Run Text="{OnPlatform Ctrl+Alt+Down, macOS=⌘+⌥+Down}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
                 </TextBlock>
               </ToolTip.Tip>
-              <Path Width="12" Height="12" Stretch="Uniform" Margin="0,6,0,0" Data="{StaticResource Icons.Down}"/>
-            </Button>
+                <Path Width="12" Height="12" Data="{StaticResource Icon.NextChange}"/>
+              </Button>
 
-            <Button x:Name="BtnGotoLastChange"
-                    Classes="icon_button"
-                    Width="28"
-                    Click="OnGotoLastChange"
-                    IsVisible="{Binding IsTextDiff}">
+              <Button x:Name="BtnGotoLastChange"
+                      Classes="icon_button"
+                      Width="28"
+                      Click="OnGotoLastChange"
+                      IsVisible="{Binding IsTextDiff}">
               <ToolTip.Tip>
                 <TextBlock>
                   <Run Text="{DynamicResource Text.Diff.Last}"/>
@@ -119,52 +123,50 @@
                   <Run Text="{OnPlatform Ctrl+Alt+End, macOS=⌘+⌥+End}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
                 </TextBlock>
               </ToolTip.Tip>
-              <Path Width="12" Height="12" Stretch="Uniform" Margin="0,6,0,0" Data="{StaticResource Icons.Bottom}"/>
-            </Button>
+                <Path Width="12" Height="12" Data="{StaticResource Icon.LastChange}"/>
+              </Button>
+            </StackPanel>
 
-            <Button Classes="icon_button"
-                    Width="28"
-                    Command="{Binding IncrUnified}"
-                    IsVisible="{Binding IsTextDiff}"
-                    IsEnabled="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFullTextDiff, Mode=OneWay, Converter={x:Static BoolConverters.Not}}"
-                    ToolTip.Tip="{DynamicResource Text.Diff.VisualLines.Incr}">
-              <Path Width="12" Height="12" Stretch="Uniform" Margin="0,6,0,0" Data="{StaticResource Icons.Lines.Incr}"/>
-            </Button>
+            <Border Width="1" Height="14" Margin="4,0" Background="{DynamicResource Brush.Separator}" IsVisible="{Binding IsTextDiff}"/>
 
-            <Button Classes="icon_button"
-                    Width="28"
-                    Command="{Binding DecrUnified}"
-                    IsVisible="{Binding IsTextDiff}"
-                    ToolTip.Tip="{DynamicResource Text.Diff.VisualLines.Decr}">
-              <Button.IsEnabled>
-                <MultiBinding Converter="{x:Static BoolConverters.And}">
-                  <Binding Path="UnifiedLines" Mode="OneWay" Converter="{x:Static c:IntConverters.IsGreaterThanFour}"/>
-                  <Binding Source="{x:Static vm:Preferences.Instance}" Path="UseFullTextDiff" Mode="OneWay" Converter="{x:Static BoolConverters.Not}"/>
-                </MultiBinding>
-              </Button.IsEnabled>
-              <Path Width="12" Height="12" Stretch="Uniform" Margin="0,6,0,0" Data="{StaticResource Icons.Lines.Decr}"/>
-            </Button>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Button Classes="icon_button"
+                      Width="28"
+                      Command="{Binding IncrUnified}"
+                      IsVisible="{Binding IsTextDiff}"
+                      IsEnabled="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFullTextDiff, Mode=OneWay, Converter={x:Static BoolConverters.Not}}"
+                      ToolTip.Tip="{DynamicResource Text.Diff.VisualLines.Incr}">
+                <Path Width="12" Height="12" Data="{StaticResource Icons.Lines.Incr}"/>
+              </Button>
 
-            <ToggleButton Classes="line_path"
-                          Width="28"
-                          IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFullTextDiff, Mode=TwoWay}"
-                          IsVisible="{Binding IsTextDiff}"
-                          ToolTip.Tip="{DynamicResource Text.Diff.VisualLines.All}"
-                          PropertyChanged="OnToggleButtonPropertyChanged">
-              <Path Width="13" Height="13" Data="{StaticResource Icons.Lines.All}" Margin="0,3,0,0"/>
-            </ToggleButton>
+              <Button Classes="icon_button"
+                      Width="28"
+                      Command="{Binding DecrUnified}"
+                      IsVisible="{Binding IsTextDiff}"
+                      ToolTip.Tip="{DynamicResource Text.Diff.VisualLines.Decr}">
+                <Button.IsEnabled>
+                  <MultiBinding Converter="{x:Static BoolConverters.And}">
+                    <Binding Path="UnifiedLines" Mode="OneWay" Converter="{x:Static c:IntConverters.IsGreaterThanFour}"/>
+                    <Binding Source="{x:Static vm:Preferences.Instance}" Path="UseFullTextDiff" Mode="OneWay" Converter="{x:Static BoolConverters.Not}"/>
+                  </MultiBinding>
+                </Button.IsEnabled>
+                <Path Width="12" Height="12" Data="{StaticResource Icons.Lines.Decr}"/>
+              </Button>
 
-            <ToggleButton Classes="line_path"
-                          Width="28"
-                          Background="Transparent"
-                          IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseSyntaxHighlighting, Mode=TwoWay}"
-                          IsVisible="{Binding IsTextDiff}"
-                          ToolTip.Tip="{DynamicResource Text.Diff.SyntaxHighlight}">
-              <Path Width="13" Height="13" Data="{StaticResource Icons.SyntaxHighlight}" Margin="0,3,0,0"/>
-            </ToggleButton>
+              <ToggleButton Classes="line_path"
+                            Width="28" Height="28"
+                            IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseFullTextDiff, Mode=TwoWay}"
+                            IsVisible="{Binding IsTextDiff}"
+                            ToolTip.Tip="{DynamicResource Text.Diff.VisualLines.All}"
+                            PropertyChanged="OnToggleButtonPropertyChanged">
+                <Path Width="13" Height="13" Data="{StaticResource Icons.Lines.All}"/>
+              </ToggleButton>
+            </StackPanel>
+
+            <Border Width="1" Height="14" Margin="4,0" Background="{DynamicResource Brush.Separator}" IsVisible="{Binding IsTextDiff}"/>
 
             <ToggleButton Classes="line_path"
-                          Width="28"
+                          Width="28" Height="28"
                           IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=EnableDiffViewWordWrap, Mode=TwoWay}"
                           ToolTip.Tip="{DynamicResource Text.Diff.ToggleWordWrap}">
               <ToggleButton.IsVisible>
@@ -174,49 +176,49 @@
                 </MultiBinding>
               </ToggleButton.IsVisible>
 
-              <Path Width="12" Height="12" Data="{StaticResource Icons.WordWrap}" Margin="0,2,0,0"/>
-            </ToggleButton>
-
-            <ToggleButton Classes="line_path"
-                          Width="28"
-                          IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=ShowHiddenSymbolsInDiffView, Mode=TwoWay}"
-                          IsVisible="{Binding IsTextDiff}"
-                          ToolTip.Tip="{DynamicResource Text.Diff.ShowHiddenSymbols}">
-              <Path Width="11" Height="11" Stretch="Uniform" Data="{StaticResource Icons.HiddenSymbol}" Margin="0,1,0,0"/>
+              <Path Width="12" Height="12" Data="{StaticResource Icons.WordWrap}"/>
             </ToggleButton>
 
             <ToggleButton Classes="line_path"
                           x:Name="ToggleBtnUseSideBySide"
-                          Width="28" Height="18"
+                          Width="28" Height="28"
                           IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseSideBySideDiff, Mode=TwoWay}"
                           IsVisible="{Binding IsTextDiff}"
                           ToolTip.Tip="{DynamicResource Text.Diff.SideBySide}"
                           PropertyChanged="OnToggleButtonPropertyChanged">
-              <Path Width="12" Height="12" Data="{StaticResource Icons.Layout}" Margin="0,2,0,0"/>
+              <Path Width="12" Height="12" Data="{StaticResource Icons.Layout}"/>
             </ToggleButton>
 
-            <ToggleButton Classes="line_path"
-                          Width="28"
-                          IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=IgnoreWhitespaceChangesInDiff, Mode=TwoWay}"
-                          IsVisible="{Binding IsIgnoreWhitespaceVisible, Mode=OneWay}"
-                          ToolTip.Tip="{DynamicResource Text.Diff.IgnoreWhitespace}"
-                          PropertyChanged="OnToggleButtonPropertyChanged">
-              <Path Width="14" Height="14" Stretch="Uniform" Data="{StaticResource Icons.Whitespace}"/>
-            </ToggleButton>
-
-            <Button x:Name="BtnOpenExternalMergeTool"
-                    Classes="icon_button"
-                    Width="28"
-                    Command="{Binding OpenExternalMergeTool}">
-              <ToolTip.Tip>
-                <TextBlock>
-                  <Run Text="{DynamicResource Text.Diff.UseMerger}"/>
-                  <Run Text=" "/>
-                  <Run Text="{OnPlatform Ctrl+Shift+D, macOS=⌘+⇧+D}" FontSize="11" Foreground="{DynamicResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"/>
-                </TextBlock>
-              </ToolTip.Tip>
-              <Path Width="12" Height="12" Stretch="Uniform" Data="{StaticResource Icons.OpenWith}"/>
+            <Button Classes="icon_button" Width="28" ToolTip.Tip="{DynamicResource Text.Repository.MoreOptions}" IsVisible="{Binding IsTextDiff}">
+              <Button.Flyout>
+                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                  <MenuItem Header="{DynamicResource Text.Diff.SyntaxHighlight}"
+                            ToggleType="CheckBox"
+                            IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=UseSyntaxHighlighting, Mode=TwoWay}">
+                    <MenuItem.Icon><Path Width="13" Height="13" Data="{StaticResource Icons.SyntaxHighlight}"/></MenuItem.Icon>
+                  </MenuItem>
+                  <MenuItem Header="{DynamicResource Text.Diff.ShowHiddenSymbols}"
+                            ToggleType="CheckBox"
+                            IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=ShowHiddenSymbolsInDiffView, Mode=TwoWay}">
+                    <MenuItem.Icon><Path Width="12" Height="12" Data="{StaticResource Icons.HiddenSymbol}"/></MenuItem.Icon>
+                  </MenuItem>
+                  <MenuItem Header="{DynamicResource Text.Diff.IgnoreWhitespace}"
+                            ToggleType="CheckBox"
+                            IsChecked="{Binding Source={x:Static vm:Preferences.Instance}, Path=IgnoreWhitespaceChangesInDiff, Mode=TwoWay}"
+                            IsVisible="{Binding IsIgnoreWhitespaceVisible, Mode=OneWay}"
+                            PropertyChanged="OnToggleButtonPropertyChanged">
+                    <MenuItem.Icon><Path Width="14" Height="14" Data="{StaticResource Icons.Whitespace}"/></MenuItem.Icon>
+                  </MenuItem>
+                  <Separator/>
+                  <MenuItem Header="{DynamicResource Text.Diff.UseMerger}" Command="{Binding OpenExternalMergeTool}">
+                    <MenuItem.Icon><Path Width="12" Height="12" Data="{StaticResource Icons.OpenWith}"/></MenuItem.Icon>
+                  </MenuItem>
+                </MenuFlyout>
+              </Button.Flyout>
+              <Path Width="14" Height="14" Data="{StaticResource Icons.More}"/>
             </Button>
+
+            <Button x:Name="BtnOpenExternalMergeTool" Width="0" Height="0" Padding="0" Opacity="0" Command="{Binding OpenExternalMergeTool}"/>
           </StackPanel>
         </Grid>
       </Border>
@@ -228,19 +230,19 @@
           <DataTemplate DataType="m:BinaryDiff">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
               <TextBlock Text="{DynamicResource Text.Diff.Binary}"
-                         Margin="0,0,0,32"
-                         FontSize="18" FontWeight="Bold"
+                         Margin="0,0,0,16"
+                         FontSize="13" FontWeight="SemiBold"
                          Foreground="{DynamicResource Brush.FG2}"
                          HorizontalAlignment="Center"/>
-              <Path Width="64" Height="64" Data="{StaticResource Icons.Binary}" Fill="{DynamicResource Brush.FG2}"/>
-              <Grid Margin="0,16,0,0" HorizontalAlignment="Center" RowDefinitions="32,32" ColumnDefinitions="Auto,Auto">
+              <Path Width="40" Height="40" Data="{StaticResource Icons.Binary}" Fill="{DynamicResource Brush.FG2}"/>
+              <Grid Margin="0,12,0,0" HorizontalAlignment="Center" RowDefinitions="28,28" ColumnDefinitions="Auto,Auto">
                 <Border Grid.Row="0" Grid.Column="0" Height="16" Background="{DynamicResource Brush.Badge}" CornerRadius="8" VerticalAlignment="Center">
                   <TextBlock Text="{DynamicResource Text.Diff.Old}" Margin="8,0" FontSize="10" Foreground="{DynamicResource Brush.BadgeFG}"/>
                 </Border>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding OldSize, Converter={x:Static c:LongConverters.ToFileSize}}" Foreground="{DynamicResource Brush.FG2}" HorizontalAlignment="Right" FontSize="16" Margin="8,0"/>
 
-                <Border Grid.Row="1" Grid.Column="0" Height="16" Background="Green" CornerRadius="8" VerticalAlignment="Center">
+                <Border Grid.Row="1" Grid.Column="0" Height="16" Background="{DynamicResource Brush.Status.Added}" CornerRadius="8" VerticalAlignment="Center">
                   <TextBlock Text="{DynamicResource Text.Diff.New}" Margin="8,0" FontSize="10" Foreground="White"/>
                 </Border>
 
@@ -253,19 +255,19 @@
           <DataTemplate DataType="m:LFSDiff">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
               <TextBlock Text="{DynamicResource Text.Diff.LFS}"
-                         Margin="0,0,0,32"
-                         FontSize="18" FontWeight="Bold"
+                         Margin="0,0,0,16"
+                         FontSize="13" FontWeight="SemiBold"
                          Foreground="{DynamicResource Brush.FG2}"
                          HorizontalAlignment="Center"/>
-              <Path Width="64" Height="64" Data="{StaticResource Icons.LFS}" Fill="{DynamicResource Brush.FG2}"/>
-              <Grid Margin="0,16,0,0" HorizontalAlignment="Center" RowDefinitions="32,32" ColumnDefinitions="Auto,Auto">
+              <Path Width="40" Height="40" Data="{StaticResource Icons.LFS}" Fill="{DynamicResource Brush.FG2}"/>
+              <Grid Margin="0,12,0,0" HorizontalAlignment="Center" RowDefinitions="28,28" ColumnDefinitions="Auto,Auto">
                 <Border Grid.Row="0" Grid.Column="0" Height="16" Background="{DynamicResource Brush.Badge}" CornerRadius="8" VerticalAlignment="Center">
                   <TextBlock Text="{DynamicResource Text.Diff.Old}" Margin="8,0" FontSize="10" Foreground="{DynamicResource Brush.BadgeFG}"/>
                 </Border>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Old.Size, Converter={x:Static c:LongConverters.ToFileSize}}" Foreground="{DynamicResource Brush.FG2}" HorizontalAlignment="Right" FontSize="16" Margin="8,0"/>
 
-                <Border Grid.Row="1" Grid.Column="0" Height="16" Background="Green" CornerRadius="8" VerticalAlignment="Center">
+                <Border Grid.Row="1" Grid.Column="0" Height="16" Background="{DynamicResource Brush.Status.Added}" CornerRadius="8" VerticalAlignment="Center">
                   <TextBlock Text="{DynamicResource Text.Diff.New}" Margin="8,0" FontSize="10" Foreground="White"/>
                 </Border>
 
@@ -390,12 +392,12 @@
           <!-- New Empty File -->
           <DataTemplate DataType="m:EmptyFile">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-              <Path Width="64" Height="64"
+              <Path Width="40" Height="40"
                     Data="{StaticResource Icons.File.Empty}"
                     Fill="{DynamicResource Brush.FG2}"/>
-              <TextBlock Margin="0,16,0,0"
+              <TextBlock Margin="0,12,0,0"
                          Text="{DynamicResource Text.Diff.EmptyFile}"
-                         FontSize="18" FontWeight="Bold"
+                         FontSize="13" FontWeight="SemiBold"
                          Foreground="{DynamicResource Brush.FG2}"
                          HorizontalAlignment="Center"/>
             </StackPanel>
@@ -404,10 +406,10 @@
           <!-- Only EOL changes -->
           <DataTemplate DataType="m:NoOrEOLChange">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-              <Path Width="64" Height="64" Data="{StaticResource Icons.Check}" Fill="{DynamicResource Brush.FG2}"/>
-              <TextBlock Margin="0,16,0,0"
+              <Path Width="40" Height="40" Data="{StaticResource Icons.Check}" Fill="{DynamicResource Brush.FG2}"/>
+              <TextBlock Margin="0,12,0,0"
                          Text="{DynamicResource Text.Diff.NoChange}"
-                         FontSize="18" FontWeight="Bold"
+                         FontSize="13" FontWeight="SemiBold"
                          Foreground="{DynamicResource Brush.FG2}"
                          HorizontalAlignment="Center"/>
             </StackPanel>

@@ -21,12 +21,6 @@
       </Setter>
     </Style>
 
-    <Style Selector="ListBoxItem">
-      <Setter Property="Height" Value="26"/>
-      <Setter Property="Margin" Value="4,1"/>
-      <Setter Property="Padding" Value="0"/>
-      <Setter Property="CornerRadius" Value="6"/>
-    </Style>
   </UserControl.Styles>
 
   <UserControl.DataTemplates>
@@ -39,12 +33,12 @@
         <ListBox.ItemTemplate>
           <DataTemplate DataType="vm:ChangeTreeNode">
             <StackPanel Orientation="Horizontal"
-                        Height="24"
+                        Height="28"
                         Margin="{Binding Depth, Converter={x:Static c:IntConverters.ToTreeMargin}}"
                         Background="Transparent"
                         DoubleTapped="OnRowDoubleTapped"
                         DataContextChanged="OnRowDataContextChanged">
-              <Border Width="16">
+              <Border Width="20">
                 <v:ChangeTreeNodeToggleButton Classes="tree_expander"
                                               Focusable="False"
                                               HorizontalAlignment="Center"
@@ -60,7 +54,7 @@
                             IsChecked="{Binding IsExpanded}"
                             IsVisible="{Binding IsFolder}"/>
 
-              <v:ChangeStatusIcon Width="14" Height="14"
+              <v:ChangeStatusIcon Width="16" Height="16"
                                   Margin="1,0"
                                   IsUnstagedChange="{Binding #ThisControl.IsUnstagedChange}"
                                   Change="{Binding Change}"
@@ -89,11 +83,11 @@
         <ListBox.ItemTemplate>
           <DataTemplate DataType="m:Change">
             <StackPanel Orientation="Horizontal"
-                        Height="24"
+                        Height="28"
                         Background="Transparent"
                         DoubleTapped="OnRowDoubleTapped"
                         DataContextChanged="OnRowDataContextChanged">
-              <v:ChangeStatusIcon Width="14" Height="14"
+              <v:ChangeStatusIcon Width="16" Height="16"
                                   Margin="4,0,0,0"
                                   IsUnstagedChange="{Binding #ThisControl.IsUnstagedChange}"
                                   Change="{Binding}" />
@@ -124,11 +118,11 @@
         <ListBox.ItemTemplate>
           <DataTemplate DataType="m:Change">
             <StackPanel Orientation="Horizontal"
-                        Height="24"
+                        Height="28"
                         Background="Transparent"
                         DoubleTapped="OnRowDoubleTapped"
                         DataContextChanged="OnRowDataContextChanged">
-              <v:ChangeStatusIcon Width="14" Height="14"
+              <v:ChangeStatusIcon Width="16" Height="16"
                                   Margin="4,0,0,0"
                                   IsUnstagedChange="{Binding #ThisControl.IsUnstagedChange}"
                                   Change="{Binding}" />

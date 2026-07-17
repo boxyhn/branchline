@@ -13,6 +13,8 @@
 
       <Color x:Key="SystemAccentColor">#FF0A84FF</Color>
       <Color x:Key="SystemListLowColor">#3D0A84FF</Color>
+      <x:String x:Key="Text.WorkingCopy.FilesSelected">FILES SELECTED</x:String>
+      <x:String x:Key="Text.WorkingCopy.MultiSelectionHint">Use Stage, Unstage, or the context menu for this selection.</x:String>
 
       <ResourceInclude x:Key="de_DE" Source="/Resources/Locales/de_DE.axaml"/>
       <ResourceInclude x:Key="el_GR" Source="/Resources/Locales/el_GR.axaml"/>
