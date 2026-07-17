@@ -79,6 +79,7 @@ namespace SourceGit.Views
             {
                 Width = 12,
                 Height = 12,
+                Stretch = Stretch.Uniform,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = margin,

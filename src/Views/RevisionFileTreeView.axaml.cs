@@ -99,8 +99,8 @@ namespace SourceGit.Views
 
             var icon = new Avalonia.Controls.Shapes.Path()
             {
-                Width = 14,
-                Height = 14,
+                Width = 12,
+                Height = 12,
                 Margin = margin,
                 Stretch = Stretch.Uniform,
                 HorizontalAlignment = HorizontalAlignment.Left,

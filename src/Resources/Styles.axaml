@@ -1305,10 +1305,11 @@
         <Grid ColumnDefinitions="Auto,*" Background="Transparent">
           <Path Grid.Column="0"
                 x:Name="PART_IndicatorIcon"
-                Width="10"
+                Width="10" Height="10"
                 Margin="0,0,2,0"
                 Data="{StaticResource Icons.Down}"
                 Fill="{DynamicResource Brush.FG2}"
+                Stretch="Uniform"
                 VerticalAlignment="Center"
                 RenderTransformOrigin="50%,50%"
                 RenderTransform="rotate(270deg)"/>
@@ -1337,8 +1338,8 @@
 
   <Style Selector="ToggleButton.tree_expander">
     <Setter Property="Margin" Value="0" />
-    <Setter Property="Width" Value="20" />
-    <Setter Property="Height" Value="28" />
+    <Setter Property="Width" Value="16" />
+    <Setter Property="Height" Value="24" />
     <Setter Property="Background" Value="Transparent"/>
     <Setter Property="Template">
       <ControlTemplate>
@@ -1348,16 +1349,23 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
-                Data="M 4 0 L 8 4 L 4 8 Z"
-                Fill="{DynamicResource Brush.FG1}"
+                Width="8" Height="8"
+                Data="{StaticResource Icons.Down}"
+                Fill="{DynamicResource Brush.FG2}"
+                Stretch="Uniform"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
+                VerticalAlignment="Center"
+                RenderTransformOrigin="50%,50%"
+                RenderTransform="rotate(270deg)"/>
         </Border>
       </ControlTemplate>
     </Setter>
 
     <Style Selector="^:checked /template/ Path#ChevronPath">
-      <Setter Property="Data" Value="M 0 4 L 8 4 L 4 8 Z" />
+      <Setter Property="RenderTransform" Value="rotate(0deg)"/>
+    </Style>
+    <Style Selector="^:pointerover /template/ Path#ChevronPath">
+      <Setter Property="Fill" Value="{DynamicResource Brush.FG1}"/>
     </Style>
   </Style>
 
@@ -1373,6 +1381,8 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center">
           <Path x:Name="ChevronPath"
+                Width="12"
+                Height="12"
                 Data="{StaticResource Icons.Folder}"
                 Fill="{TemplateBinding Foreground}"
                 Stretch="Uniform"
