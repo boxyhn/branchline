@@ -20,6 +20,9 @@ for Intel Macs.
 Pushing a `v*` tag builds both architectures and publishes the archives to
 [GitHub Releases](https://github.com/boxyhn/branchline/releases).
 
+Branchline releases follow their own semantic version sequence beginning at
+`1.0.0`; the SourceGit version is treated only as upstream provenance.
+
 ## Attribution
 
 Branchline is based on [SourceGit](https://github.com/sourcegit-scm/sourcegit)

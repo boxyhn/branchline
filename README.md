@@ -64,4 +64,8 @@ Branchline is based on SourceGit and preserves its Git implementation, project
 history, and MIT license. Upstream changes remain available through the
 `sourcegit-scm/sourcegit` fork relationship.
 
+Branchline uses its own semantic version sequence starting at `1.0.0`. SourceGit
+versions describe the upstream base and are not reused as Branchline release
+numbers.
+
 Copyright and permission terms are provided in [LICENSE](LICENSE).
