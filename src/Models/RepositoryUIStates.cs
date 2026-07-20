@@ -49,13 +49,19 @@ namespace SourceGit.Models
         {
             get;
             set;
-        } = 130;
+        } = 155;
 
         public double GraphColumnWidth
         {
             get;
             set;
-        } = 140;
+        } = 92;
+
+        public int HistoryGraphVisualVersion
+        {
+            get;
+            set;
+        } = 0;
 
         public double SubjectColumnWidth
         {

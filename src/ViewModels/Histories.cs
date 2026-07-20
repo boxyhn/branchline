@@ -204,6 +204,12 @@ namespace SourceGit.ViewModels
             set => _repo.UIStates.GraphColumnWidth = value;
         }
 
+        public int HistoryGraphVisualVersion
+        {
+            get => _repo.UIStates.HistoryGraphVisualVersion;
+            set => _repo.UIStates.HistoryGraphVisualVersion = value;
+        }
+
         public double SubjectColumnWidth
         {
             get => _repo.UIStates.SubjectColumnWidth;

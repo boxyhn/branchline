@@ -24,7 +24,7 @@ namespace SourceGit.Views
         {
             _head = LoadIcon("Icons.Head");
             _branch = LoadIcon("Icons.Branch");
-            _remote = LoadIcon("Icons.GitHub", 8);
+            _remote = LoadIcon("Icons.GitHub", 10);
             _tag = LoadIcon("Icons.Tag");
         }
 
@@ -170,10 +170,10 @@ namespace SourceGit.Views
             var fg = Foreground;
             var bg = Background;
             var allowWrap = AllowWrap;
-            var x = 1.5;
-            var y = 1.5;
-            const double badgeHeight = 14.0;
-            const double iconColumnWidth = 16.0;
+            var x = 1.0;
+            const double badgeHeight = 24.0;
+            const double iconColumnWidth = 22.0;
+            var y = Math.Max(1.0, (Bounds.Height - badgeHeight) * 0.5);
 
             context.FillRectangle(Brushes.Transparent, Bounds);
 
@@ -182,10 +182,10 @@ namespace SourceGit.Views
                 if (allowWrap && x > 1.5 && x + item.Width > Bounds.Width)
                 {
                     x = 1.5;
-                    y += 20.0;
+                    y += 28.0;
                 }
 
-                var entireRect = new RoundedRect(new Rect(x, y, item.Width, badgeHeight), new CornerRadius(2));
+                var entireRect = new RoundedRect(new Rect(x, y, item.Width, badgeHeight), new CornerRadius(2.5));
                 if (item.IsHead)
                 {
                     if (useGraphColor)
@@ -202,17 +202,17 @@ namespace SourceGit.Views
                     if (bg != null)
                         context.DrawRectangle(bg, null, entireRect);
 
-                    var labelRect = new RoundedRect(new Rect(x + iconColumnWidth, y, item.Width - iconColumnWidth, badgeHeight), new CornerRadius(2, 0, 0, 2));
+                    var labelRect = new RoundedRect(new Rect(x + iconColumnWidth, y, item.Width - iconColumnWidth, badgeHeight), new CornerRadius(2.5, 0, 0, 2.5));
                     using (context.PushOpacity(.28))
                         context.DrawRectangle(item.Brush, null, labelRect);
                 }
 
                 context.DrawLine(new Pen(item.Brush), new Point(x + iconColumnWidth, y), new Point(x + iconColumnWidth, y + badgeHeight));
-                context.DrawText(item.Label, new Point(x + 20, y + badgeHeight * 0.5 - item.Label.Height * 0.5));
+                context.DrawText(item.Label, new Point(x + iconColumnWidth + 6, y + badgeHeight * 0.5 - item.Label.Height * 0.5));
 
                 if (item.Remotes.Count > 0)
                 {
-                    var rx = x + 20 + item.Label.WidthIncludingTrailingWhitespace + 4;
+                    var rx = x + iconColumnWidth + 6 + item.Label.WidthIncludingTrailingWhitespace + 5;
                     foreach (var remote in item.Remotes)
                     {
                         context.DrawLine(new Pen(item.Brush), new Point(rx, y), new Point(rx, y + badgeHeight));
@@ -228,14 +228,14 @@ namespace SourceGit.Views
                 {
                     if (item.Decorator.Type == Models.DecoratorType.RemoteBranchHead)
                     {
-                        var badge = new RoundedRect(new Rect(x + 2.5, y + 1.5, 11, 11), new CornerRadius(2));
+                        var badge = new RoundedRect(new Rect(x + 3, y + 3, 16, 16), new CornerRadius(2));
                         context.DrawRectangle(item.Brush, null, badge);
-                        using (context.PushTransform(Matrix.CreateTranslation(x + 4, y + 3)))
+                        using (context.PushTransform(Matrix.CreateTranslation(x + 6, y + 6)))
                             context.DrawGeometry(Brushes.White, null, icon);
                     }
                     else
                     {
-                        using (context.PushTransform(Matrix.CreateTranslation(x + 3, y + 2)))
+                        using (context.PushTransform(Matrix.CreateTranslation(x + 6, y + 6)))
                             context.DrawGeometry(fg, null, icon);
                     }
                 }
@@ -286,7 +286,7 @@ namespace SourceGit.Views
             var fg = Foreground;
             var normalBG = UseGraphColor ? Models.CommitGraph.Pens[commit.Color].Brush : Brushes.Gray;
             var labelSize = FontSize;
-            var requiredHeight = 16.0;
+            var requiredHeight = 26.0;
             var x = 0.0;
             var allowWrap = AllowWrap;
             var showTags = ShowTags;
@@ -337,7 +337,7 @@ namespace SourceGit.Views
                 item.Label.MaxLineCount = 1;
                 item.Label.Trimming = TextTrimming.CharacterEllipsis;
 
-                item.Width = item.Label.Width + 24;
+                item.Width = item.Label.Width + 34;
 
                 var findRemotes = useCompactBranchNames && (decorator.Type == Models.DecoratorType.CurrentBranchHead || decorator.Type == Models.DecoratorType.LocalBranchHead);
                 if (findRemotes)
@@ -375,7 +375,7 @@ namespace SourceGit.Views
                 {
                     if (x > availableSize.Width)
                     {
-                        requiredHeight += 20.0;
+                        requiredHeight += 28.0;
                         x = item.Width;
                     }
                 }
@@ -384,7 +384,7 @@ namespace SourceGit.Views
             double requiredWidth = 0;
             if (_items.Count > 0)
             {
-                if (allowWrap && requiredHeight > 16.0)
+                if (allowWrap && requiredHeight > 26.0)
                     requiredWidth = double.IsInfinity(availableSize.Width) ? x + 2 : availableSize.Width;
                 else
                     requiredWidth = x + 2;

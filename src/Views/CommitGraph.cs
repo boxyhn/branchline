@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Globalization;
-
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -44,6 +42,15 @@ namespace SourceGit.Views
             set => SetValue(DotBrushProperty, value);
         }
 
+        public static readonly StyledProperty<IBrush> RowBrushProperty =
+            AvaloniaProperty.Register<CommitGraph, IBrush>(nameof(RowBrush), Brushes.Transparent);
+
+        public IBrush RowBrush
+        {
+            get => GetValue(RowBrushProperty);
+            set => SetValue(RowBrushProperty, value);
+        }
+
         public override void Render(DrawingContext context)
         {
             base.Render(context);
@@ -60,12 +67,13 @@ namespace SourceGit.Views
             using (context.PushClip(new Rect(0, 0, clipWidth, clipHeight)))
             using (context.PushTransform(Matrix.CreateTranslation(0, -startY)))
             {
+                DrawRowBackgrounds(context, _graph, startY, endY, rowHeight, clipWidth);
                 DrawCurves(context, _graph, startY, endY, rowHeight);
                 DrawAnchors(context, _graph, startY, endY, rowHeight);
             }
         }
 
-        public Models.Commit CommitAt(Point point, double hitRadius = 11)
+        public Models.Commit CommitAt(Point point, double hitRadius = 14)
         {
             if (_graph == null || _layout == null)
                 return null;
@@ -100,7 +108,8 @@ namespace SourceGit.Views
 
             if (change.Property == GraphProperty ||
                 change.Property == LayoutProperty ||
-                change.Property == DotBrushProperty)
+                change.Property == DotBrushProperty ||
+                change.Property == RowBrushProperty)
                 InvalidateVisual();
         }
 
@@ -119,6 +128,22 @@ namespace SourceGit.Views
         {
             base.OnUnloaded(e);
             Models.AvatarManager.Instance.Unsubscribe(this);
+        }
+
+        private void DrawRowBackgrounds(DrawingContext context, Models.CommitGraph graph, double top, double bottom, double rowHeight, double clipWidth)
+        {
+            foreach (var dot in graph.Dots)
+            {
+                var centerY = dot.Center.Y * rowHeight;
+                if (centerY + rowHeight / 2 < top)
+                    continue;
+                if (centerY - rowHeight / 2 > bottom)
+                    break;
+
+                var radius = dot.Type == Models.CommitGraph.DotType.Head ? 13.5 : 12.5;
+                var left = dot.Center.X + radius;
+                context.FillRectangle(RowBrush, new Rect(left, centerY - rowHeight / 2, Math.Max(0, clipWidth - left), rowHeight));
+            }
         }
 
         private void DrawCurves(DrawingContext context, Models.CommitGraph graph, double top, double bottom, double rowHeight)
@@ -231,16 +256,16 @@ namespace SourceGit.Views
                     break;
 
                 var pen = dot.IsHighlighted ? Models.CommitGraph.Pens[dot.Color] : grayedPen;
-                var radius = dot.Type == Models.CommitGraph.DotType.Head ? 9.5 : 8.5;
+                var radius = dot.Type == Models.CommitGraph.DotType.Head ? 13.5 : 12.5;
                 var avatar = string.IsNullOrWhiteSpace(dot.Author?.Email)
                     ? null
                     : Models.AvatarManager.Instance.Request(dot.Author.Email, false);
 
-                context.DrawEllipse(dotFill, new Pen(pen.Brush, 2.4), center, radius, radius);
+                context.DrawEllipse(dotFill, new Pen(pen.Brush, 2.2), center, radius, radius);
 
                 if (avatar != null)
                 {
-                    var imageRadius = radius - 1.8;
+                    var imageRadius = radius - 2.3;
                     var imageRect = new Rect(
                         center.X - imageRadius,
                         center.Y - imageRadius,
@@ -252,26 +277,17 @@ namespace SourceGit.Views
                 }
                 else
                 {
-                    context.DrawEllipse(pen.Brush, null, center, radius - 1.8, radius - 1.8);
-                    DrawAuthorInitial(context, center, dot.Author?.Name);
+                    var imageRadius = radius - 2.3;
+                    var imageRect = new Rect(
+                        center.X - imageRadius,
+                        center.Y - imageRadius,
+                        imageRadius * 2,
+                        imageRadius * 2);
+
+                    using (context.PushClip(new RoundedRect(imageRect, imageRadius)))
+                        Avatar.DrawGitHubStyleFallback(context, imageRect, dot.Author ?? Models.User.Invalid);
                 }
             }
-        }
-
-        private static void DrawAuthorInitial(DrawingContext context, Point center, string name)
-        {
-            var initial = string.IsNullOrWhiteSpace(name)
-                ? "?"
-                : name.Trim()[0].ToString().ToUpper(CultureInfo.CurrentCulture);
-            var label = new FormattedText(
-                initial,
-                CultureInfo.CurrentCulture,
-                FlowDirection.LeftToRight,
-                new Typeface("fonts:Inter#Inter", FontStyle.Normal, FontWeight.Bold),
-                8,
-                Brushes.White);
-            var origin = new Point(center.X - label.Width * 0.5, center.Y - label.Height * 0.5);
-            context.DrawText(label, origin);
         }
 
         private Models.CommitGraph _graph = null;

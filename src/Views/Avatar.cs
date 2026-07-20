@@ -96,53 +96,54 @@ namespace SourceGit.Views
             }
             else
             {
-                context.DrawRectangle(Brushes.White, new Pen(new SolidColorBrush(Colors.Black, 0.3f), 0.65f), rect, corner, corner);
-
-                var offsetX = Bounds.Width / 10.0;
-                var offsetY = Bounds.Height / 10.0;
-
-                var stepX = (Bounds.Width - offsetX * 2) / 5.0;
-                var stepY = (Bounds.Height - offsetY * 2) / 5.0;
-
-                var lowered = _user.Email.ToLower(CultureInfo.CurrentCulture).Trim();
-                var hash = MD5.HashData(Encoding.Default.GetBytes(lowered));
-
-                var brush = new SolidColorBrush(new Color(255, hash[0], hash[1], hash[2]));
-                var switches = new bool[15];
-                for (int i = 0; i < switches.Length; i++)
-                    switches[i] = hash[i + 1] % 2 == 1;
-
-                for (int row = 0; row < 5; row++)
-                {
-                    var x = offsetX + stepX * 2;
-                    var y = offsetY + stepY * row;
-                    var idx = row * 3;
-
-                    if (switches[idx])
-                        context.FillRectangle(brush, new Rect(x, y, stepX, stepY));
-
-                    if (switches[idx + 1])
-                        context.FillRectangle(brush, new Rect(x + stepX, y, stepX, stepY));
-
-                    if (switches[idx + 2])
-                        context.FillRectangle(brush, new Rect(x + stepX * 2, y, stepX, stepY));
-                }
-
-                for (int row = 0; row < 5; row++)
-                {
-                    var x = offsetX;
-                    var y = offsetY + stepY * row;
-                    var idx = row * 3 + 2;
-
-                    if (switches[idx])
-                        context.FillRectangle(brush, new Rect(x, y, stepX, stepY));
-
-                    if (switches[idx - 1])
-                        context.FillRectangle(brush, new Rect(x + stepX, y, stepX, stepY));
-                }
+                DrawGitHubStyleFallback(context, rect, _user);
             }
 
             clip.Dispose();
+        }
+
+        internal static void DrawGitHubStyleFallback(DrawingContext context, Rect rect, Models.User user)
+        {
+            var corner = (float)(rect.Width * 0.5);
+            context.DrawRectangle(Brushes.White, new Pen(new SolidColorBrush(Colors.Black, 0.3f), 0.65f), rect, corner, corner);
+
+            var offsetX = rect.Width / 10.0;
+            var offsetY = rect.Height / 10.0;
+            var stepX = (rect.Width - offsetX * 2) / 5.0;
+            var stepY = (rect.Height - offsetY * 2) / 5.0;
+            var lowered = (user?.Email ?? string.Empty).ToLower(CultureInfo.CurrentCulture).Trim();
+            var hash = MD5.HashData(Encoding.Default.GetBytes(lowered));
+            var brush = new SolidColorBrush(new Color(255, hash[0], hash[1], hash[2]));
+            var switches = new bool[15];
+
+            for (var i = 0; i < switches.Length; i++)
+                switches[i] = hash[i + 1] % 2 == 1;
+
+            for (var row = 0; row < 5; row++)
+            {
+                var x = rect.X + offsetX + stepX * 2;
+                var y = rect.Y + offsetY + stepY * row;
+                var idx = row * 3;
+
+                if (switches[idx])
+                    context.FillRectangle(brush, new Rect(x, y, stepX, stepY));
+                if (switches[idx + 1])
+                    context.FillRectangle(brush, new Rect(x + stepX, y, stepX, stepY));
+                if (switches[idx + 2])
+                    context.FillRectangle(brush, new Rect(x + stepX * 2, y, stepX, stepY));
+            }
+
+            for (var row = 0; row < 5; row++)
+            {
+                var x = rect.X + offsetX;
+                var y = rect.Y + offsetY + stepY * row;
+                var idx = row * 3 + 2;
+
+                if (switches[idx])
+                    context.FillRectangle(brush, new Rect(x, y, stepX, stepY));
+                if (switches[idx - 1])
+                    context.FillRectangle(brush, new Rect(x + stepX, y, stepX, stepY));
+            }
         }
 
         public void OnAvatarResourceChanged(string email, Bitmap image)

@@ -39,7 +39,12 @@
       <Color x:Key="Color.Link">#0000EE</Color>
       <Color x:Key="Color.InlineCode">#FFE4E4E4</Color>
       <Color x:Key="Color.InlineCodeFG">Black</Color>
-      <Color x:Key="Color.HistoryBG">#FFF7F7F8</Color>
+      <Color x:Key="Color.HistoryBG">#FFF5F6F7</Color>
+      <Color x:Key="Color.HistoryHeader">#FFE9EBEE</Color>
+      <Color x:Key="Color.HistoryGraphRow">#FFE7EDF1</Color>
+      <Color x:Key="Color.HistoryRowHover">#FFE9EDF0</Color>
+      <Color x:Key="Color.HistoryRowSelected">#FFF5F6F7</Color>
+      <Color x:Key="Color.HistoryDetailSelected">#FFDDE7F0</Color>
       <Color x:Key="Color.GlassTint">#FFF2F3F5</Color>
       <Color x:Key="Color.GlassFallback">#F4EAEBED</Color>
       <Color x:Key="Color.GlassTop">#E8FFFFFF</Color>
@@ -104,7 +109,12 @@
       <Color x:Key="Color.Link">#36B9E6</Color>
       <Color x:Key="Color.InlineCode">#FF2B2E35</Color>
       <Color x:Key="Color.InlineCodeFG">#FFF0F0F0</Color>
-      <Color x:Key="Color.HistoryBG">#FF121419</Color>
+      <Color x:Key="Color.HistoryBG">#FF1C1E23</Color>
+      <Color x:Key="Color.HistoryHeader">#FF282A31</Color>
+      <Color x:Key="Color.HistoryGraphRow">#FF212B33</Color>
+      <Color x:Key="Color.HistoryRowHover">#FF20242A</Color>
+      <Color x:Key="Color.HistoryRowSelected">#FF1C1E23</Color>
+      <Color x:Key="Color.HistoryDetailSelected">#FF222938</Color>
       <Color x:Key="Color.GlassTint">#FF111318</Color>
       <Color x:Key="Color.GlassFallback">#F215171B</Color>
       <Color x:Key="Color.GlassTop">#D923262C</Color>
@@ -172,6 +182,11 @@
   <SolidColorBrush x:Key="Brush.InlineCode" Color="{DynamicResource Color.InlineCode}"/>
   <SolidColorBrush x:Key="Brush.InlineCodeFG" Color="{DynamicResource Color.InlineCodeFG}"/>
   <SolidColorBrush x:Key="Brush.HistoryBG" Color="{DynamicResource Color.HistoryBG}"/>
+  <SolidColorBrush x:Key="Brush.HistoryHeader" Color="{DynamicResource Color.HistoryHeader}"/>
+  <SolidColorBrush x:Key="Brush.HistoryGraphRow" Color="{DynamicResource Color.HistoryGraphRow}"/>
+  <SolidColorBrush x:Key="Brush.HistoryRowHover" Color="{DynamicResource Color.HistoryRowHover}"/>
+  <SolidColorBrush x:Key="Brush.HistoryRowSelected" Color="{DynamicResource Color.HistoryRowSelected}"/>
+  <SolidColorBrush x:Key="Brush.HistoryDetailSelected" Color="{DynamicResource Color.HistoryDetailSelected}"/>
   <SolidColorBrush x:Key="Brush.GlassBorder" Color="{DynamicResource Color.GlassBorder}"/>
   <SolidColorBrush x:Key="Brush.GlassHighlight" Color="{DynamicResource Color.GlassHighlight}"/>
   <SolidColorBrush x:Key="Brush.GlassSelection" Color="{DynamicResource Color.GlassSelection}"/>

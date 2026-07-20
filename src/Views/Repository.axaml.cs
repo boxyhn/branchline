@@ -18,6 +18,17 @@ namespace SourceGit.Views
         protected override void OnLoaded(RoutedEventArgs e)
         {
             base.OnLoaded(e);
+
+            var layout = ViewModels.Preferences.Instance.Layout;
+            if (layout.RepositorySidebarVisualVersion < 1)
+            {
+                if (layout.RepositorySidebarWidth.GridUnitType == GridUnitType.Pixel &&
+                    Math.Abs(layout.RepositorySidebarWidth.Value - 280) < 0.01)
+                    layout.RepositorySidebarWidth = new GridLength(230, GridUnitType.Pixel);
+
+                layout.RepositorySidebarVisualVersion = 1;
+            }
+
             UpdateLeftSidebarLayout();
         }
 

@@ -486,6 +486,22 @@ namespace SourceGit.Views
 
             if (DataContext is ViewModels.Histories vm)
             {
+                if (vm.HistoryGraphVisualVersion < 4)
+                {
+                    var version = vm.HistoryGraphVisualVersion;
+                    if ((version == 0 && Math.Abs(vm.BranchColumnWidth - 130) < 0.01) ||
+                        (version == 1 && Math.Abs(vm.BranchColumnWidth - 132) < 0.01))
+                        vm.BranchColumnWidth = 155;
+
+                    if ((version == 0 && Math.Abs(vm.GraphColumnWidth - 140) < 0.01) ||
+                        (version == 1 && Math.Abs(vm.GraphColumnWidth - 210) < 0.01) ||
+                        (version == 2 && Math.Abs(vm.GraphColumnWidth - 92) < 0.01) ||
+                        (version == 3 && Math.Abs(vm.GraphColumnWidth - 100) < 0.01))
+                        vm.GraphColumnWidth = 92;
+
+                    vm.HistoryGraphVisualVersion = 4;
+                }
+
                 SetColumnWidth(0, vm.BranchColumnWidth);
                 SetColumnWidth(1, vm.GraphColumnWidth);
                 if (vm.HasCustomSubjectColumnWidth)
@@ -722,8 +738,22 @@ namespace SourceGit.Views
 
             IsScrollToTopVisible = startY >= rowHeight;
 
+            var graphColumn = dataGrid.Columns[1];
+            var requiredGraphWidth = 70.0;
+            if (DataContext is ViewModels.Histories { Graph: { } graph } vm)
+            {
+                foreach (var dot in graph.Dots)
+                    requiredGraphWidth = Math.Max(requiredGraphWidth, dot.Center.X + 14.5);
+
+                requiredGraphWidth = Math.Ceiling(requiredGraphWidth);
+                graphColumn.MinWidth = requiredGraphWidth;
+                var targetGraphWidth = Math.Max(vm.GraphColumnWidth, requiredGraphWidth);
+                if (_resizingColumnIndex != 1 && Math.Abs(graphColumn.ActualWidth - targetGraphWidth) > 0.5)
+                    graphColumn.Width = new(targetGraphWidth, DataGridLengthUnitType.Pixel);
+            }
+
             var branchColumnWidth = dataGrid.Columns[0].ActualWidth;
-            var graphColumnWidth = dataGrid.Columns[1].ActualWidth;
+            var graphColumnWidth = graphColumn.ActualWidth;
             var horizontalScrollBar = FindHorizontalScrollBar();
             var horizontalOffset = horizontalScrollBar?.Value ?? 0;
             var clipWidth = graphColumnWidth;
@@ -821,7 +851,11 @@ namespace SourceGit.Views
                 return;
 
             var commit = graph.CommitAt(e.GetPosition(graph));
-            ToolTip.SetTip(graph, commit?.SHA);
+            if (!ReferenceEquals(_hoveredGraphCommit, commit))
+            {
+                _hoveredGraphCommit = commit;
+                ToolTip.SetTip(graph, commit?.Author?.ToString());
+            }
             graph.Cursor = commit == null ? Cursor.Default : new Cursor(StandardCursorType.Hand);
         }
 
@@ -831,6 +865,7 @@ namespace SourceGit.Views
             {
                 ToolTip.SetTip(graph, null);
                 graph.Cursor = Cursor.Default;
+                _hoveredGraphCommit = null;
             }
         }
 
@@ -1918,6 +1953,7 @@ namespace SourceGit.Views
         }
 
 
+        private Models.Commit _hoveredGraphCommit = null;
         private Models.Branch _currentBranch = null;
         private Models.Bisect _bisect = null;
         private AvaloniaList<Models.IssueTracker> _issueTrackers = null;

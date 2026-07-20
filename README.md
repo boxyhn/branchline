@@ -31,7 +31,7 @@ mentally joining separate panels.
 
 - Resize the branch, graph, commit message, author, and time columns
 - Read exact author times instead of vague relative timestamps
-- Copy a commit SHA with one click and hover a row to see its full SHA
+- Copy a commit SHA by clicking its graph node and hover the node to see the author
 - Follow merge topology without separating labels from graph nodes
 - See GitHub author images in graph nodes and the author column
 
@@ -50,8 +50,8 @@ Download the build for your Mac from the latest release:
 
 | Mac | Package |
 | --- | --- |
-| Apple Silicon (M1 or newer) | [`branchline_1.1.0.osx-arm64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.1.0/branchline_1.1.0.osx-arm64.zip) |
-| Intel | [`branchline_1.1.0.osx-x64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.1.0/branchline_1.1.0.osx-x64.zip) |
+| Apple Silicon (M1 or newer) | [`branchline_1.2.0.osx-arm64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.2.0/branchline_1.2.0.osx-arm64.zip) |
+| Intel | [`branchline_1.2.0.osx-x64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.2.0/branchline_1.2.0.osx-x64.zip) |
 
 Unzip the archive and move `Branchline.app` to `/Applications`.
 

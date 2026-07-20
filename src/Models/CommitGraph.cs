@@ -20,7 +20,7 @@ namespace SourceGit.Models
     {
         public static List<Pen> Pens { get; } = [];
 
-        public static void SetDefaultPens(double thickness = 2.4)
+        public static void SetDefaultPens(double thickness = 2.1)
         {
             SetPens(s_defaultPenColors, thickness);
         }
@@ -74,8 +74,9 @@ namespace SourceGit.Models
 
         public static CommitGraph Generate(List<Commit> commits, bool recalculateMergeState, bool firstParentOnlyEnabled, CommitGraphHighlighting highlighting, HashSet<string> highlightExtraCommits)
         {
-            const double unitWidth = 18;
-            const double halfWidth = 9;
+            const double unitWidth = 22;
+            const double halfWidth = 11;
+            const double leftPadding = 28;
             const double unitHeight = 1;
             const double halfHeight = 0.5;
 
@@ -111,7 +112,7 @@ namespace SourceGit.Models
                 offsetY += unitHeight;
 
                 // Find first curves that links to this commit and marks others that links to this commit ended.
-                var offsetX = 4 - halfWidth;
+                var offsetX = leftPadding - halfWidth;
                 var maxOffsetOld = unsolved.Count > 0 ? unsolved[^1].LastX : offsetX + unitWidth;
                 var isHighlighted = false;
                 foreach (var l in unsolved)
@@ -284,7 +285,7 @@ namespace SourceGit.Models
                 if (path.Path.Points.Count == 1 && Math.Abs(path.Path.Points[0].Y - endY) < 0.0001)
                     continue;
 
-                path.End((i + 0.5) * unitWidth + 4, endY + halfHeight, halfHeight);
+                path.End((i + 0.5) * unitWidth + leftPadding, endY + halfHeight, halfHeight);
             }
             unsolved.Clear();
 
@@ -444,7 +445,7 @@ namespace SourceGit.Models
 
         private static int s_penCount = 0;
         private static readonly List<Color> s_defaultPenColors = [
-            Color.Parse("#17A8D1"),
+            Color.Parse("#3FA8CF"),
             Color.Parse("#1677FF"),
             Color.Parse("#7A21D4"),
             Color.Parse("#B300C8"),
