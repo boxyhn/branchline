@@ -201,6 +201,13 @@ namespace SourceGit.Views
 
             if (e.KeyModifiers.HasFlag(cmdKey))
             {
+                if (e.KeyModifiers == cmdKey && TryGetTabIndex(e.Key, out var tabIndex))
+                {
+                    vm.GotoTab(tabIndex == 8 ? vm.Pages.Count - 1 : tabIndex);
+                    e.Handled = true;
+                    return;
+                }
+
                 if (e.Key == Key.W)
                 {
                     vm.CloseTab(null);
@@ -255,15 +262,15 @@ namespace SourceGit.Views
                 {
                     switch (e.Key)
                     {
-                        case Key.D1 or Key.NumPad1:
+                        case Key.D1 or Key.NumPad1 when e.KeyModifiers.HasFlag(KeyModifiers.Shift):
                             repo.SelectedViewIndex = 0;
                             e.Handled = true;
                             return;
-                        case Key.D2 or Key.NumPad2:
+                        case Key.D2 or Key.NumPad2 when e.KeyModifiers.HasFlag(KeyModifiers.Shift):
                             repo.SelectedViewIndex = 1;
                             e.Handled = true;
                             return;
-                        case Key.D3 or Key.NumPad3:
+                        case Key.D3 or Key.NumPad3 when e.KeyModifiers.HasFlag(KeyModifiers.Shift):
                             repo.SelectedViewIndex = 2;
                             e.Handled = true;
                             return;
@@ -319,6 +326,25 @@ namespace SourceGit.Views
             }
 
             base.OnKeyDown(e);
+        }
+
+        private static bool TryGetTabIndex(Key key, out int index)
+        {
+            index = key switch
+            {
+                Key.D1 or Key.NumPad1 => 0,
+                Key.D2 or Key.NumPad2 => 1,
+                Key.D3 or Key.NumPad3 => 2,
+                Key.D4 or Key.NumPad4 => 3,
+                Key.D5 or Key.NumPad5 => 4,
+                Key.D6 or Key.NumPad6 => 5,
+                Key.D7 or Key.NumPad7 => 6,
+                Key.D8 or Key.NumPad8 => 7,
+                Key.D9 or Key.NumPad9 => 8,
+                _ => -1,
+            };
+
+            return index >= 0;
         }
 
         protected override void OnClosing(WindowClosingEventArgs e)
@@ -427,4 +453,3 @@ namespace SourceGit.Views
         private WindowState _lastWindowState = WindowState.Normal;
     }
 }
-
