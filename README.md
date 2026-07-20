@@ -50,8 +50,8 @@ Download the build for your Mac from the latest release:
 
 | Mac | Package |
 | --- | --- |
-| Apple Silicon (M1 or newer) | [`branchline_1.0.0.osx-arm64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.0.0/branchline_1.0.0.osx-arm64.zip) |
-| Intel | [`branchline_1.0.0.osx-x64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.0.0/branchline_1.0.0.osx-x64.zip) |
+| Apple Silicon (M1 or newer) | [`branchline_1.0.2.osx-arm64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.0.2/branchline_1.0.2.osx-arm64.zip) |
+| Intel | [`branchline_1.0.2.osx-x64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.0.2/branchline_1.0.2.osx-x64.zip) |
 
 Unzip the archive and move `Branchline.app` to `/Applications`.
 

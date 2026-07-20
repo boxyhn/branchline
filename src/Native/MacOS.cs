@@ -224,7 +224,7 @@ namespace SourceGit.Native
         public static extern void objc_msgSend_Void_Int(IntPtr receiver, IntPtr selector, int arg);
 
         [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-        public static extern void objc_msgSend_Void_IntPtr_Int_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, int arg2, IntPtr arg3);
+        public static extern void objc_msgSend_Void_IntPtr_NInt_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1, nint arg2, IntPtr arg3);
 
         [DllImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
         public static extern void objc_msgSend_Void_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg);
@@ -293,7 +293,7 @@ namespace SourceGit.Native
                 objc_msgSend_Void_Int(effectView, s_selSetState, 0);
                 objc_msgSend_Void_Int(effectView, s_selSetAutoresizingMask, 18);
                 // NSWindowBelow keeps the native material behind Avalonia's visual tree.
-                objc_msgSend_Void_IntPtr_Int_IntPtr(contentView, s_selAddSubviewPositionedRelativeTo, effectView, -1, IntPtr.Zero);
+                objc_msgSend_Void_IntPtr_NInt_IntPtr(contentView, s_selAddSubviewPositionedRelativeTo, effectView, -1, IntPtr.Zero);
             }
             catch (Exception ex)
             {
