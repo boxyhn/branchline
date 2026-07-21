@@ -25,7 +25,7 @@ mentally joining separate panels.
 
 | Read the graph | Inspect the commit | Keep working |
 | --- | --- | --- |
-| Compact branch labels sit beside their commits. Colored lanes preserve merge and branch crossings. Author avatars appear directly inside graph nodes. | Details, changed files, and the repository tree share one inspector. Selecting a changed file opens its diff in the main workspace; `Esc` returns to the graph. | Clone, fetch, pull, push, merge, rebase, stash, worktree, blame, submodules, Git LFS, and the rest of SourceGit's mature Git workflows remain available. |
+| Compact branch labels sit beside their commits. Colored lanes preserve merge and branch crossings. Author avatars appear directly inside graph nodes. | Commit messages, author metadata, changed files, and repository files share a GitKraken-style inspector. Click the message to reword it inline; selecting a file opens its diff in the main workspace. | Clone, fetch, pull, push, merge, rebase, stash, worktree, blame, submodules, Git LFS, and the rest of SourceGit's mature Git workflows remain available. |
 
 ### A History Table You Can Shape
 
@@ -37,6 +37,8 @@ mentally joining separate panels.
 
 ### Inspection Without Losing Context
 
+- Click a commit message to edit and reword it inline
+- See the exact number of commits affected before the rebase runs
 - Switch between commit details, changed files, and repository files
 - Open a changed file with a single click
 - Review large diffs in the full graph workspace instead of a narrow sidebar
@@ -50,8 +52,8 @@ Download the build for your Mac from the latest release:
 
 | Mac | Package |
 | --- | --- |
-| Apple Silicon (M1 or newer) | [`branchline_1.2.0.osx-arm64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.2.0/branchline_1.2.0.osx-arm64.zip) |
-| Intel | [`branchline_1.2.0.osx-x64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.2.0/branchline_1.2.0.osx-x64.zip) |
+| Apple Silicon (M1 or newer) | [`branchline_1.3.0.osx-arm64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.3.0/branchline_1.3.0.osx-arm64.zip) |
+| Intel | [`branchline_1.3.0.osx-x64.zip`](https://github.com/boxyhn/branchline/releases/download/v1.3.0/branchline_1.3.0.osx-x64.zip) |
 
 Unzip the archive and move `Branchline.app` to `/Applications`.
 

@@ -6,6 +6,12 @@ GitKraken-inspired dark layout: branch and tag labels on the left, a wide lane
 graph in the center, commit metadata by row, and functional details on the
 right.
 
+The commit inspector mirrors GitKraken's read and edit flow: the message card
+opens into an inline editor, reports the affected rebase range, and applies a
+real interactive-rebase reword. Author identity, parent navigation, change
+summary, path/tree controls, and one-click diff opening remain in the same
+context.
+
 ## Build for macOS
 
 ```bash

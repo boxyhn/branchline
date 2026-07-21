@@ -147,6 +147,8 @@ namespace SourceGit.ViewModels
             private set => SetProperty(ref _isLoading, value);
         }
 
+        public Task LoadingTask => _loadingTaskCompletion.Task;
+
         public AvaloniaList<InteractiveRebaseItem> Items
         {
             get;
@@ -174,111 +176,141 @@ namespace SourceGit.ViewModels
 
             Task.Run(async () =>
             {
-                var commits = await new Commands.QueryCommitsForInteractiveRebase(_repo.FullPath, on.SHA)
-                    .GetResultAsync()
-                    .ConfigureAwait(false);
-
-                var list = new List<InteractiveRebaseItem>();
-                var needReorder = new List<InteractiveRebaseReorderItem>();
-                var needReorderKeySet = new HashSet<string>();
-
-                // First-pass to find out the commits that need to be reordered and leave the reset in original order.
-                for (var i = 0; i < commits.Count; i++)
+                try
                 {
-                    var c = commits[i];
-                    var item = new InteractiveRebaseItem(commits.Count - i, c.Commit, c.Message);
-                    var subject = c.Commit.Subject;
+                    var commits = await new Commands.QueryCommitsForInteractiveRebase(_repo.FullPath, on.SHA)
+                        .GetResultAsync()
+                        .ConfigureAwait(false);
 
-                    if (item.OriginalOrder > 1)
+                    var list = new List<InteractiveRebaseItem>();
+                    var needReorder = new List<InteractiveRebaseReorderItem>();
+                    var needReorderKeySet = new HashSet<string>();
+
+                    // First-pass to find out the commits that need to be reordered and leave the reset in original order.
+                    for (var i = 0; i < commits.Count; i++)
                     {
-                        if (subject.StartsWith("fixup! ", StringComparison.Ordinal))
-                        {
-                            item.Action = Models.InteractiveRebaseAction.Fixup;
+                        var c = commits[i];
+                        var item = new InteractiveRebaseItem(commits.Count - i, c.Commit, c.Message);
+                        var subject = c.Commit.Subject;
 
-                            var targetSubject = subject.Substring(7).Trim();
-                            needReorder.Add(new(targetSubject, item));
-                            needReorderKeySet.Add(targetSubject);
+                        if (item.OriginalOrder > 1)
+                        {
+                            if (subject.StartsWith("fixup! ", StringComparison.Ordinal))
+                            {
+                                item.Action = Models.InteractiveRebaseAction.Fixup;
+
+                                var targetSubject = subject.Substring(7).Trim();
+                                needReorder.Add(new(targetSubject, item));
+                                needReorderKeySet.Add(targetSubject);
+                                continue;
+                            }
+
+                            if (subject.StartsWith("squash! ", StringComparison.Ordinal))
+                            {
+                                item.Action = Models.InteractiveRebaseAction.Squash;
+
+                                var targetSubject = subject.Substring(8).Trim();
+                                needReorder.Add(new(targetSubject, item));
+                                needReorderKeySet.Add(targetSubject);
+                                continue;
+                            }
+                        }
+
+                        list.Add(item);
+                    }
+
+                    // Second-pass to find the place for reordered commits and insert them.
+                    for (var i = list.Count - 1; i >= 0; i--)
+                    {
+                        var subject = list[i].Commit.Subject.Trim();
+                        if (!needReorderKeySet.Contains(subject))
                             continue;
-                        }
 
-                        if (subject.StartsWith("squash! ", StringComparison.Ordinal))
+                        for (var j = needReorder.Count - 1; j >= 0; j--)
                         {
-                            item.Action = Models.InteractiveRebaseAction.Squash;
-
-                            var targetSubject = subject.Substring(8).Trim();
-                            needReorder.Add(new(targetSubject, item));
-                            needReorderKeySet.Add(targetSubject);
-                            continue;
+                            var test = needReorder[j];
+                            if (subject.Equals(test.Key, StringComparison.Ordinal))
+                            {
+                                list.Insert(i, test.Item);
+                                needReorder.RemoveAt(j);
+                            }
                         }
+
+                        needReorderKeySet.Remove(subject);
+                        if (needReorderKeySet.Count == 0)
+                            break;
                     }
 
-                    list.Add(item);
-                }
-
-                // Second-pass to find the place for reordered commits and insert them.
-                for (var i = list.Count - 1; i >= 0; i--)
-                {
-                    var subject = list[i].Commit.Subject.Trim();
-                    if (!needReorderKeySet.Contains(subject))
-                        continue;
-
-                    for (var j = needReorder.Count - 1; j >= 0; j--)
+                    // Last-pass to insert the remaining commits that are marked as fixup!/squash! but their target commit is not found.
+                    foreach (var v in needReorder)
                     {
-                        var test = needReorder[j];
-                        if (subject.Equals(test.Key, StringComparison.Ordinal))
+                        // For safety, reset to pick if the target commit is not found
+                        v.Item.Action = Models.InteractiveRebaseAction.Pick;
+
+                        // Find out the first picked (exclude reordered) commit that should be picked after this commit
+                        var insertPos = 0;
+                        for (var i = 0; i < list.Count; i++)
                         {
-                            list.Insert(i, test.Item);
-                            needReorder.RemoveAt(j);
+                            var item = list[i];
+                            if (item.Action == Models.InteractiveRebaseAction.Pick)
+                            {
+                                if (v.Item.OriginalOrder < item.OriginalOrder)
+                                    insertPos = i + 1;
+                                else
+                                    break;
+                            }
                         }
+
+                        list.Insert(insertPos, v.Item);
                     }
 
-                    needReorderKeySet.Remove(subject);
-                    if (needReorderKeySet.Count == 0)
-                        break;
-                }
-
-                // Last-pass to insert the remaining commits that are marked as fixup!/squash! but their target commit is not found.
-                foreach (var v in needReorder)
-                {
-                    // For safety, reset to pick if the target commit is not found
-                    v.Item.Action = Models.InteractiveRebaseAction.Pick;
-
-                    // Find out the first picked (exclude reordered) commit that should be picked after this commit
-                    var insertPos = 0;
-                    for (var i = 0; i < list.Count; i++)
+                    var selected = list.Count > 0 ? list[0] : null;
+                    if (prefill != null)
                     {
-                        var item = list[i];
-                        if (item.Action == Models.InteractiveRebaseAction.Pick)
+                        var item = list.Find(x => x.Commit.SHA.Equals(prefill.SHA, StringComparison.Ordinal));
+                        if (item != null)
                         {
-                            if (v.Item.OriginalOrder < item.OriginalOrder)
-                                insertPos = i + 1;
-                            else
-                                break;
+                            item.Action = prefill.Action;
+                            selected = item;
                         }
                     }
 
-                    list.Insert(insertPos, v.Item);
-                }
-
-                var selected = list.Count > 0 ? list[0] : null;
-                if (prefill != null)
-                {
-                    var item = list.Find(x => x.Commit.SHA.Equals(prefill.SHA, StringComparison.Ordinal));
-                    if (item != null)
+                    Dispatcher.UIThread.Post(() =>
                     {
-                        item.Action = prefill.Action;
-                        selected = item;
-                    }
+                        Items.AddRange(list);
+                        UpdateItems();
+                        PreSelected = selected;
+                        IsLoading = false;
+                        _loadingTaskCompletion.TrySetResult();
+                    });
                 }
-
-                Dispatcher.UIThread.Post(() =>
+                catch (Exception e)
                 {
-                    Items.AddRange(list);
-                    UpdateItems();
-                    PreSelected = selected;
-                    IsLoading = false;
-                });
+                    Native.OS.LogException(e);
+                    Dispatcher.UIThread.Post(() =>
+                    {
+                        IsLoading = false;
+                        _loadingTaskCompletion.TrySetResult();
+                    });
+                }
             });
+        }
+
+        public bool ConfigureReword(string sha, string message)
+        {
+            foreach (var item in Items)
+            {
+                if (!item.Commit.SHA.Equals(sha, StringComparison.Ordinal))
+                    continue;
+
+                item.Action = Models.InteractiveRebaseAction.Reword;
+                item.FullMessage = message;
+                item.IsMessageUserEdited = true;
+                UpdateItems();
+                return true;
+            }
+
+            return false;
         }
 
         public void SelectCommits(List<InteractiveRebaseItem> items)
@@ -533,6 +565,7 @@ namespace SourceGit.ViewModels
 
         private Repository _repo = null;
         private bool _isLoading = false;
+        private readonly TaskCompletionSource _loadingTaskCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private InteractiveRebaseItem _preSelected = null;
         private object _detail = null;
         private CommitDetail _commitDetail = null;

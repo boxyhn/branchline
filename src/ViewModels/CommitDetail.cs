@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,15 +61,93 @@ namespace SourceGit.ViewModels
                     return;
 
                 if (SetProperty(ref _commit, value))
+                {
+                    ActiveTabIndex = 0;
+                    ResetMessageEdit(IsUpdatingMessage);
+                    OnPropertyChanged(nameof(CanRewordMessage));
+                    OnPropertyChanged(nameof(ParentSHA));
                     Refresh();
+                }
             }
         }
 
         public Models.CommitFullMessage FullMessage
         {
             get => _fullMessage;
-            private set => SetProperty(ref _fullMessage, value);
+            private set
+            {
+                if (SetProperty(ref _fullMessage, value))
+                    UpdateMessageParts(value?.Message);
+            }
         }
+
+        public string MessageSubject
+        {
+            get => _messageSubject;
+            private set => SetProperty(ref _messageSubject, value);
+        }
+
+        public string MessageBody
+        {
+            get => _messageBody;
+            private set => SetProperty(ref _messageBody, value);
+        }
+
+        public bool IsEditingMessage
+        {
+            get => _isEditingMessage;
+            private set => SetProperty(ref _isEditingMessage, value);
+        }
+
+        public bool IsPreparingMessageEdit
+        {
+            get => _isPreparingMessageEdit;
+            private set => SetProperty(ref _isPreparingMessageEdit, value);
+        }
+
+        public bool IsUpdatingMessage
+        {
+            get => _isUpdatingMessage;
+            private set => SetProperty(ref _isUpdatingMessage, value);
+        }
+
+        public bool IsGeneratingMessage
+        {
+            get => _isGeneratingMessage;
+            private set => SetProperty(ref _isGeneratingMessage, value);
+        }
+
+        public string EditingSubject
+        {
+            get => _editingSubject;
+            set
+            {
+                if (SetProperty(ref _editingSubject, value))
+                    OnPropertyChanged(nameof(EditingSubjectLength));
+            }
+        }
+
+        public int EditingSubjectLength => _editingSubject?.Length ?? 0;
+
+        public string EditingBody
+        {
+            get => _editingBody;
+            set => SetProperty(ref _editingBody, value);
+        }
+
+        public int RewordAffectedCommitCount
+        {
+            get => _rewordAffectedCommitCount;
+            private set => SetProperty(ref _rewordAffectedCommitCount, value);
+        }
+
+        public string RewordWarning => RewordAffectedCommitCount == 1
+            ? "Rewording this commit message will rebase 1 commit."
+            : $"Rewording this commit message will rebase {RewordAffectedCommitCount} commits.";
+
+        public bool CanRewordMessage => _commit is { IsMerged: true, Parents.Count: > 0 };
+
+        public string ParentSHA => _commit?.Parents is { Count: > 0 } parents ? parents[0] : string.Empty;
 
         public Models.CommitSignInfo SignInfo
         {
@@ -91,8 +170,14 @@ namespace SourceGit.ViewModels
         public List<Models.Change> Changes
         {
             get => _changes;
-            set => SetProperty(ref _changes, value);
+            set
+            {
+                if (SetProperty(ref _changes, value))
+                    OnPropertyChanged(nameof(ChangeSummary));
+            }
         }
+
+        public string ChangeSummary => BuildChangeSummary(_changes);
 
         public List<Models.Change> VisibleChanges
         {
@@ -207,6 +292,134 @@ namespace SourceGit.ViewModels
         public void NavigateTo(string commitSHA)
         {
             _repo?.NavigateToCommit(commitSHA);
+        }
+
+        public void OpenWorkingDirectory()
+        {
+            _repo.SelectedViewIndex = 1;
+        }
+
+        public void OpenSelectedChange()
+        {
+            if (_selectedChanges is not { Count: 1 })
+                return;
+
+            ActiveTabIndex = 1;
+        }
+
+        public async Task<bool> BeginMessageEditAsync()
+        {
+            if (IsUpdatingMessage)
+                return false;
+
+            if (IsEditingMessage)
+                return true;
+
+            if (!CanRewordMessage)
+            {
+                _repo.SendNotification("This commit cannot be reworded from the current branch.", true);
+                return false;
+            }
+
+            EditingSubject = MessageSubject;
+            EditingBody = MessageBody;
+            _messageEditCommitSHA = _commit.SHA;
+            IsEditingMessage = true;
+
+            var prepared = await PrepareMessageRebaseAsync().ConfigureAwait(true);
+            if (!prepared)
+                CancelMessageEdit();
+            return prepared;
+        }
+
+        public void CancelMessageEdit()
+        {
+            if (IsUpdatingMessage)
+                return;
+
+            ResetMessageEdit(false);
+        }
+
+        private void ResetMessageEdit(bool preserveUpdateState)
+        {
+            _messageRebase = null;
+            _messageEditCommitSHA = null;
+            IsPreparingMessageEdit = false;
+            if (!preserveUpdateState)
+                IsUpdatingMessage = false;
+            IsGeneratingMessage = false;
+            IsEditingMessage = false;
+            RewordAffectedCommitCount = 0;
+            OnPropertyChanged(nameof(RewordWarning));
+        }
+
+        public async Task<bool> ApplyMessageEditAsync()
+        {
+            if (!IsEditingMessage || IsPreparingMessageEdit || IsUpdatingMessage)
+                return false;
+
+            if (!_commit.SHA.Equals(_messageEditCommitSHA, StringComparison.Ordinal))
+                return false;
+
+            var message = ComposeEditingMessage();
+            if (string.IsNullOrWhiteSpace(message))
+                return false;
+
+            if (_messageRebase == null && !await PrepareMessageRebaseAsync().ConfigureAwait(true))
+                return false;
+
+            var targetSHA = _messageEditCommitSHA;
+            if (!_messageRebase.ConfigureReword(targetSHA, message))
+            {
+                _repo.SendNotification("The selected commit is no longer available for rewording.", true);
+                return false;
+            }
+
+            IsUpdatingMessage = true;
+            var succ = await _messageRebase.Start().ConfigureAwait(true);
+            IsUpdatingMessage = false;
+
+            if (!succ)
+            {
+                _repo.SendNotification("Failed to update the commit message. See the command log for details.", true);
+                return false;
+            }
+
+            if (_commit.SHA.Equals(targetSHA, StringComparison.Ordinal))
+                FullMessage = new Models.CommitFullMessage { Message = message };
+            CancelMessageEdit();
+            _repo.RefreshAll();
+            return true;
+        }
+
+        public async Task RecomposeMessageWithAIAsync()
+        {
+            if (IsGeneratingMessage)
+                return;
+
+            var services = _repo.GetPreferredOpenAIServices();
+            if (services.Count == 0)
+            {
+                _repo.SendNotification("No AI service is configured.", true);
+                return;
+            }
+
+            if (!IsEditingMessage && !await BeginMessageEditAsync().ConfigureAwait(true))
+                return;
+
+            IsGeneratingMessage = true;
+            var targetSHA = _messageEditCommitSHA;
+            var assistant = new AIAssistant(_repo, services[0], _changes);
+            await assistant.GenAsync().ConfigureAwait(true);
+            IsGeneratingMessage = false;
+
+            if (!IsEditingMessage || !_commit.SHA.Equals(targetSHA, StringComparison.Ordinal))
+                return;
+
+            if (!string.IsNullOrWhiteSpace(assistant.Response))
+                SetEditingMessage(assistant.Response);
+            else
+                _repo.SendNotification("AI did not return a commit message.", true);
         }
 
         public async Task<List<Models.Decorator>> GetRefsContainsThisCommitAsync()
@@ -496,6 +709,9 @@ namespace SourceGit.ViewModels
             RevisionFileSearchFilter = string.Empty;
             RevisionFileSearchSuggestion = null;
             ScrollOffset = Vector.Zero;
+            FullMessage = null;
+            MessageSubject = _commit?.Subject ?? string.Empty;
+            MessageBody = string.Empty;
 
             if (_commit == null)
             {
@@ -573,10 +789,7 @@ namespace SourceGit.ViewModels
                         Changes = changes;
                         VisibleChanges = visible;
 
-                        if (visible.Count == 0)
-                            SelectedChanges = null;
-                        else
-                            SelectedChanges = [VisibleChanges[0]];
+                        SelectedChanges = null;
                     });
                 }
             }, token);
@@ -771,6 +984,120 @@ namespace SourceGit.ViewModels
             }
         }
 
+        private async Task<bool> PrepareMessageRebaseAsync()
+        {
+            if (_messageRebase != null)
+                return true;
+
+            var targetSHA = _messageEditCommitSHA;
+            if (!IsEditingMessage || string.IsNullOrEmpty(targetSHA) || !_commit.SHA.Equals(targetSHA, StringComparison.Ordinal))
+                return false;
+
+            IsPreparingMessageEdit = true;
+            var start = await new Commands.QuerySingleCommit(_repo.FullPath, $"{targetSHA}~")
+                .GetResultAsync()
+                .ConfigureAwait(true);
+            if (!IsEditingMessage || !_commit.SHA.Equals(targetSHA, StringComparison.Ordinal))
+                return false;
+
+            if (start == null)
+            {
+                IsPreparingMessageEdit = false;
+                _repo.SendNotification("The parent commit required for rewording could not be found.", true);
+                return false;
+            }
+
+            var prefill = new InteractiveRebasePrefill(targetSHA, Models.InteractiveRebaseAction.Reword);
+            var rebase = new InteractiveRebase(_repo, start, prefill);
+            await rebase.LoadingTask.ConfigureAwait(true);
+
+            if (!IsEditingMessage || !_commit.SHA.Equals(targetSHA, StringComparison.Ordinal))
+                return false;
+
+            _messageRebase = rebase;
+            RewordAffectedCommitCount = rebase.Items.Count;
+            OnPropertyChanged(nameof(RewordWarning));
+            IsPreparingMessageEdit = false;
+
+            if (RewordAffectedCommitCount == 0)
+                _repo.SendNotification("The commit range required for rewording could not be loaded.", true);
+
+            return RewordAffectedCommitCount > 0;
+        }
+
+        private void UpdateMessageParts(string message)
+        {
+            var normalized = string.IsNullOrEmpty(message)
+                ? _commit?.Subject ?? string.Empty
+                : message.ReplaceLineEndings("\n").TrimEnd();
+            var firstLineEnd = normalized.IndexOf('\n');
+            if (firstLineEnd < 0)
+            {
+                MessageSubject = normalized;
+                MessageBody = string.Empty;
+                return;
+            }
+
+            MessageSubject = normalized.Substring(0, firstLineEnd);
+            MessageBody = normalized.Substring(firstLineEnd + 1).TrimStart('\n');
+        }
+
+        private void SetEditingMessage(string message)
+        {
+            var normalized = message.ReplaceLineEndings("\n").Trim();
+            var firstLineEnd = normalized.IndexOf('\n');
+            if (firstLineEnd < 0)
+            {
+                EditingSubject = normalized;
+                EditingBody = string.Empty;
+            }
+            else
+            {
+                EditingSubject = normalized.Substring(0, firstLineEnd);
+                EditingBody = normalized.Substring(firstLineEnd + 1).TrimStart('\n');
+            }
+        }
+
+        private string ComposeEditingMessage()
+        {
+            var subject = _editingSubject?.Trim() ?? string.Empty;
+            var body = _editingBody?.Trim() ?? string.Empty;
+            return string.IsNullOrEmpty(body) ? subject : $"{subject}\n\n{body}";
+        }
+
+        private static string BuildChangeSummary(List<Models.Change> changes)
+        {
+            if (changes == null || changes.Count == 0)
+                return "No files changed";
+
+            var counts = new int[9];
+            foreach (var change in changes)
+            {
+                var state = change.Index != Models.ChangeState.None ? change.Index : change.WorkTree;
+                counts[(int)state]++;
+            }
+
+            var builder = new StringBuilder();
+            AppendChangeCount(builder, counts, Models.ChangeState.Modified, "modified");
+            AppendChangeCount(builder, counts, Models.ChangeState.Added, "added");
+            AppendChangeCount(builder, counts, Models.ChangeState.Deleted, "deleted");
+            AppendChangeCount(builder, counts, Models.ChangeState.Renamed, "renamed");
+            AppendChangeCount(builder, counts, Models.ChangeState.Copied, "copied");
+            AppendChangeCount(builder, counts, Models.ChangeState.TypeChanged, "type changed");
+            return builder.Length == 0 ? $"{changes.Count} changed" : builder.ToString();
+        }
+
+        private static void AppendChangeCount(StringBuilder builder, int[] counts, Models.ChangeState state, string label)
+        {
+            var count = counts[(int)state];
+            if (count == 0)
+                return;
+
+            if (builder.Length > 0)
+                builder.Append(", ");
+            builder.Append(count).Append(' ').Append(label);
+        }
+
         [GeneratedRegex(@"\b(https?://|ftp://)[\w\d\._/\-~%@()+:?&=#!]*[\w\d/]")]
         private static partial Regex REG_URL_FORMAT();
 
@@ -784,6 +1111,17 @@ namespace SourceGit.ViewModels
         private CommitDetailSharedData _sharedData = null;
         private Models.Commit _commit = null;
         private Models.CommitFullMessage _fullMessage = null;
+        private string _messageSubject = string.Empty;
+        private string _messageBody = string.Empty;
+        private bool _isEditingMessage = false;
+        private bool _isPreparingMessageEdit = false;
+        private bool _isUpdatingMessage = false;
+        private bool _isGeneratingMessage = false;
+        private string _editingSubject = string.Empty;
+        private string _editingBody = string.Empty;
+        private int _rewordAffectedCommitCount = 0;
+        private InteractiveRebase _messageRebase = null;
+        private string _messageEditCommitSHA = null;
         private Models.CommitSignInfo _signInfo = null;
         private List<string> _children = null;
         private List<Models.Change> _changes = [];

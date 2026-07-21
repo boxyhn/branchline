@@ -898,18 +898,6 @@ namespace SourceGit.Views
             }
         }
 
-        private void OnTabHeaderPointerPressed(object sender, PointerPressedEventArgs e)
-        {
-            if (ViewModels.Preferences.Instance.UseTwoColumnsLayoutInHistories)
-                return;
-
-            if (DataContext is not ViewModels.Histories vm)
-                return;
-
-            if (vm.IsCollapseDetails)
-                vm.IsCollapseDetails = false;
-        }
-
         private void OnOpenDetailsAsStandalone(object sender, RoutedEventArgs e)
         {
             if (DataContext is ViewModels.Histories vm)

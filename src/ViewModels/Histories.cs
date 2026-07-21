@@ -626,7 +626,7 @@ namespace SourceGit.ViewModels
         private bool _hasInitializedCommitSelection = false;
 
         private GridLength _leftArea = new(1, GridUnitType.Star);
-        private GridLength _rightArea = new(320, GridUnitType.Pixel);
+        private GridLength _rightArea = new(500, GridUnitType.Pixel);
         private GridLength _topArea = new(1, GridUnitType.Star);
         private GridLength _bottomArea = new(1, GridUnitType.Star);
         private bool _isCollapseDetails = false;

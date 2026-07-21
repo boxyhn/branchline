@@ -1,0 +1,305 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:SourceGit.ViewModels"
+             xmlns:v="using:SourceGit.Views"
+             xmlns:c="using:SourceGit.Converters"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="900"
+             x:Class="SourceGit.Views.CommitInspector"
+             x:DataType="vm:CommitDetail"
+             x:Name="ThisControl">
+  <UserControl.Styles>
+    <Style Selector="Button.inspector_action">
+      <Setter Property="MinHeight" Value="40"/>
+      <Setter Property="Padding" Value="14,0"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="CornerRadius" Value="2"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border1}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Foreground" Value="{DynamicResource Brush.FG1}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="Button.inspector_action:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource Brush.Hover}"/>
+    </Style>
+    <Style Selector="Button.inspector_ai">
+      <Setter Property="Height" Value="34"/>
+      <Setter Property="Padding" Value="13,0"/>
+      <Setter Property="CornerRadius" Value="2"/>
+      <Setter Property="Background" Value="#222A2035"/>
+      <Setter Property="BorderBrush" Value="#FF69469B"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Foreground" Value="#FFE5D6FF"/>
+      <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="Button.inspector_ai:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#363D2A4D"/>
+    </Style>
+    <Style Selector="ToggleButton.inspector_segment">
+      <Setter Property="Height" Value="34"/>
+      <Setter Property="Padding" Value="12,0"/>
+      <Setter Property="CornerRadius" Value="0"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border1}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Foreground" Value="{DynamicResource Brush.FG2}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="ToggleButton.inspector_segment:checked">
+      <Setter Property="Background" Value="#403C465B"/>
+      <Setter Property="Foreground" Value="{DynamicResource Brush.FG1}"/>
+      <Setter Property="BorderBrush" Value="#FF596679"/>
+    </Style>
+    <Style Selector="ToggleButton.inspector_segment:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#403C465B"/>
+    </Style>
+    <Style Selector="TextBox.inspector_message_input">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource Brush.Border2}"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="CornerRadius" Value="0"/>
+      <Setter Property="Padding" Value="12,8"/>
+      <Setter Property="Foreground" Value="{DynamicResource Brush.FG1}"/>
+      <Setter Property="SelectionBrush" Value="{DynamicResource Brush.Accent}"/>
+    </Style>
+  </UserControl.Styles>
+
+  <Grid Background="#FF282A31"
+        RowDefinitions="Auto,48,Auto,20,Auto,82,*"
+        ClipToBounds="True">
+    <Border Grid.Row="0"
+            Height="42"
+            Background="#FF405C91"
+            BorderBrush="#FF5270A8"
+            BorderThickness="0,0,0,1"
+            IsVisible="{Binding Repository.LocalChangesCount, Converter={x:Static c:IntConverters.IsGreaterThanZero}}">
+      <Grid Margin="14,0,12,0" ColumnDefinitions="*,Auto">
+        <TextBlock Grid.Column="0" VerticalAlignment="Center" Foreground="White" FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
+          <Run Text="{Binding Repository.LocalChangesCount}"/>
+          <Run Text=" file changes in working directory"/>
+        </TextBlock>
+        <Button Grid.Column="1"
+                Height="30"
+                Padding="10,0"
+                CornerRadius="2"
+                Background="#16000000"
+                BorderBrush="#B8D6E3FF"
+                BorderThickness="1"
+                Foreground="White"
+                Cursor="Hand"
+                Click="OnViewWorkingDirectory">
+          <TextBlock Text="View Changes" FontWeight="SemiBold"/>
+        </Button>
+      </Grid>
+    </Border>
+
+    <Border Grid.Row="1" BorderBrush="#FF383B44" BorderThickness="0,0,0,1">
+      <Grid Margin="16,0,14,0" ColumnDefinitions="Auto,*,Auto">
+        <TextBlock Grid.Column="0" VerticalAlignment="Center" Foreground="{DynamicResource Brush.FG2}" Text="commit:"/>
+        <Button Grid.Column="1"
+                Classes="icon_button"
+                Margin="5,0,10,0"
+                Padding="0"
+                HorizontalAlignment="Left"
+                Cursor="Hand"
+                Click="OnCopyCommitSHA"
+                ToolTip.Tip="{Binding Commit.SHA}">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <TextBlock FontFamily="{DynamicResource Fonts.Monospace}"
+                       FontWeight="SemiBold"
+                       Text="{Binding Commit.SHA, Converter={x:Static c:StringConverters.ToShortSHA}}"/>
+            <Path Width="11" Height="11" Data="{StaticResource Icons.Copy}" Fill="{DynamicResource Brush.FG2}"/>
+          </StackPanel>
+        </Button>
+        <Button Grid.Column="2" Classes="inspector_ai" Click="OnRecomposeMessageWithAI">
+          <Grid ColumnDefinitions="Auto,Auto,Auto">
+            <Path Grid.Column="0" Width="13" Height="13" Data="{StaticResource Icons.CommitMessageGenerator}" Fill="#FFD8B8FF"/>
+            <TextBlock Grid.Column="1" Margin="7,0,10,0" VerticalAlignment="Center" FontSize="12" Text="Recompose commit with AI"/>
+            <Path Grid.Column="2" Width="9" Height="9" Data="{StaticResource Icons.Down}" Fill="#FFD8B8FF"/>
+          </Grid>
+        </Button>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="2">
+      <Border Margin="16,14,16,0"
+              Height="238"
+              Background="#FF202228"
+              BorderBrush="#FF343740"
+              BorderThickness="1"
+              CornerRadius="3"
+              Cursor="Ibeam"
+              PointerPressed="OnMessagePointerPressed"
+              IsVisible="{Binding IsEditingMessage, Converter={x:Static BoolConverters.Not}}">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+          <StackPanel Margin="18,17,18,18" Spacing="15">
+            <TextBlock FontSize="19"
+                       FontWeight="SemiBold"
+                       LineHeight="26"
+                       Text="{Binding MessageSubject}"
+                       TextWrapping="Wrap"/>
+            <TextBlock FontSize="15"
+                       LineHeight="22"
+                       Foreground="{DynamicResource Brush.FG2}"
+                       Text="{Binding MessageBody}"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding MessageBody, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+
+      <StackPanel Margin="16,14,16,24"
+                  Spacing="12"
+                  IsVisible="{Binding IsEditingMessage}">
+        <Border Height="238"
+                Background="#FF1D1F25"
+                BorderBrush="#FF3D4049"
+                BorderThickness="1"
+                CornerRadius="3">
+          <Grid RowDefinitions="52,*">
+            <Border Grid.Row="0" BorderBrush="#FF3A3D46" BorderThickness="0,0,0,1">
+              <Grid ColumnDefinitions="*,Auto,34">
+                <TextBox x:Name="MessageSubjectEditor"
+                         Grid.Column="0"
+                         Classes="inspector_message_input"
+                         FontSize="16"
+                         FontWeight="SemiBold"
+                         Text="{Binding EditingSubject, Mode=TwoWay}"
+                         Watermark="Commit summary"/>
+                <TextBlock Grid.Column="1"
+                           Margin="8,0,5,0"
+                           VerticalAlignment="Center"
+                           Foreground="{DynamicResource Brush.FG2}"
+                           Text="{Binding EditingSubjectLength}"/>
+                <Button Grid.Column="2"
+                        Classes="icon_button"
+                        Width="30" Height="30"
+                        Margin="0,0,2,0"
+                        Click="OnRecomposeMessageWithAI"
+                        ToolTip.Tip="Recompose with AI">
+                  <Path Width="14" Height="14" Data="{StaticResource Icons.CommitMessageGenerator}" Fill="#FFB879FF"/>
+                </Button>
+              </Grid>
+            </Border>
+            <TextBox Grid.Row="1"
+                     Classes="inspector_message_input"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Top"
+                     Text="{Binding EditingBody, Mode=TwoWay}"
+                     Watermark="Description"/>
+          </Grid>
+        </Border>
+
+        <TextBlock Margin="2,0"
+                   FontSize="14"
+                   LineHeight="20"
+                   Foreground="#FFF0A543"
+                   Text="{Binding RewordWarning}"
+                   TextWrapping="Wrap"
+                   IsVisible="{Binding RewordAffectedCommitCount, Converter={x:Static c:IntConverters.IsGreaterThanZero}}"/>
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+          <Button Grid.Column="0"
+                  Classes="inspector_action"
+                  Background="#163FA35B"
+                  BorderBrush="#FF50A26A"
+                  Foreground="#FF8BD69D"
+                  IsEnabled="{Binding IsUpdatingMessage, Converter={x:Static BoolConverters.Not}}"
+                  Click="OnApplyMessageEdit">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="7">
+              <Path Width="13" Height="13" Data="{StaticResource Icons.Edit}" Fill="#FF8BD69D"/>
+              <TextBlock FontSize="13" FontWeight="SemiBold" Text="Update Message"/>
+            </StackPanel>
+          </Button>
+          <Button Grid.Column="1"
+                  Classes="inspector_action"
+                  Background="#16C65761"
+                  BorderBrush="#FFC65761"
+                  Foreground="#FFFF8A93"
+                  IsEnabled="{Binding IsUpdatingMessage, Converter={x:Static BoolConverters.Not}}"
+                  Click="OnCancelMessageEdit">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="7">
+              <Path Width="11" Height="11" Data="{StaticResource Icons.Close}" Fill="#FFFF8A93"/>
+              <TextBlock FontSize="13" FontWeight="SemiBold" Text="Cancel Reword"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+      </StackPanel>
+    </Grid>
+
+    <Border Grid.Row="3" Background="Transparent">
+      <Border Width="72" Height="5" CornerRadius="3" Background="#FF3A3D46" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Border>
+
+    <Grid Grid.Row="4" Margin="18,4,18,16" ColumnDefinitions="62,*,Auto">
+      <v:Avatar Grid.Column="0" Width="58" Height="58" VerticalAlignment="Top" User="{Binding Commit.Author}"/>
+      <StackPanel Grid.Column="1" Margin="12,2,12,0" Spacing="6">
+        <TextBlock FontSize="17" FontWeight="SemiBold" Text="{Binding Commit.Author.Name}" TextTrimming="CharacterEllipsis"/>
+        <StackPanel Orientation="Horizontal" Spacing="4">
+          <TextBlock FontSize="14" Foreground="{DynamicResource Brush.FG2}" Text="authored"/>
+          <v:DateTimePresenter FontSize="14" Foreground="{DynamicResource Brush.FG2}" Timestamp="{Binding Commit.AuthorTime}"/>
+        </StackPanel>
+      </StackPanel>
+      <StackPanel Grid.Column="2" Margin="0,3,0,0" Orientation="Horizontal" Spacing="5" VerticalAlignment="Top">
+        <TextBlock FontSize="12" Foreground="{DynamicResource Brush.FG2}" Text="parent:"/>
+        <TextBlock FontSize="12"
+                   FontFamily="{DynamicResource Fonts.Monospace}"
+                   Foreground="{DynamicResource Brush.FG1}"
+                   Text="{Binding ParentSHA, Converter={x:Static c:StringConverters.ToShortSHA}}"
+                   Cursor="Hand"
+                   PointerPressed="OnParentPointerPressed"
+                   ToolTip.Tip="{Binding ParentSHA}"/>
+      </StackPanel>
+    </Grid>
+
+    <Border Grid.Row="5" BorderBrush="#FF383B44" BorderThickness="0,1,0,1">
+      <Grid Margin="18,0,18,0" RowDefinitions="38,42">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+          <Path Width="13" Height="13" Data="{StaticResource Icons.Edit}" Fill="#FFE3A343"/>
+          <TextBlock FontSize="14" Text="{Binding ChangeSummary}"/>
+        </StackPanel>
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto,Auto">
+          <Path Grid.Column="0" Width="15" Height="15" Data="{StaticResource Icons.OrderByName}" Fill="{DynamicResource Brush.FG2}" VerticalAlignment="Center"/>
+          <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+            <ToggleButton x:Name="PathModeButton" Classes="inspector_segment" CornerRadius="2,0,0,2" Click="OnPathModeSelected">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <Path Width="12" Height="12" Data="{StaticResource Icons.List}"/>
+                <TextBlock Text="Path"/>
+              </StackPanel>
+            </ToggleButton>
+            <ToggleButton x:Name="TreeModeButton" Classes="inspector_segment" Margin="-1,0,0,0" CornerRadius="0,2,2,0" Click="OnTreeModeSelected">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <Path Width="12" Height="12" Data="{StaticResource Icons.Tree}"/>
+                <TextBlock Text="Tree"/>
+              </StackPanel>
+            </ToggleButton>
+          </StackPanel>
+          <CheckBox Grid.Column="3"
+                    Margin="12,0,0,0"
+                    VerticalAlignment="Center"
+                    Content="View all files"
+                    IsChecked="{Binding #ThisControl.ShowAllFiles, Mode=TwoWay}"
+                    Click="OnToggleAllFiles"/>
+        </Grid>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="6">
+      <v:ChangeCollectionView x:Name="ChangeList"
+                              Margin="10,8,4,0"
+                              FontSize="13"
+                              ViewMode="{Binding Source={x:Static vm:Preferences.Instance}, Path=CommitChangeViewMode}"
+                              EnableCompactFolders="{Binding Source={x:Static vm:Preferences.Instance}, Path=EnableCompactFoldersInChangesTree}"
+                              Changes="{Binding VisibleChanges}"
+                              SelectedChanges="{Binding SelectedChanges, Mode=TwoWay}"
+                              PointerReleased="OnChangeListPointerReleased"
+                              IsVisible="{Binding #ThisControl.ShowAllFiles, Converter={x:Static BoolConverters.Not}}"/>
+      <v:RevisionFiles UseExternalFileHost="True"
+                       IsVisible="{Binding #ThisControl.ShowAllFiles}"/>
+    </Grid>
+  </Grid>
+</UserControl>
